@@ -1,0 +1,7 @@
+.set-Div {
+  background-color: rgb(237, 233, 233);
+  display: flex;
+  flex-direction: column;
+  padding-left: 2vw;
+  padding-top: 2vh;
+}
