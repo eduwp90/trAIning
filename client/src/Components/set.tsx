@@ -1,7 +1,7 @@
 import { InputNumber, Form, Select, Radio, Button,  } from 'antd';
 import React from 'react';
 import 'antd/dist/antd.css';
-import '../components.css'
+import './components.css'
 const { Option } = Select;
 
 type SetProps = {

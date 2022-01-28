@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Button, Form } from 'antd';
-import Set from '../../Components/set/set';
+import Set from '../Components/set';
 
 const WorkoutForm: React.FC = () => {
   const [formSets, setFormSets] = useState<JSX.Element[]>([<Set key={0} id={0} removeSet={removeSet}></Set>]);
