@@ -6,15 +6,14 @@ const { Option } = Select;
 
 type SetProps = {
   id: number;
-  removeSet:  (key: number) => void
+  removeSet:  (key: number) => void;
 }
 
 const Set: React.FC<SetProps> = ({id, removeSet }) => {
-console.log(id)
 
   return (<div className="set-Div">
 
-    <Form.Item>
+    <Form.Item name={[id, 'exer']}>
       <Select
         placeholder="exercise"
         style={{ width: 120 }}
@@ -24,21 +23,21 @@ console.log(id)
       </Select>
     </Form.Item>
 
-    <Form.Item>
+    <Form.Item name={[id, 'reps']}>
       <InputNumber
         placeholder="Reps"
         min={1} max={30}
       />
     </Form.Item>
 
-    <Form.Item>
+    <Form.Item name={[id, 'rest']}>
       <Radio.Group size="small">
         <Radio.Button value={0}>0 min</Radio.Button>
         <Radio.Button value={1}>1 min</Radio.Button>
         <Radio.Button value={3}>3 min</Radio.Button>
         <Radio.Button value={5}>5 min</Radio.Button>
       </Radio.Group>
-    </Form.Item>
+      </Form.Item>
     <Button onClick={() => removeSet(id)}>Remove set</Button>
   </div>);
 }

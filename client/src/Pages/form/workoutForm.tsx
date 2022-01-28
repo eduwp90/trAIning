@@ -3,8 +3,9 @@ import { Button, Form } from 'antd';
 import Set from '../../Components/set/set';
 
 const WorkoutForm: React.FC = () => {
-  const [formSets, setFormSets] = useState([<Set key={0} id={0} removeSet={removeSet}></Set>])
-  const [keyCount, setKeyCount] = useState(1)
+  const [formSets, setFormSets] = useState<JSX.Element[]>([<Set key={0} id={0} removeSet={removeSet}></Set>]);
+  const [keyCount, setKeyCount] = useState<number>(1);
+  const [workout, setWorkout] = useState < React.FormEvent<HTMLInputElement> | null>(null)
 
   const addSet = ():void => {
     setFormSets(prev => [...prev, <Set key={keyCount} id={keyCount} removeSet={removeSet}></Set>] )
@@ -14,14 +15,21 @@ const WorkoutForm: React.FC = () => {
     setFormSets(prev => prev.filter(set => set.props.id !== id ))
   }
 
+  const onFinish = (e: React.FormEvent<HTMLInputElement>): void => {
+    console.log(e)
+    setWorkout((prev) => e);
+  }
   return (<div>
 
-    <Form id="workoutForm">
+    <Form id="workoutForm" onFinish={onFinish}>
     {formSets}
-    <Button onClick={addSet}>Add new set</Button>
+      <Button onClick={addSet}>Add new set</Button>
+      <Button type="primary" htmlType="submit">Sumbit</Button>
     </Form>
 
   </div>);
 }
 
 export default WorkoutForm;
+
+
