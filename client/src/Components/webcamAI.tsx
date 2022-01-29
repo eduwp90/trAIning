@@ -84,12 +84,6 @@ function WebcamAI () {
       }
     }
   }
-
-  
-
-
-
-
     
 
   return (
