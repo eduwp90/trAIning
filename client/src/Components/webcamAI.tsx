@@ -5,7 +5,7 @@ import React, { useRef } from 'react';
 
 const URL = 'https://teachablemachine.withgoogle.com/models/HQvC3rR8v/';
 // const URL = 'https://teachablemachine.withgoogle.com/models/jwj-LGant/';
-let model, ctx, labelContainer, maxPredictions;
+let model: any, ctx: CanvasRenderingContext2D, labelContainer: HTMLElement, maxPredictions: any;
 
 function WebcamAI () {
   const webcamRef = useRef(null);
@@ -18,11 +18,11 @@ function WebcamAI () {
     maxPredictions = model.getTotalClasses();
     window.requestAnimationFrame(loop);
 
-    const canvas = /** @type {HTMLCanvasElement} */ document.getElementById('canvas');
+    const canvas: HTMLCanvasElement = document.getElementById('canvas');
     canvas.width = 640;
     canvas.height = 480;
-    ctx = canvas.getContext('2d');
-    labelContainer = document.getElementById('label-container');
+    ctx = canvas.getContext('2d')!;
+    labelContainer = document.getElementById('label-container')!;
     for (let i = 0; i < maxPredictions; i++) {
       labelContainer.appendChild(document.createElement('div'));
     }
@@ -35,21 +35,23 @@ function WebcamAI () {
   }
 
   async function predict() {
-    console.log(webcamRef.current.getCanvas());
-    const { pose, posenetOutput } = await model.estimatePose(
-      webcamRef.current.getCanvas()
-    );
-    const prediction = await model.predict(posenetOutput);
-
-    for (let i = 0; i < maxPredictions; i++) {
-      const classPrediction =
-        prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
-      labelContainer.childNodes[i].innerHTML = classPrediction;
+    if (webcamRef.current !== null) {
+      console.log(webcamRef.current.getCanvas());
+      const { pose, posenetOutput } = await model.estimatePose(
+        webcamRef.current.getCanvas()
+      );
+      const prediction = await model.predict(posenetOutput);
+  
+      for (let i = 0; i < maxPredictions; i++) {
+        const classPrediction =
+          prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
+        labelContainer.childNodes[i].innerHTML = classPrediction;
+      }
+      drawPose(pose);
     }
-    drawPose(pose);
   }
 
-  function drawPose(pose) {
+  function drawPose(pose: any) {
     console.log(webcamRef);
     if (webcamRef.current.getCanvas()) {
       ctx.drawImage(webcamRef.current.getCanvas(), 0, 0);
