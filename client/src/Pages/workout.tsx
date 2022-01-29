@@ -32,7 +32,13 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
         </Steps>
       </div>
       <div className='workoutContent-Div'>
-        <div className="steps-content">{workout[current].exer}</div>
+        <div className="set-info">
+          <p className="set-info-current">Current set:</p>
+          <p className="set-info-current">{workout[current].reps} reps of {workout[current].exer}s</p>
+          {workout.length > 1 && current !== workout.length - 1
+            ? < p > Up next: {workout[current + 1].reps} reps of {workout[current + 1].exer}s</p>
+          : null}
+        </div>
       <div className="steps-content">I will be the AI comp</div>
       <div className="steps-action">
         {current < workout.length - 1 && (

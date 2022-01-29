@@ -18,6 +18,7 @@ const WorkoutForm: React.FC = () => {
   }
 
   const onFinish = (e: React.FormEvent<HTMLInputElement>): void => {
+    console.log(Object.values(e));
     setWorkout(Object.values(e));
   }
   return (
