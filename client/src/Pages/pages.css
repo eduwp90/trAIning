@@ -10,7 +10,12 @@
 }
 
 .workoutContent-Div {
+  height: 80vh;
   width: 80vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* background-color: hotpink; */
 }
 
 .steps-content {
@@ -25,4 +30,19 @@
 
 .steps-action {
   margin-top: 24px;
+}
+
+.set-info {
+  margin-top: 16px;
+  padding: 5%;
+  text-align: center;
+  border-radius: 2px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  color: grey;
+}
+
+.set-info-current {
+  font-size: larger;
+  color: rgb(109, 109, 109);
+  font-weight: bold;
 }
