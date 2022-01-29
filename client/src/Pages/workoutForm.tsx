@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
 import { Button, Form } from 'antd';
 import Set from '../Components/set';
+import { ISet } from '../interfaces';
+import Workout from './workout';
 
 const WorkoutForm: React.FC = () => {
   const [formSets, setFormSets] = useState<JSX.Element[]>([<Set key={0} id={0} removeSet={removeSet}></Set>]);
   const [keyCount, setKeyCount] = useState<number>(1);
-  const [workout, setWorkout] = useState < React.FormEvent<HTMLInputElement> | null>(null)
+  const [workout, setWorkout] = useState <ISet[] | null>(null)
 
   const addSet = ():void => {
     setFormSets(prev => [...prev, <Set key={keyCount} id={keyCount} removeSet={removeSet}></Set>] )
@@ -16,18 +18,18 @@ const WorkoutForm: React.FC = () => {
   }
 
   const onFinish = (e: React.FormEvent<HTMLInputElement>): void => {
-    console.log(e)
-    setWorkout((prev) => e);
+    setWorkout(Object.values(e));
   }
-  return (<div>
-
+  return (
+    !workout
+    ? <div>
     <Form id="workoutForm" onFinish={onFinish}>
     {formSets}
       <Button onClick={addSet}>Add new set</Button>
       <Button type="primary" htmlType="submit">Sumbit</Button>
     </Form>
-
-  </div>);
+      </div>
+      : <Workout workout={workout}/>);
 }
 
 export default WorkoutForm;

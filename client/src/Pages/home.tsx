@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 const Home: React.FC = () => {
 const navigate = useNavigate()
   return <div>
-<Button onClick={()=>{navigate('/createworkout')}}>Create a new workout</Button>
+<Button onClick={()=>{navigate('/workout')}}>Create a new workout</Button>
+  <Button></Button>
   </div>;
 }
 
