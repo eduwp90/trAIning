@@ -10,7 +10,7 @@ let model: any, ctx: CanvasRenderingContext2D, labelContainer: HTMLElement, maxP
 function WebcamAI () {
   const webcamRef: any = useRef(null);
 
-  async function init () {
+  async function init() {
     const modelURL = URL + 'model.json';
     const metadataURL = URL + 'metadata.json';
 
@@ -18,13 +18,30 @@ function WebcamAI () {
     maxPredictions = model.getTotalClasses();
     window.requestAnimationFrame(loop);
 
-    const canvas: HTMLCanvasElement = document.getElementById('canvas');
-    canvas.width = 640;
-    canvas.height = 480;
-    ctx = canvas.getContext('2d')!;
-    labelContainer = document.getElementById('label-container')!;
-    for (let i = 0; i < maxPredictions; i++) {
-      labelContainer.appendChild(document.createElement('div'));
+    const getCanvasElementById = (id: string): HTMLCanvasElement => {
+    const canvas = document.getElementById(id);
+    if (!(canvas instanceof HTMLCanvasElement)) {
+      throw new Error(`The element of id "${id}" is not a HTMLCanvasElement. Make sure a <canvas id="${id}""> element is present in the document.`);
+    }
+    return canvas;
+    }
+
+    const getCanvasRenderingContext2D = (canvas: HTMLCanvasElement): CanvasRenderingContext2D => {
+      const context = canvas.getContext('2d');
+      if (context === null) {
+        throw new Error('This browser does not support 2-dimensional canvas rendering contexts.');
+      }
+      return context;
+    }
+
+    const canvas: HTMLCanvasElement = getCanvasElementById("canvas")
+
+    if (canvas) {
+      ctx = getCanvasRenderingContext2D(canvas)!;
+      labelContainer = document.getElementById('label-container')!;
+      for (let i = 0; i < maxPredictions; i++) {
+        labelContainer.appendChild(document.createElement('div'));
+      }
     }
   }
 
@@ -41,7 +58,7 @@ function WebcamAI () {
         webcamRef.current.getCanvas()
       );
       const prediction = await model.predict(posenetOutput);
-  
+
       for (let i = 0; i < maxPredictions; i++) {
         const classPrediction =
           prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
@@ -89,7 +106,7 @@ function WebcamAI () {
           mirrored={true}
         />
       )}
-      <div>
+
         <canvas
           id='canvas'
           style={{
@@ -104,7 +121,7 @@ function WebcamAI () {
             height: 480,
           }}
         ></canvas>
-      </div>
+
       <div id='label-container'></div>
     </>
   );
