@@ -1,11 +1,18 @@
 import React from 'react';
 import './App.css';
+import WorkoutForm from './Pages/workoutForm';
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Home from './Pages/home';
+
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home/> }/>
+        <Route path="/workout" element={ <WorkoutForm/>}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

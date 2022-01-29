@@ -1,0 +1,21 @@
+.set-Div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5vw 5vw 0 5vw;
+  margin: 1vw;
+  background-color: rgba(237, 233, 233, 0.644);
+}
+
+.set-Div_inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.round_button {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  padding: 0px;
+}
+
