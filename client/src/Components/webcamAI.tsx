@@ -8,7 +8,7 @@ const URL = 'https://teachablemachine.withgoogle.com/models/HQvC3rR8v/';
 let model: any, ctx: CanvasRenderingContext2D, labelContainer: HTMLElement, maxPredictions: any;
 
 function WebcamAI () {
-  const webcamRef = useRef(null);
+  const webcamRef: any = useRef(null);
 
   async function init () {
     const modelURL = URL + 'model.json';
