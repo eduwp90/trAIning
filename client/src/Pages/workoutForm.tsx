@@ -24,10 +24,16 @@ const WorkoutForm: React.FC = () => {
   return (
     !workout
     ? <div>
-    <Form id="workoutForm" onFinish={onFinish}>
+    <Form 
+      id="workoutForm" 
+      onFinish={onFinish}
+      labelCol={ {span: 4} }
+      wrapperCol={ {span: 14} }
+      layout='horizontal'
+    >
     {formSets}
-      <Button onClick={addSet}>Add new set</Button>
-      <Button type="primary" htmlType="submit">Sumbit</Button>
+      <Button size="large" className="workoutForm_button" onClick={addSet}>Add new set</Button>
+      <Button size="large" className="workoutForm_button" type="primary" htmlType="submit">Sumbit</Button>
     </Form>
       </div>
       : <Workout workout={workout}/>);
