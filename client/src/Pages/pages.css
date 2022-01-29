@@ -1,9 +1,21 @@
+/* workout-form page */
+
 .workout-Div {
   width: 100vw;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
+
+#workoutForm {
+  margin: 3vw;
+}
+
+.workoutForm_button {
+  margin: 3vw 2vw 3vw 1vw;
+}
+
+/* steps-page */
 
 .steps-Div {
   width: 10vw;
@@ -26,3 +38,4 @@
 .steps-action {
   margin-top: 24px;
 }
+
