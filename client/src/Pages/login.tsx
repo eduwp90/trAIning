@@ -1,5 +1,6 @@
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const onFinish = (values: any) => {
@@ -37,7 +38,7 @@ const Login: React.FC = () => {
         <Button type='primary' htmlType='submit' className='login-form-button'>
           Log in
         </Button>
-        Or <a href=''>register now!</a>
+        Or <Link to='/register'>register now!</Link>
       </Form.Item>
     </Form>
   );
