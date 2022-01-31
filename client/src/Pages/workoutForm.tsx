@@ -21,15 +21,21 @@ const WorkoutForm: React.FC = () => {
     console.log(Object.values(e));
     setWorkout(Object.values(e));
   }
+
+  const validateMessages = {
+    required: '${label} is required!',
+  };
+
   return (
     !workout
     ? <div>
-    <Form 
-      id="workoutForm" 
+    <Form
+      id="workoutForm"
       onFinish={onFinish}
       labelCol={ {span: 4} }
       wrapperCol={ {span: 14} }
       layout='horizontal'
+      validateMessages={validateMessages}
     >
     {formSets}
       <Button size="large" className="workoutForm_button" onClick={addSet}>Add new set</Button>
