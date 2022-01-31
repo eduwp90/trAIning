@@ -1,13 +1,23 @@
 import Webcam from 'react-webcam';
 import * as tf from '@tensorflow/tfjs';
 import * as tmPose from '@teachablemachine/pose';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 const URL = 'https://teachablemachine.withgoogle.com/models/HQvC3rR8v/';
 // const URL = 'https://teachablemachine.withgoogle.com/models/jwj-LGant/';
 let model: any, ctx: CanvasRenderingContext2D, labelContainer: HTMLElement, maxPredictions: any;
 
-function WebcamAI () {
+
+type WebcamProps = {
+  parentWidth: number;
+};
+
+const WebcamAI: React.FC<WebcamProps> = ({ parentWidth }) => {
+  const [size, setSize] = useState(window.innerWidth * 0.9)
+  window.onresize = () => {
+    setSize(window.innerWidth * 0.9);
+  }
+
   const webcamRef = useRef<Webcam>(null);
 
   async function init() {
@@ -37,8 +47,8 @@ function WebcamAI () {
     const canvas: HTMLCanvasElement = getCanvasElementById("canvas")
 
     if (canvas) {
-      canvas.width = 640;
-      canvas.height = 480;
+      canvas.width = size;
+      canvas.height = size * 0.75;
       ctx = getCanvasRenderingContext2D(canvas)!;
       labelContainer = document.getElementById('label-container')!;
       for (let i = 0; i < maxPredictions; i++) {
@@ -48,7 +58,6 @@ function WebcamAI () {
   }
 
   async function loop(timestamp: any) {
-    // console.log(webcamRef);
     await predict();
     window.requestAnimationFrame(loop);
   }
@@ -88,28 +97,34 @@ function WebcamAI () {
 
   return (
     <>
-      <div>Teachable Machine Pose Model</div>
+      {/* <div>Teachable Machine Pose Model</div> */}
       {/* <button type='button' onClick={() => init()}>
         Start
       </button> */}
-      {webcamRef && (
+      {webcamRef ? (
         <Webcam
           ref={webcamRef}
           style={{
-            position: 'absolute',
+            position: 'relative',
             marginLeft: 'auto',
             marginRight: 'auto',
-            left: 0,
-            right: 0,
-            textAlign: 'center',
-            zIndex: -9,
-            width: 640,
-            height: 480,
+            // top: '10vh',
+            // right: 0,
+            // left: 0,
+            // textAlign: 'center',
+            zIndex: 9,
+            // width: 640,
+            width: size,
+            height: size * 0.75,
+            borderRadius: 2,
+            // height: 480,
           }}
           onUserMedia={init}
           mirrored={true}
         />
-      )}
+      ): <div>
+        Teachable Machine Pose Model
+        </div>}
 
         <canvas
           id='canvas'
@@ -120,9 +135,13 @@ function WebcamAI () {
             left: 0,
             right: 0,
             textAlign: 'center',
-            zIndex: 9,
-            width: 640,
-            height: 480,
+            zIndex: 10,
+            // width: 640,
+            // width: 90 * window.innerWidth / 100,
+            // height: 67.5 * window.innerWidth / 100,
+            width: size,
+            height: size * 0.75,
+            // height: 480,
           }}
         ></canvas>
 
