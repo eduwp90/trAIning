@@ -1,9 +1,10 @@
 .set-Div {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* justify-content: space-between; */
+  width: 100%;
   /* padding: 5vw 5vw 0 5vw; */
-  margin: 1vw;
+  /* margin: 1vw; */
   /* background-color: rgba(237, 233, 233, 0.644); */
   position: relative;
 }
