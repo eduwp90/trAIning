@@ -32,9 +32,7 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
       </div>
       <div className='workoutContent-Div'>
         <div className='steps-content'>
-          <WebcamAI 
-            parentWidth={80}
-          />
+          <WebcamAI />
         </div>
         <div className='set-info'>
           <p className='set-info-current'>Current set:</p>
