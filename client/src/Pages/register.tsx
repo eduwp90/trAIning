@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
 import { Form, Input, Button } from 'antd';
+import AuthService from '../Services/authService';
 
 const formItemLayout = {
   labelCol: {
@@ -38,17 +39,13 @@ const Register: React.FC = () => {
 
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
+    AuthService.signupUser(values.email, values.password);
   };
 
-  const [autoCompleteResult] = useState([]);
-
-  const websiteOptions = autoCompleteResult.map((website) => ({
-    label: website,
-    value: website,
-  }));
   return (
     <Form
-      {...formItemLayout}
+
+      layout='vertical'
       form={form}
       name='register'
       onFinish={onFinish}
@@ -111,7 +108,7 @@ const Register: React.FC = () => {
         <Input.Password />
       </Form.Item>
 
-      <Form.Item {...tailFormItemLayout}>
+      <Form.Item >
         <Button type='primary' htmlType='submit'>
           Register
         </Button>

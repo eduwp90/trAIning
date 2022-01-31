@@ -1,6 +1,6 @@
 import { Firestore, getFirestore } from 'firebase/firestore/lite';
-import firebase from './firebase';
+import initFirebase from './firebase';
 
-const db: Firestore = getFirestore(firebase);
+const db: Firestore = getFirestore(initFirebase());
 
 export default db;
