@@ -1,13 +1,18 @@
 import Webcam from 'react-webcam';
-import * as tf from '@tensorflow/tfjs';
 import * as tmPose from '@teachablemachine/pose';
-import React, { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 const URL = 'https://teachablemachine.withgoogle.com/models/HQvC3rR8v/';
 // const URL = 'https://teachablemachine.withgoogle.com/models/jwj-LGant/';
-let model: any, ctx: CanvasRenderingContext2D, labelContainer: HTMLElement, maxPredictions: any;
+let model: {getTotalClasses: Function, estimatePose: Function, predict: Function}, ctx: CanvasRenderingContext2D, maxPredictions: number;
 
-function WebcamAI () {
+
+const WebcamAI = () => {
+  const [size, setSize] = useState(window.innerWidth * 0.9)
+  window.onresize = () => {
+    setSize(window.innerWidth * 0.9);
+  }
+
   const webcamRef = useRef<Webcam>(null);
 
   async function init() {
@@ -15,6 +20,7 @@ function WebcamAI () {
     const metadataURL = URL + 'metadata.json';
 
     model = await tmPose.load(modelURL, metadataURL);
+    console.log('model', model)
     maxPredictions = model.getTotalClasses();
     window.requestAnimationFrame(loop);
 
@@ -37,40 +43,35 @@ function WebcamAI () {
     const canvas: HTMLCanvasElement = getCanvasElementById("canvas")
 
     if (canvas) {
-      canvas.width = 640;
-      canvas.height = 480;
+      console.log(canvas);
+      canvas.width = size;
+      canvas.height = size * 0.75;
       ctx = getCanvasRenderingContext2D(canvas)!;
-      labelContainer = document.getElementById('label-container')!;
-      for (let i = 0; i < maxPredictions; i++) {
-        labelContainer.appendChild(document.createElement('div'));
-      }
     }
   }
 
-  async function loop(timestamp: any) {
-    // console.log(webcamRef);
+  async function loop(timestamp: number) {
     await predict();
     window.requestAnimationFrame(loop);
   }
 
   async function predict() {
     if (webcamRef.current !== null) {
-      // console.log(webcamRef.current.getCanvas());
       const { pose, posenetOutput } = await model.estimatePose(
         webcamRef.current.getCanvas()
       );
       const prediction = await model.predict(posenetOutput);
 
       for (let i = 0; i < maxPredictions; i++) {
-        const classPrediction =
-          prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
-        labelContainer.childNodes[i].textContent = classPrediction;
+        const classPrediction = prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
+          // labelContainer.childNodes[i].textContent = classPrediction;
+          // use classPrediction to count reps & change page
       }
       drawPose(pose);
     }
   }
 
-  function drawPose(pose: any) {
+  function drawPose(pose: any):void {
     console.log(webcamRef);
     if (webcamRef.current !== null) {
       if (webcamRef.current.getCanvas()) {
@@ -88,28 +89,26 @@ function WebcamAI () {
 
   return (
     <>
-      <div>Teachable Machine Pose Model</div>
-      {/* <button type='button' onClick={() => init()}>
-        Start
-      </button> */}
-      {webcamRef && (
+      {webcamRef ? (
         <Webcam
           ref={webcamRef}
           style={{
             position: 'absolute',
             marginLeft: 'auto',
             marginRight: 'auto',
-            left: 0,
             right: 0,
-            textAlign: 'center',
-            zIndex: -9,
-            width: 640,
-            height: 480,
+            left: 0,
+            zIndex: 9,
+            width: size,
+            height: size * 0.75,
+            borderRadius: 2,
           }}
           onUserMedia={init}
           mirrored={true}
         />
-      )}
+      ): <div>
+        Teachable Machine Pose Model
+        </div>}
 
         <canvas
           id='canvas'
@@ -120,19 +119,11 @@ function WebcamAI () {
             left: 0,
             right: 0,
             textAlign: 'center',
-            zIndex: 9,
-            width: 640,
-            height: 480,
+            zIndex: 10,
+            width: size,
+            height: size * 0.75,
           }}
         ></canvas>
-
-      <div 
-        id='label-container'
-        style={{
-          zIndex: 35,
-          textAlign: 'left'
-        }}
-      ></div>
     </>
   );
 }
