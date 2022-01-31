@@ -41,28 +41,24 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
           </p>
           {workout.length > 1 && current !== workout.length - 1 ? (
             <p>
-              {' '}
-              Up next: {workout[current + 1].reps} reps of{' '}
-              {workout[current + 1].exer}s
+              {" "}
+              Up next: {workout[current + 1].reps} reps of {workout[current + 1].exer}s
             </p>
           ) : null}
         </div>
         <div className='steps-action'>
           {current < workout.length - 1 && (
-            <Button type='primary' onClick={() => next()}>
+            <Button type="primary" onClick={() => next()}>
               Next
             </Button>
           )}
           {current === workout.length - 1 && (
-            <Button
-              type='primary'
-              onClick={() => message.success('Processing complete!')}
-            >
+            <Button type="primary" onClick={() => message.success("Processing complete!")}>
               Done
             </Button>
           )}
           {current > 0 && (
-            <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+            <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
               Previous
             </Button>
           )}

@@ -1,6 +1,6 @@
-import { Button } from 'antd';
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Button } from "antd";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -8,9 +8,8 @@ const Home: React.FC = () => {
     <div>
       <Button
         onClick={() => {
-          navigate('/workout');
-        }}
-      >
+          navigate("/workout");
+        }}>
         Create a new workout
       </Button>
       <Button></Button>

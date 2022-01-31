@@ -31,7 +31,11 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "prettier",
+      "prettier/prettier",
+      "prettier/react",
+      "prettier/@typescript-eslint"
     ]
   },
   "browserslist": {
@@ -48,6 +52,9 @@
   },
   "devDependencies": {
     "@types/react": "^17.0.38",
-    "@types/react-webcam": "^3.0.0"
+    "@types/react-webcam": "^3.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.5.1"
   }
 }

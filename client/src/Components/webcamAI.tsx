@@ -2,7 +2,7 @@ import Webcam from 'react-webcam';
 import * as tmPose from '@teachablemachine/pose';
 import { useRef, useState } from 'react';
 
-const URL = 'https://teachablemachine.withgoogle.com/models/HQvC3rR8v/';
+const URL = "https://teachablemachine.withgoogle.com/models/HQvC3rR8v/";
 // const URL = 'https://teachablemachine.withgoogle.com/models/jwj-LGant/';
 let model: {getTotalClasses: Function, estimatePose: Function, predict: Function}, ctx: CanvasRenderingContext2D, maxPredictions: number;
 
@@ -16,8 +16,8 @@ const WebcamAI = () => {
   const webcamRef = useRef<Webcam>(null);
 
   async function init() {
-    const modelURL = URL + 'model.json';
-    const metadataURL = URL + 'metadata.json';
+    const modelURL = URL + "model.json";
+    const metadataURL = URL + "metadata.json";
 
     model = await tmPose.load(modelURL, metadataURL);
     console.log('model', model)
@@ -25,28 +25,31 @@ const WebcamAI = () => {
     window.requestAnimationFrame(loop);
 
     const getCanvasElementById = (id: string): HTMLCanvasElement => {
-    const canvas = document.getElementById(id);
-    if (!(canvas instanceof HTMLCanvasElement)) {
-      throw new Error(`The element of id "${id}" is not a HTMLCanvasElement. Make sure a <canvas id="${id}""> element is present in the document.`);
-    }
-    return canvas;
-    }
+      const canvas = document.getElementById(id);
+      if (!(canvas instanceof HTMLCanvasElement)) {
+        throw new Error(
+          `The element of id "${id}" is not a HTMLCanvasElement. Make sure a <canvas id="${id}""> element is present in the document.`
+        );
+      }
+      return canvas;
+    };
 
     const getCanvasRenderingContext2D = (canvas: HTMLCanvasElement): CanvasRenderingContext2D => {
-      const context = canvas.getContext('2d');
+      const context = canvas.getContext("2d");
       if (context === null) {
-        throw new Error('This browser does not support 2-dimensional canvas rendering contexts.');
+        throw new Error("This browser does not support 2-dimensional canvas rendering contexts.");
       }
       return context;
-    }
+    };
 
-    const canvas: HTMLCanvasElement = getCanvasElementById("canvas")
+    const canvas: HTMLCanvasElement = getCanvasElementById("canvas");
 
     if (canvas) {
       console.log(canvas);
       canvas.width = size;
       canvas.height = size * 0.75;
       ctx = getCanvasRenderingContext2D(canvas)!;
+
     }
   }
 
@@ -85,7 +88,6 @@ const WebcamAI = () => {
       }
     }
   }
-    
 
   return (
     <>
