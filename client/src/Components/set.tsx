@@ -16,7 +16,11 @@ const Set: React.FC<SetProps> = ({id, removeSet }) => {
 
     <div className="set-Div_inputs">
 
-      <Form.Item name={[id, 'exer']}>
+      <Form.Item name={[id, 'exer']} label="Select Exercise" required rules={[
+            {
+              required: true,
+            },
+          ]}>
         <Select
           size="large"
           placeholder="exercise"
@@ -27,7 +31,11 @@ const Set: React.FC<SetProps> = ({id, removeSet }) => {
         </Select>
       </Form.Item>
 
-      <Form.Item name={[id, 'reps']}>
+      <Form.Item name={[id, 'reps']} label="Nº of repetitions" required rules={[
+            {
+              required: true,
+            },
+          ]}>
         <InputNumber
           size="large"
           placeholder="Reps"
@@ -36,7 +44,11 @@ const Set: React.FC<SetProps> = ({id, removeSet }) => {
         />
       </Form.Item>
 
-      <Form.Item name={[id, 'rest']}>
+      <Form.Item name={[id, 'rest']} label="Rest time" required rules={[
+            {
+              required: true,
+            },
+          ]}>
         <Radio.Group size="large">
           <Radio.Button value={0}>0 min</Radio.Button>
           <Radio.Button value={1}>1 min</Radio.Button>
@@ -50,7 +62,7 @@ const Set: React.FC<SetProps> = ({id, removeSet }) => {
     <Button className="round_button" onClick={() => removeSet(id)}>
       <CloseOutlined />
     </Button>
-  
+
   </div>);
 }
 

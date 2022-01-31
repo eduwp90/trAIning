@@ -10,6 +10,8 @@
 
 #workoutForm {
   margin: 3vw;
+  padding: 0.5rem;
+  background-color: rgba(237, 233, 233, 0.644);
 }
 
 .workoutForm_button {
@@ -23,7 +25,7 @@
   width: 90vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .steps-content {
