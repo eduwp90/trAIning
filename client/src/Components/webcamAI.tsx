@@ -8,8 +8,12 @@ let model: { getTotalClasses: Function; estimatePose: Function; predict: Functio
   ctx: CanvasRenderingContext2D,
   maxPredictions: number;
 
-const WebcamAI: React.FC = () => {
-  let repCount = 0; //will need to be useState passed from parent so that it's visible and triggers next
+type WebcamAIProps = {
+  setRepCount: Function;
+};
+
+const WebcamAI: React.FC<WebcamAIProps> = ({ setRepCount }) => {
+  // let repCount = 0; //will need to be useState passed from parent so that it's visible and triggers next
   let repStatus: string = "Neutral";
 
   const [size, setSize] = useState<number>(window.innerWidth * 0.9);
@@ -67,8 +71,10 @@ const WebcamAI: React.FC = () => {
         if (prediction[i].probability.toFixed(2) > 0.95) {
           if (prediction[i].className !== repStatus && prediction[i].className !== "Neutral") {
             repStatus = prediction[i].className;
-            repCount++;
-            console.log(repCount);
+            setRepCount((prev: number) => {
+              console.log("prev", prev);
+              return prev + 1;
+            });
           }
         }
       }
