@@ -16,16 +16,20 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
   const [repCount, setRepCount] = React.useState(0);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
 
-  const next = () => {
-    setCurrent(current + 1);
-  };
+  React.useEffect(() => {
+    console.log("got here");
+    console.log("rep count", repCount);
+    if (repCount === workout[current].reps && current < workout.length - 1) {
+      setCurrent((prev) => prev + 1);
+      setRepCount(0);
+    } else if (repCount === workout[current].reps && current === workout.length - 1) {
+      message.success("What a great workout! Nicely done!");
+      setIsModalVisible(true);
+    }
+  }, [repCount]);
 
-  const prev = () => {
-    setCurrent(current - 1);
-  };
-
-  const showModal = () => {
-    setIsModalVisible(true);
+  const prev = (): void => {
+    setCurrent((prev) => prev - 1);
   };
 
   return (
@@ -54,34 +58,12 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
           ) : null}
         </div>
         <div className="steps-action">
-          {current < workout.length - 1 && (
-            <Button type="primary" onClick={() => next()}>
-              Next
-            </Button>
-          )}
-          {current === workout.length - 1 && (
-            <Button
-              type="primary"
-              onClick={() => {
-                message.success("Processing complete!");
-                // setIsModalVisible(true);
-                showModal();
-              }}>
-              Done
-            </Button>
-          )}
           {current > 0 && (
             <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
               Previous
             </Button>
           )}
-          {/* <SaveWorkout trigger={popup} setTrigger={setPopup}>
-            <h3>Do you want to save this workout?</h3>
-          </SaveWorkout> */}
-          <SaveWorkout
-            isModalVisible={isModalVisible}
-            setIsModalVisible={setIsModalVisible}
-            workout={workout}></SaveWorkout>
+          <SaveWorkout isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} workout={workout} />
         </div>
       </div>
     </div>
