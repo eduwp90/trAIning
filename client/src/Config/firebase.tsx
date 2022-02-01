@@ -1,6 +1,5 @@
 import { FirebaseApp, initializeApp } from 'firebase/app';
 
-
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
   authDomain: process.env.REACT_APP_AUTHDOMAIN,
@@ -10,7 +9,9 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_APPID,
 };
 
-const firebase: FirebaseApp = initializeApp(firebaseConfig);
+const initFirebase = (): FirebaseApp => {
+  const firebase: FirebaseApp = initializeApp(firebaseConfig);
+  return firebase;
+};
 
-
-export default firebase;
+export default initFirebase;
