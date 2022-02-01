@@ -2,6 +2,7 @@ import React from 'react';
 import './pages.css';
 import { Steps, Button, message } from 'antd';
 import { ISet } from '../interfaces';
+import WebcamAI from '../Components/webcamAI';
 
 const { Step } = Steps;
 
@@ -23,13 +24,16 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
   return (
     <div className='workout-Div'>
       <div className='steps-Div'>
-        <Steps current={current}>
+        <Steps current={current} responsive={false}>
           {workout.map((item) => (
             <Step key={item.exer} />
           ))}
         </Steps>
       </div>
       <div className='workoutContent-Div'>
+        <div className='steps-content'>
+          <WebcamAI />
+        </div>
         <div className='set-info'>
           <p className='set-info-current'>Current set:</p>
           <p className='set-info-current'>
@@ -37,29 +41,24 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
           </p>
           {workout.length > 1 && current !== workout.length - 1 ? (
             <p>
-              {' '}
-              Up next: {workout[current + 1].reps} reps of{' '}
-              {workout[current + 1].exer}s
+              {" "}
+              Up next: {workout[current + 1].reps} reps of {workout[current + 1].exer}s
             </p>
           ) : null}
         </div>
-        <div className='steps-content'>I will be the AI comp</div>
         <div className='steps-action'>
           {current < workout.length - 1 && (
-            <Button type='primary' onClick={() => next()}>
+            <Button type="primary" onClick={() => next()}>
               Next
             </Button>
           )}
           {current === workout.length - 1 && (
-            <Button
-              type='primary'
-              onClick={() => message.success('Processing complete!')}
-            >
+            <Button type="primary" onClick={() => message.success("Processing complete!")}>
               Done
             </Button>
           )}
           {current > 0 && (
-            <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+            <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
               Previous
             </Button>
           )}

@@ -1,14 +1,10 @@
 /* workout-form page */
 
-.workout-Div {
-  width: 100vw;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
 
 #workoutForm {
   margin: 3vw;
+  padding: 0.5rem;
+  background-color: rgba(237, 233, 233, 0.644);
 }
 
 .workoutForm_button {
@@ -17,23 +13,26 @@
 
 /* steps-page */
 
-.steps-Div {
-  width: 10vw;
+.workout-Div {
+  width: 96vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .workoutContent-Div {
-  height: 80vh;
-  width: 80vw;
+  margin-top: 31px;
+  height: 100vh;
+  width: 90vw;
   display: flex;
   flex-direction: column;
-  justify-content: center;
- 
 }
 
 .steps-content {
-  min-height: 200px;
-  margin-top: 16px;
-  padding-top: 80px;
+  height: 67.5vw;
   text-align: center;
   background-color: #fafafa;
   border: 1px dashed #e9e9e9;
@@ -41,9 +40,8 @@
 }
 
 .steps-action {
-  margin-top: 24px;
+  margin-top: 2vh;
 }
-
 
 .set-info {
   margin-top: 16px;
@@ -59,4 +57,3 @@
   color: rgb(109, 109, 109);
   font-weight: bold;
 }
-
