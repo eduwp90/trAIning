@@ -71,10 +71,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ setRepCount }) => {
         if (prediction[i].probability.toFixed(2) > 0.95) {
           if (prediction[i].className !== repStatus && prediction[i].className !== "Neutral") {
             repStatus = prediction[i].className;
-            setRepCount((prev: number) => {
-              console.log("prev", prev);
-              return prev + 1;
-            });
+            setRepCount((prev: number) => prev + 1);
           }
         }
       }
