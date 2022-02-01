@@ -1,6 +1,5 @@
 /* workout-form page */
 
-
 #workoutForm {
   margin: 3vw;
   padding: 0.5rem;
@@ -56,4 +55,10 @@
   font-size: larger;
   color: rgb(109, 109, 109);
   font-weight: bold;
+}
+
+.ant-steps {
+  width: 90vw;
+  display: flex;
+  justify-content: space-evenly;
 }

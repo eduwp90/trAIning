@@ -1,8 +1,10 @@
-import React from 'react';
-import './pages.css';
-import { Steps, Button, message } from 'antd';
-import { ISet } from '../interfaces';
-import WebcamAI from '../Components/webcamAI';
+import React from "react";
+import "./pages.css";
+import { Steps, Button, message, Avatar } from "antd";
+import Icon from "@ant-design/icons";
+import { ISet } from "../interfaces";
+import WebcamAI from "../Components/webcamAI";
+import { iconSelector } from "../Components/icons";
 
 const { Step } = Steps;
 
@@ -12,7 +14,6 @@ type WorkoutProps = {
 
 const Workout: React.FC<WorkoutProps> = ({ workout }) => {
   const [current, setCurrent] = React.useState(0);
-
   const next = () => {
     setCurrent(current + 1);
   };
@@ -22,21 +23,22 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
   };
 
   return (
-    <div className='workout-Div'>
-      <div className='steps-Div'>
+    <div className="workout-Div">
+      <div className="steps-Div">
         <Steps current={current} responsive={false}>
-          {workout.map((item) => (
-            <Step key={item.exer} />
-          ))}
+          {workout.map((item) => {
+            let I = iconSelector(item.exer);
+            return <Step icon={<Avatar icon={<I />} />} key={item.exer} />;
+          })}
         </Steps>
       </div>
-      <div className='workoutContent-Div'>
-        <div className='steps-content'>
+      <div className="workoutContent-Div">
+        <div className="steps-content">
           <WebcamAI />
         </div>
-        <div className='set-info'>
-          <p className='set-info-current'>Current set:</p>
-          <p className='set-info-current'>
+        <div className="set-info">
+          <p className="set-info-current">Current set:</p>
+          <p className="set-info-current">
             {workout[current].reps} reps of {workout[current].exer}s
           </p>
           {workout.length > 1 && current !== workout.length - 1 ? (
@@ -46,7 +48,7 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
             </p>
           ) : null}
         </div>
-        <div className='steps-action'>
+        <div className="steps-action">
           {current < workout.length - 1 && (
             <Button type="primary" onClick={() => next()}>
               Next
