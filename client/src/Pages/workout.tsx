@@ -4,6 +4,7 @@ import { Steps, Button, message } from "antd";
 import { ISet } from "../interfaces";
 import WebcamAI from "../Components/webcamAI";
 import SaveWorkout from "../Components/saveWorkout";
+import WorkoutsContext from "../workoutContext";
 
 const { Step } = Steps;
 
@@ -15,7 +16,9 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
   const [current, setCurrent] = React.useState(0);
   const [repCount, setRepCount] = React.useState(0);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
-  const [isResting, setIsResting] = React.useState(false);
+  // const [isResting, setIsResting] = React.useState(false);
+
+  const { isResting, setIsResting } = React.useContext(WorkoutsContext);
 
   React.useEffect(() => {
     if (repCount === workout[current].reps && current < workout.length - 1) {
@@ -51,7 +54,7 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
       </div>
       <div className="workoutContent-Div">
         <div className="steps-content">
-          <WebcamAI setRepCount={setRepCount} isResting={isResting} />
+          <WebcamAI setRepCount={setRepCount} />
         </div>
         <div className="set-info">
           {!isResting ? (

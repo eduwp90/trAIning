@@ -1,7 +1,8 @@
 import Webcam from "react-webcam";
 import * as tmPose from "@teachablemachine/pose";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 import { Keypoint } from "@tensorflow-models/posenet";
+import WorkoutsContext from "../workoutContext";
 
 const URL = "https://teachablemachine.withgoogle.com/models/HQvC3rR8v/";
 // const URL = 'https://teachablemachine.withgoogle.com/models/jwj-LGant/';
@@ -11,12 +12,12 @@ let model: { getTotalClasses: Function; estimatePose: Function; predict: Functio
 
 type WebcamAIProps = {
   setRepCount: Function;
-  isResting: boolean;
 };
 
-const WebcamAI: React.FC<WebcamAIProps> = ({ setRepCount, isResting }) => {
+const WebcamAI: React.FC<WebcamAIProps> = ({ setRepCount }) => {
   // let repCount = 0; //will need to be useState passed from parent so that it's visible and triggers next
   let repStatus: string = "Neutral";
+  const { isResting, setIsResting } = useContext(WorkoutsContext);
 
   const [size, setSize] = useState<number>(window.innerWidth * 0.9);
   window.onresize = (): void => {
