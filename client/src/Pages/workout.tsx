@@ -1,7 +1,6 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import "./pages.css";
 import { Steps, Button, message, Avatar } from "antd";
-import Icon from "@ant-design/icons";
 import { ISet } from "../interfaces";
 import WebcamAI from "../Components/webcamAI";
 import { iconSelector } from "../Components/icons";
@@ -22,14 +21,27 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
     setCurrent(current - 1);
   };
 
+  const generateStepItems = (): ReactNode => {
+    return workout.map((item) => {
+      function setIcon() {
+        let I = iconSelector(item.exer);
+        if (workout.indexOf(item) === current) {
+          return <Avatar style={{ backgroundColor: "green", color: "white" }} icon={<I />} />;
+        } else if (workout.indexOf(item) < current) {
+          return <Avatar style={{ backgroundColor: "lightgray", color: "white" }} icon={<I />} />;
+        } else {
+          return <Avatar style={{ backgroundColor: "grey", color: "white" }} icon={<I />} />;
+        }
+      }
+      return <Step icon={setIcon()} key={item.exer} />;
+    });
+  };
+
   return (
     <div className="workout-Div">
       <div className="steps-Div">
         <Steps current={current} responsive={false}>
-          {workout.map((item) => {
-            let I = iconSelector(item.exer);
-            return <Step icon={<Avatar icon={<I />} />} key={item.exer} />;
-          })}
+          {generateStepItems()}
         </Steps>
       </div>
       <div className="workoutContent-Div">

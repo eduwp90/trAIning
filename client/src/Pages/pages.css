@@ -58,7 +58,7 @@
 }
 
 .ant-steps {
-  width: 90vw;
   display: flex;
   justify-content: space-evenly;
+  margin: 0vh 3vw;
 }
