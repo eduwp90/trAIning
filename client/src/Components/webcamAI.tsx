@@ -1,6 +1,7 @@
 import Webcam from "react-webcam";
 import * as tmPose from "@teachablemachine/pose";
 import { useRef, useState } from "react";
+import { Keypoint } from "@tensorflow-models/posenet";
 
 const URL = "https://teachablemachine.withgoogle.com/models/HQvC3rR8v/";
 // const URL = 'https://teachablemachine.withgoogle.com/models/jwj-LGant/';
@@ -10,9 +11,10 @@ let model: { getTotalClasses: Function; estimatePose: Function; predict: Functio
 
 type WebcamAIProps = {
   setRepCount: Function;
+  isResting: boolean;
 };
 
-const WebcamAI: React.FC<WebcamAIProps> = ({ setRepCount }) => {
+const WebcamAI: React.FC<WebcamAIProps> = ({ setRepCount, isResting }) => {
   // let repCount = 0; //will need to be useState passed from parent so that it's visible and triggers next
   let repStatus: string = "Neutral";
 
@@ -69,8 +71,10 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ setRepCount }) => {
       const prediction = await model.predict(posenetOutput);
       for (let i = 0; i < maxPredictions; i++) {
         if (prediction[i].probability.toFixed(2) > 0.95) {
-          if (prediction[i].className !== repStatus && prediction[i].className !== "Neutral") {
+          if (prediction[i].className !== repStatus && prediction[i].className !== "Neutral" && !isResting) {
+            console.log("in here", isResting);
             repStatus = prediction[i].className;
+            console.log("here now");
             setRepCount((prev: number) => prev + 1);
           }
         }
@@ -79,7 +83,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ setRepCount }) => {
     }
   }
 
-  function drawPose(pose: any): void {
+  function drawPose(pose: { keypoints: Keypoint[]; score: number }): void {
     if (webcamRef.current !== null) {
       if (webcamRef.current.getCanvas()) {
         ctx.drawImage(webcamRef.current.getCanvas()!, 0, 0);
