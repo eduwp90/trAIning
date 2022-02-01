@@ -5,6 +5,7 @@ import {
   UserCredential,
   signInWithEmailAndPassword,
   UserInfo,
+  signOut,
 } from 'firebase/auth';
 import initFirebase from '../Config/firebase';
 
@@ -15,38 +16,53 @@ const auth: Auth = getAuth();
 const signupUser = async (
   email: string,
   password: string
-): Promise<UserInfo | null> => {
+): Promise<UserInfo | string> => {
   try {
     const result: UserCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
-    return result.user;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-};
 
-const isAuthenticated = (): boolean => {
-  const user = auth.currentUser;
-  return user ? true : false;
+    return result.user;
+  } catch (e: unknown) {
+    let message = 'Unknown Error';
+    if (e instanceof Error) {
+      message = e.message.replace('Firebase: ', '');
+    }
+    return message;
+  }
 };
 
 const loginUser = async (
   email: string,
   password: string
-): Promise<UserInfo | null> => {
+): Promise<UserInfo | string> => {
   try {
-    const result = await signInWithEmailAndPassword(auth, email, password);
+    const result: UserCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     return result.user;
-  } catch (error) {
-    console.log(error);
-    return null;
+  } catch (e: unknown) {
+    let message = 'Unknown Error';
+    if (e instanceof Error) {
+      message = e.message.replace('Firebase: ', '');
+    }
+    return message;
   }
 };
 
-const AuthService = { signupUser, isAuthenticated, loginUser };
+const logoutUser = () => {
+  signOut(auth);
+};
+
+const AuthService = {
+  auth,
+  signupUser,
+  loginUser,
+  logoutUser,
+};
 
 export default AuthService;
