@@ -2,6 +2,8 @@ import React from "react";
 import { Modal } from "antd";
 import { ISet } from "../interfaces";
 
+const { confirm } = Modal;
+
 type SaveWorkoutProps = {
   isModalVisible: boolean;
   setIsModalVisible: Function;
