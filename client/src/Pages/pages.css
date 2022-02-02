@@ -1,6 +1,5 @@
 /* workout-form page */
 
-
 #workoutForm {
   margin: 3vw;
   padding: 0.5rem;
@@ -14,7 +13,7 @@
 /* steps-page */
 
 .workout-Div {
-  width: 96vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -56,4 +55,20 @@
   font-size: larger;
   color: rgb(109, 109, 109);
   font-weight: bold;
+}
+
+.ant-steps {
+  display: flex;
+  align-items: center;
+  height: 10vh;
+}
+
+.steps-Div {
+  width: 100vw;
+  padding-left: 2vw;
+  overflow-x: scroll;
+}
+
+.ant-steps-item {
+  min-width: 30vw;
 }

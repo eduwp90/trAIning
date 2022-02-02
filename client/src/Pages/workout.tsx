@@ -1,8 +1,9 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import "./pages.css";
-import { Steps, Button, message } from "antd";
+import { Steps, Button, message, Avatar } from "antd";
 import { ISet } from "../interfaces";
 import WebcamAI from "../Components/webcamAI";
+import { iconSelector } from "../Components/icons";
 import SaveWorkout from "../Components/saveWorkout";
 
 const { Step } = Steps;
@@ -23,6 +24,22 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
     setCurrent(current - 1);
   };
 
+  const generateStepItems = (): ReactNode => {
+    return workout.map((item) => {
+      function setIcon() {
+        let I = iconSelector(item.exer);
+        if (workout.indexOf(item) === current) {
+          return <Avatar style={{ backgroundColor: "green", color: "white" }} icon={<I />} />;
+        } else if (workout.indexOf(item) < current) {
+          return <Avatar style={{ backgroundColor: "lightgray", color: "white" }} icon={<I />} />;
+        } else {
+          return <Avatar style={{ backgroundColor: "grey", color: "white" }} icon={<I />} />;
+        }
+      }
+      return <Step icon={setIcon()} key={item.exer} />;
+    });
+  };
+
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -31,9 +48,7 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
     <div className="workout-Div">
       <div className="steps-Div">
         <Steps current={current} responsive={false}>
-          {workout.map((item) => (
-            <Step key={item.exer} />
-          ))}
+          {generateStepItems()}
         </Steps>
       </div>
       <div className="workoutContent-Div">
