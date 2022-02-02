@@ -1,5 +1,4 @@
 import React, { createRef, ReactNode, useEffect } from "react";
-import "./pages.css";
 import "./pages.less";
 import { Steps, Button, message, Avatar } from "antd";
 import { ISet } from "../interfaces";
