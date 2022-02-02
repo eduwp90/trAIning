@@ -66,9 +66,10 @@
 .steps-Div {
   width: 100vw;
   padding-left: 2vw;
-  overflow-x: scroll;
+  overflow: hidden;
 }
 
 .ant-steps-item {
   min-width: 30vw;
+  max-width: 30vw;
 }

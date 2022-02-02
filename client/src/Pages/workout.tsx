@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { createRef, ReactNode, useEffect } from "react";
 import "./pages.css";
 import { Steps, Button, message, Avatar } from "antd";
 import { ISet } from "../interfaces";
@@ -18,9 +18,8 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
   const [repCount, setRepCount] = React.useState(0);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   // const [isResting, setIsResting] = React.useState(false);
-
   const { isResting, setIsResting } = React.useContext(WorkoutsContext);
-
+const currentStepRef = createRef<HTMLDivElement>()
   React.useEffect(() => {
     if (repCount === workout[current].reps && current < workout.length - 1) {
       console.log("reps", repCount);
@@ -56,9 +55,18 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
           return <Avatar style={{ backgroundColor: "grey", color: "white" }} icon={<I />} />;
         }
       }
+      if (workout.indexOf(item) === current) {
+
+        return <div className='ant-steps-item ant-steps' ref={currentStepRef}><Step icon={setIcon()} key={item.exer} /></div>;
+       }
+
       return <Step icon={setIcon()} key={item.exer} />;
     });
   };
+
+  useEffect(() => {
+    currentStepRef.current?.scrollIntoView({behavior: "smooth", block: "end", inline: "center"})
+  }, [currentStepRef])
 
   return (
     <div className="workout-Div">
