@@ -35,9 +35,7 @@
       "react-app",
       "react-app/jest",
       "prettier",
-      "prettier/prettier",
-      "prettier/react",
-      "prettier/@typescript-eslint"
+      "prettier/prettier"
     ]
   },
   "browserslist": {

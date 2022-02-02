@@ -11,13 +11,12 @@ let model: { getTotalClasses: Function; estimatePose: Function; predict: Functio
   maxPredictions: number;
 
 type WebcamAIProps = {
-  setRepCount: Function;
+  incrementRepCount: Function;
 };
 
-const WebcamAI: React.FC<WebcamAIProps> = ({ setRepCount }) => {
-  // let repCount = 0; //will need to be useState passed from parent so that it's visible and triggers next
+const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount }) => {
+  let repCount = 0; //will need to be useState passed from parent so that it's visible and triggers next
   let repStatus: string = "Neutral";
-  const { isResting, setIsResting } = useContext(WorkoutsContext);
 
   const [size, setSize] = useState<number>(window.innerWidth * 0.9);
   window.onresize = (): void => {
@@ -72,11 +71,9 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ setRepCount }) => {
       const prediction = await model.predict(posenetOutput);
       for (let i = 0; i < maxPredictions; i++) {
         if (prediction[i].probability.toFixed(2) > 0.95) {
-          if (prediction[i].className !== repStatus && prediction[i].className !== "Neutral" && !isResting) {
-            console.log("in here", isResting);
+          if (prediction[i].className !== repStatus && prediction[i].className !== "Neutral") {
             repStatus = prediction[i].className;
-            console.log("here now");
-            setRepCount((prev: number) => prev + 1);
+            incrementRepCount();
           }
         }
       }
