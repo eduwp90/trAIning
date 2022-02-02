@@ -17,9 +17,9 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
   const [current, setCurrent] = React.useState(0);
   const [repCount, setRepCount] = React.useState(0);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
-  // const [isResting, setIsResting] = React.useState(false);
-  const { isResting, setIsResting } = React.useContext(WorkoutsContext);
+  const isResting = React.useRef(false);
   const currentStepRef = createRef<HTMLDivElement>();
+
   React.useEffect(() => {
     if (repCount === workout[current].reps && current < workout.length - 1) {
       console.log("reps", repCount);
@@ -32,20 +32,15 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
     }
   }, [repCount]);
 
-  // useEffect(() => {
-  //   console.log("useeffect isresting ", isResting);
-  //   if (isResting === false) setRepCount((prev: number) => prev + 1);
-  // }, [isResting, repCount]);
-
   const prev = (): void => {
     setCurrent((prev) => prev - 1);
   };
 
   const renderRest = (time: number) => {
-    setIsResting(true);
+    isResting.current = true;
     setTimeout(() => {
       console.log("renderrest ", isResting);
-      setIsResting(false);
+      isResting.current = false;
     }, time * 60000);
   };
 
@@ -72,10 +67,11 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
       return <Step icon={setIcon()} key={item.exer} />;
     });
   };
+  console.log("isResting? increment ", isResting.current);
 
   const incrementRepCount = () => {
-    console.log("isResting? ", isResting);
-    if (!isResting) setRepCount((prev) => prev + 1);
+    if (!isResting.current) setRepCount((prev) => prev + 1);
+    console.log("isResting? inside closure ", isResting.current);
   };
 
   useEffect(() => {
@@ -90,12 +86,11 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
         </Steps>
       </div>
       <div className="workoutContent-Div">
-        <Button onClick={() => incrementRepCount()}>increment</Button>
         <div className="steps-content">
           <WebcamAI incrementRepCount={() => incrementRepCount()} />
         </div>
         <div className="set-info">
-          {!isResting ? (
+          {!isResting.current ? (
             <div>
               <p className="set-info-current">Current set:</p>
               <p className="set-info-current">

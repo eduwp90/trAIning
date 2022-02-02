@@ -15,7 +15,6 @@ type WebcamAIProps = {
 };
 
 const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount }) => {
-  let repCount = 0; //will need to be useState passed from parent so that it's visible and triggers next
   let repStatus: string = "Neutral";
 
   const [size, setSize] = useState<number>(window.innerWidth * 0.9);
