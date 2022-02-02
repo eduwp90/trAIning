@@ -1,6 +1,6 @@
-import React, { ContextType, createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout } from "antd";
-import "./main.css";
+import "./pages.less";
 import { Outlet } from "react-router-dom";
 import { getUserWorkouts } from "../Services/dbService";
 import { useAuthState } from "react-firebase-hooks/auth";
