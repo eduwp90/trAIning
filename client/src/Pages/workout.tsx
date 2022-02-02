@@ -17,9 +17,9 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
   const [current, setCurrent] = React.useState(0);
   const [repCount, setRepCount] = React.useState(0);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
-  // const [isResting, setIsResting] = React.useState(false);
-  const { isResting, setIsResting } = React.useContext(WorkoutsContext);
-const currentStepRef = createRef<HTMLDivElement>()
+  const isResting = React.useRef(false);
+  const currentStepRef = createRef<HTMLDivElement>();
+
   React.useEffect(() => {
     if (repCount === workout[current].reps && current < workout.length - 1) {
       console.log("reps", repCount);
@@ -37,9 +37,10 @@ const currentStepRef = createRef<HTMLDivElement>()
   };
 
   const renderRest = (time: number) => {
-    setIsResting(true);
+    isResting.current = true;
     setTimeout(() => {
-      setIsResting(false);
+      console.log("renderrest ", isResting);
+      isResting.current = false;
     }, time * 60000);
   };
 
@@ -56,17 +57,26 @@ const currentStepRef = createRef<HTMLDivElement>()
         }
       }
       if (workout.indexOf(item) === current) {
-
-        return <div className='ant-steps-item ant-steps' ref={currentStepRef}><Step icon={setIcon()} key={item.exer} /></div>;
-       }
+        return (
+          <div className="ant-steps-item ant-steps" ref={currentStepRef}>
+            <Step icon={setIcon()} key={item.exer} />
+          </div>
+        );
+      }
 
       return <Step icon={setIcon()} key={item.exer} />;
     });
   };
+  console.log("isResting? increment ", isResting.current);
+
+  const incrementRepCount = () => {
+    if (!isResting.current) setRepCount((prev) => prev + 1);
+    console.log("isResting? inside closure ", isResting.current);
+  };
 
   useEffect(() => {
-    currentStepRef.current?.scrollIntoView({behavior: "smooth", block: "end", inline: "center"})
-  }, [currentStepRef])
+    currentStepRef.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "center" });
+  }, [currentStepRef]);
 
   return (
     <div className="workout-Div">
@@ -77,10 +87,10 @@ const currentStepRef = createRef<HTMLDivElement>()
       </div>
       <div className="workoutContent-Div">
         <div className="steps-content">
-          <WebcamAI setRepCount={setRepCount} />
+          <WebcamAI incrementRepCount={() => incrementRepCount()} />
         </div>
         <div className="set-info">
-          {!isResting ? (
+          {!isResting.current ? (
             <div>
               <p className="set-info-current">Current set:</p>
               <p className="set-info-current">
