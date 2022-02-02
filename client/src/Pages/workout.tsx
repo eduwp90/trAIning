@@ -4,6 +4,7 @@ import { Steps, Button, message, Avatar } from "antd";
 import { ISet } from "../interfaces";
 import WebcamAI from "../Components/webcamAI";
 import { iconSelector } from "../Components/icons";
+import SaveWorkout from "../Components/saveWorkout";
 
 const { Step } = Steps;
 
@@ -13,6 +14,8 @@ type WorkoutProps = {
 
 const Workout: React.FC<WorkoutProps> = ({ workout }) => {
   const [current, setCurrent] = React.useState(0);
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
+
   const next = () => {
     setCurrent(current + 1);
   };
@@ -35,6 +38,10 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
       }
       return <Step icon={setIcon()} key={item.exer} />;
     });
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
   };
 
   return (
@@ -67,7 +74,13 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
             </Button>
           )}
           {current === workout.length - 1 && (
-            <Button type="primary" onClick={() => message.success("Processing complete!")}>
+            <Button
+              type="primary"
+              onClick={() => {
+                message.success("Processing complete!");
+                // setIsModalVisible(true);
+                showModal();
+              }}>
               Done
             </Button>
           )}
@@ -76,6 +89,13 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
               Previous
             </Button>
           )}
+          {/* <SaveWorkout trigger={popup} setTrigger={setPopup}>
+            <h3>Do you want to save this workout?</h3>
+          </SaveWorkout> */}
+          <SaveWorkout
+            isModalVisible={isModalVisible}
+            setIsModalVisible={setIsModalVisible}
+            workout={workout}></SaveWorkout>
         </div>
       </div>
     </div>
