@@ -27,7 +27,7 @@ const WorkoutForm: React.FC = () => {
   };
 
   return !workout ? (
-    <div>
+    <div className="pages-Div">
       <Form
         id="workoutForm"
         onFinish={onFinish}

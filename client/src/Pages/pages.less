@@ -1,11 +1,13 @@
-/* main page */
+/* all pages */
 
-.content {
+.pages-Div {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-items: center;
-  justify-content: center;
+  align-items: center;
 }
+
+/* main page */
 
 .logo {
   display: flex;
@@ -22,12 +24,31 @@
   height: 100vh;
 }
 
+/* login/register pages */
+
+.login-form,
+.register-form {
+  width: 35vw;
+  min-width: 300px;
+  margin-top: 20vh;
+  min-height: 25vw;
+  border-radius: 8px;
+  background: rgba(235, 235, 235, 0.315);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2vw 3vw 0 3vw;
+}
+.register-link {
+  display: inline-block;
+  padding-left: 10px;
+}
+
 /* workout-form page */
 
 #workoutForm {
-  margin: 3vw;
-  padding: 0.5rem;
-  background-color: rgba(237, 233, 233, 0.644);
+  margin: 0.8rem 0;
+  width: 90vw;
 }
 
 .workoutForm_button {

@@ -19,7 +19,7 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   // const [isResting, setIsResting] = React.useState(false);
   const { isResting, setIsResting } = React.useContext(WorkoutsContext);
-const currentStepRef = createRef<HTMLDivElement>()
+  const currentStepRef = createRef<HTMLDivElement>();
   React.useEffect(() => {
     if (repCount === workout[current].reps && current < workout.length - 1) {
       console.log("reps", repCount);
@@ -48,25 +48,28 @@ const currentStepRef = createRef<HTMLDivElement>()
       function setIcon() {
         let I = iconSelector(item.exer);
         if (workout.indexOf(item) === current) {
-          return <Avatar style={{ backgroundColor: "green", color: "white" }} icon={<I />} />;
+          return <Avatar style={{ backgroundColor: "#3D348B", color: "white" }} icon={<I />} />;
         } else if (workout.indexOf(item) < current) {
-          return <Avatar style={{ backgroundColor: "lightgray", color: "white" }} icon={<I />} />;
+          return <Avatar style={{ backgroundColor: "#7678ED", color: "white" }} icon={<I />} />;
         } else {
           return <Avatar style={{ backgroundColor: "grey", color: "white" }} icon={<I />} />;
         }
       }
       if (workout.indexOf(item) === current) {
-
-        return <div className='ant-steps-item ant-steps' ref={currentStepRef}><Step icon={setIcon()} key={item.exer} /></div>;
-       }
+        return (
+          <div className="ant-steps-item ant-steps" ref={currentStepRef}>
+            <Step icon={setIcon()} key={item.exer} />
+          </div>
+        );
+      }
 
       return <Step icon={setIcon()} key={item.exer} />;
     });
   };
 
   useEffect(() => {
-    currentStepRef.current?.scrollIntoView({behavior: "smooth", block: "end", inline: "center"})
-  }, [currentStepRef])
+    currentStepRef.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "center" });
+  }, [currentStepRef]);
 
   return (
     <div className="workout-Div">
