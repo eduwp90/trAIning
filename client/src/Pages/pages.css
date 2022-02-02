@@ -13,7 +13,7 @@
 /* steps-page */
 
 .workout-Div {
-  width: 96vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -59,6 +59,16 @@
 
 .ant-steps {
   display: flex;
-  justify-content: space-evenly;
-  margin: 0vh 3vw;
+  align-items: center;
+  height: 10vh;
+}
+
+.steps-Div {
+  width: 100vw;
+  padding-left: 2vw;
+  overflow-x: scroll;
+}
+
+.ant-steps-item {
+  min-width: 30vw;
 }

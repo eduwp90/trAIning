@@ -24,9 +24,11 @@ const Set: React.FC<SetProps> = ({ id, removeSet }) => {
             }
           ]}>
           <Select size="large" placeholder="exercise" style={{ width: 120 }}>
-            <Option value="sit-up">sit-up</Option>
-            <Option value="push-up">push-up</Option>
-            <Option value="squat">squat</Option>
+            <Option value="push-ups">push ups</Option>
+            <Option value="squats">squats</Option>
+            <Option value="lunges">lunges</Option>
+            <Option value="jumping-jacks">jumping jacks</Option>
+            <Option value="side-squats">side squats</Option>
           </Select>
         </Form.Item>
 
