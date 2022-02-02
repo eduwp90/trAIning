@@ -1,5 +1,5 @@
-import React, { ReactNode, useEffect } from "react";
-import "./pages.css";
+import React, { createRef, ReactNode, useEffect } from "react";
+import "./pages.less";
 import { Steps, Button, message, Avatar } from "antd";
 import { ISet } from "../interfaces";
 import WebcamAI from "../Components/webcamAI";
@@ -17,10 +17,9 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
   const [current, setCurrent] = React.useState(0);
   const [repCount, setRepCount] = React.useState(0);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
-  const [isResting, setIsResting] = React.useState(false);
-
-  // const { isResting, setIsResting } = React.useContext(WorkoutsContext);
-
+  // const [isResting, setIsResting] = React.useState(false);
+  const { isResting, setIsResting } = React.useContext(WorkoutsContext);
+  const currentStepRef = createRef<HTMLDivElement>();
   React.useEffect(() => {
     if (repCount === workout[current].reps && current < workout.length - 1) {
       console.log("reps", repCount);
@@ -62,16 +61,26 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
           return <Avatar style={{ backgroundColor: "grey", color: "white" }} icon={<I />} />;
         }
       }
+      if (workout.indexOf(item) === current) {
+        return (
+          <div className="ant-steps-item ant-steps" ref={currentStepRef}>
+            <Step icon={setIcon()} key={item.exer} />
+          </div>
+        );
+      }
+
       return <Step icon={setIcon()} key={item.exer} />;
     });
   };
 
-  console.log("isResting? 6 ", isResting);
-
-  const incrementRepCount = (): void => {
+  const incrementRepCount = () => {
     console.log("isResting? ", isResting);
-    if (isResting === false) setRepCount((prev: number) => prev + 1);
+    if (!isResting) setRepCount((prev) => prev + 1);
   };
+
+  useEffect(() => {
+    currentStepRef.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "center" });
+  }, [currentStepRef]);
 
   return (
     <div className="workout-Div">
