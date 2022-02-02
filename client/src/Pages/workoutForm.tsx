@@ -29,11 +29,11 @@ const WorkoutForm: React.FC = () => {
   return !workout ? (
     <div className="pages-Div">
       <Form
+        layout="vertical"
         id="workoutForm"
         onFinish={onFinish}
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
-        layout="horizontal"
         validateMessages={validateMessages}>
         {formSets}
         <Button size="large" className="workoutForm_button" onClick={addSet}>

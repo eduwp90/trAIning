@@ -1,5 +1,6 @@
-/* all pages */
+@import "../library";
 
+/* all pages */
 .pages-Div {
   min-height: 100vh;
   display: flex;
@@ -15,7 +16,7 @@
   width: 120px;
   height: 31px;
   margin: 16px 24px 16px 0;
-  background: rgba(255, 255, 255, 0.3);
+  background: @softGreyBackground;
   justify-content: center;
   align-items: center;
 }
@@ -32,8 +33,8 @@
   min-width: 300px;
   margin-top: 20vh;
   min-height: 25vw;
-  border-radius: 8px;
-  background: rgba(235, 235, 235, 0.315);
+  border-radius: @borderRadius;
+  background: @softGreyBackground;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -91,15 +92,8 @@
   margin-top: 16px;
   padding: 5%;
   text-align: center;
-  border-radius: 8px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  color: grey;
-}
-
-.set-info-current {
-  font-size: larger;
-  color: rgb(109, 109, 109);
-  font-weight: bold;
+  border-radius: @borderRadius;
+  box-shadow: @boxShadow;
 }
 
 .ant-steps {
