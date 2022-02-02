@@ -86,7 +86,7 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
       </div>
       <div className="workoutContent-Div">
         <div className="steps-content">
-          <WebcamAI incrementRepCount={() => incrementRepCount()} />
+          <WebcamAI incrementRepCount={incrementRepCount} />
         </div>
         <div className="set-info">
           {!isResting.current ? (
