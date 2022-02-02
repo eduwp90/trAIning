@@ -1,8 +1,8 @@
 import { InputNumber, Form, Select, Radio, Button } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import React from "react";
-import "antd/dist/antd.css";
-import "./components.css";
+import "antd/dist/antd.less";
+import "./components.less";
 const { Option } = Select;
 
 type SetProps = {

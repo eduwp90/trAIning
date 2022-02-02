@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import "./pages.css";
+import "./pages.less";
 import { Steps, Button, message, Avatar } from "antd";
 import { ISet } from "../interfaces";
 import WebcamAI from "../Components/webcamAI";
