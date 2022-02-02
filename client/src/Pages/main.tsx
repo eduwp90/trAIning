@@ -12,6 +12,7 @@ const { Header, Content } = Layout;
 const Main: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
 
+  const [isResting, setIsResting] = useState(false);
   const [userWorkouts, setUserWorkouts] = useState<any[]>([]);
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const Main: React.FC = () => {
       <Header>
         <div className="logo">NAV BAR</div>
       </Header>
-      <WorkoutsContext.Provider value={{ userWorkouts, setUserWorkouts }}>
+      <WorkoutsContext.Provider value={{ userWorkouts, setUserWorkouts, isResting, setIsResting }}>
         <Content>
           <div className="content">
             <Outlet />

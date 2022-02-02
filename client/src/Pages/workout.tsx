@@ -5,6 +5,7 @@ import { ISet } from "../interfaces";
 import WebcamAI from "../Components/webcamAI";
 import { iconSelector } from "../Components/icons";
 import SaveWorkout from "../Components/saveWorkout";
+import WorkoutsContext from "../workoutContext";
 
 const { Step } = Steps;
 
@@ -14,14 +15,33 @@ type WorkoutProps = {
 
 const Workout: React.FC<WorkoutProps> = ({ workout }) => {
   const [current, setCurrent] = React.useState(0);
+  const [repCount, setRepCount] = React.useState(0);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
+  // const [isResting, setIsResting] = React.useState(false);
 
-  const next = () => {
-    setCurrent(current + 1);
+  const { isResting, setIsResting } = React.useContext(WorkoutsContext);
+
+  React.useEffect(() => {
+    if (repCount === workout[current].reps && current < workout.length - 1) {
+      console.log("reps", repCount);
+      setCurrent((prev) => prev + 1);
+      setRepCount(0);
+      renderRest(workout[current].rest);
+    } else if (repCount === workout[current].reps && current === workout.length - 1) {
+      message.success("What a great workout! Nicely done!");
+      setIsModalVisible(true);
+    }
+  }, [repCount]);
+
+  const prev = (): void => {
+    setCurrent((prev) => prev - 1);
   };
 
-  const prev = () => {
-    setCurrent(current - 1);
+  const renderRest = (time: number) => {
+    setIsResting(true);
+    setTimeout(() => {
+      setIsResting(false);
+    }, time * 60000);
   };
 
   const generateStepItems = (): ReactNode => {
@@ -40,10 +60,6 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
     });
   };
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
   return (
     <div className="workout-Div">
       <div className="steps-Div">
@@ -53,13 +69,25 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
       </div>
       <div className="workoutContent-Div">
         <div className="steps-content">
-          <WebcamAI />
+          <WebcamAI setRepCount={setRepCount} />
         </div>
         <div className="set-info">
-          <p className="set-info-current">Current set:</p>
-          <p className="set-info-current">
-            {workout[current].reps} reps of {workout[current].exer}s
-          </p>
+          {!isResting ? (
+            <div>
+              <p className="set-info-current">Current set:</p>
+              <p className="set-info-current">
+                Completed ({repCount}/{workout[current].reps}) reps of {workout[current].exer}s
+              </p>
+            </div>
+          ) : (
+            <div>
+              <p>Take a moment to grab a glass of water.</p>
+              <p>
+                Your workout will continue in {workout[current - 1].rest} minute
+                {workout[current - 1].rest > 1 ? "s" : ""}
+              </p>
+            </div>
+          )}
           {workout.length > 1 && current !== workout.length - 1 ? (
             <p>
               {" "}
@@ -68,34 +96,12 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
           ) : null}
         </div>
         <div className="steps-action">
-          {current < workout.length - 1 && (
-            <Button type="primary" onClick={() => next()}>
-              Next
-            </Button>
-          )}
-          {current === workout.length - 1 && (
-            <Button
-              type="primary"
-              onClick={() => {
-                message.success("Processing complete!");
-                // setIsModalVisible(true);
-                showModal();
-              }}>
-              Done
-            </Button>
-          )}
           {current > 0 && (
             <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
               Previous
             </Button>
           )}
-          {/* <SaveWorkout trigger={popup} setTrigger={setPopup}>
-            <h3>Do you want to save this workout?</h3>
-          </SaveWorkout> */}
-          <SaveWorkout
-            isModalVisible={isModalVisible}
-            setIsModalVisible={setIsModalVisible}
-            workout={workout}></SaveWorkout>
+          <SaveWorkout isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} workout={workout} />
         </div>
       </div>
     </div>

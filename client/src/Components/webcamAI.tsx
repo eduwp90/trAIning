@@ -1,6 +1,8 @@
 import Webcam from "react-webcam";
 import * as tmPose from "@teachablemachine/pose";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
+import { Keypoint } from "@tensorflow-models/posenet";
+import WorkoutsContext from "../workoutContext";
 
 const URL = "https://teachablemachine.withgoogle.com/models/HQvC3rR8v/";
 // const URL = 'https://teachablemachine.withgoogle.com/models/jwj-LGant/';
@@ -8,20 +10,27 @@ let model: { getTotalClasses: Function; estimatePose: Function; predict: Functio
   ctx: CanvasRenderingContext2D,
   maxPredictions: number;
 
-const WebcamAI = () => {
-  const [size, setSize] = useState(window.innerWidth * 0.9);
-  window.onresize = () => {
+type WebcamAIProps = {
+  setRepCount: Function;
+};
+
+const WebcamAI: React.FC<WebcamAIProps> = ({ setRepCount }) => {
+  // let repCount = 0; //will need to be useState passed from parent so that it's visible and triggers next
+  let repStatus: string = "Neutral";
+  const { isResting, setIsResting } = useContext(WorkoutsContext);
+
+  const [size, setSize] = useState<number>(window.innerWidth * 0.9);
+  window.onresize = (): void => {
     setSize(window.innerWidth * 0.9);
   };
 
   const webcamRef = useRef<Webcam>(null);
 
-  async function init() {
+  async function init(): Promise<void> {
     const modelURL = URL + "model.json";
     const metadataURL = URL + "metadata.json";
 
     model = await tmPose.load(modelURL, metadataURL);
-    console.log("model", model);
     maxPredictions = model.getTotalClasses();
     window.requestAnimationFrame(loop);
 
@@ -46,34 +55,36 @@ const WebcamAI = () => {
     const canvas: HTMLCanvasElement = getCanvasElementById("canvas");
 
     if (canvas) {
-      console.log(canvas);
       canvas.width = size;
       canvas.height = size * 0.75;
       ctx = getCanvasRenderingContext2D(canvas)!;
     }
   }
 
-  async function loop(timestamp: number) {
+  async function loop(): Promise<void> {
     await predict();
     window.requestAnimationFrame(loop);
   }
 
-  async function predict() {
+  async function predict(): Promise<void> {
     if (webcamRef.current !== null) {
       const { pose, posenetOutput } = await model.estimatePose(webcamRef.current.getCanvas());
       const prediction = await model.predict(posenetOutput);
-
       for (let i = 0; i < maxPredictions; i++) {
-        const classPrediction = prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-        // labelContainer.childNodes[i].textContent = classPrediction;
-        // use classPrediction to count reps & change page
+        if (prediction[i].probability.toFixed(2) > 0.95) {
+          if (prediction[i].className !== repStatus && prediction[i].className !== "Neutral" && !isResting) {
+            console.log("in here", isResting);
+            repStatus = prediction[i].className;
+            console.log("here now");
+            setRepCount((prev: number) => prev + 1);
+          }
+        }
       }
       drawPose(pose);
     }
   }
 
-  function drawPose(pose: any): void {
-    // console.log(webcamRef);
+  function drawPose(pose: { keypoints: Keypoint[]; score: number }): void {
     if (webcamRef.current !== null) {
       if (webcamRef.current.getCanvas()) {
         ctx.drawImage(webcamRef.current.getCanvas()!, 0, 0);
