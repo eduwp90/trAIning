@@ -8,18 +8,18 @@ module.exports = {
         lessLoaderOptions: {
           lessOptions: {
             modifyVars: {
-              "@primary-color": "#7678ED",
-              "@link-color": "#3D348B",
-              "@success-color": "#7678ED",
-              "@warning-color": "#f538c9",
-              "@error-color": "#f538c9",
+              "@primary-color": "#2A9D8F",
+              "@link-color": "#F4A261",
+              "@success-color": "#264653",
+              "@warning-color": "#E76F51",
+              "@error-color": "#E76F51",
               "@font-size-base": "14px",
-              "@heading-color": "#f538c9",
-              "@text-color": "#3D348B",
-              "@text-color-secondary": "#7678ED",
+              "@heading-color": "#2A9D8F",
+              "@text-color": "#747678",
+              "@text-color-secondary": "#54585c",
               "@disabled-color": "rgba(0, 0, 0, 0.25)",
               "@border-radius-base": "5px",
-              "@border-color-base": "rgba(0, 0, 0, 0.25)",
+              "@border-color-base": "#2A9D8F",
               "@box-shadow-base":
                 "0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05)"
             },

@@ -48,11 +48,11 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
       function setIcon() {
         let I = iconSelector(item.exer);
         if (workout.indexOf(item) === current) {
-          return <Avatar style={{ backgroundColor: "#3D348B", color: "white" }} icon={<I />} />;
+          return <Avatar style={{ backgroundColor: "#264653", color: "white" }} icon={<I />} />;
         } else if (workout.indexOf(item) < current) {
-          return <Avatar style={{ backgroundColor: "#7678ED", color: "white" }} icon={<I />} />;
+          return <Avatar style={{ backgroundColor: "#2A9D8F", color: "white" }} icon={<I />} />;
         } else {
-          return <Avatar style={{ backgroundColor: "grey", color: "white" }} icon={<I />} />;
+          return <Avatar style={{ backgroundColor: "#E9C46A", color: "white" }} icon={<I />} />;
         }
       }
       if (workout.indexOf(item) === current) {

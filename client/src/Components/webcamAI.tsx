@@ -107,7 +107,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount }) => {
             zIndex: 9,
             width: size,
             height: size * 0.75,
-            borderRadius: 2
+            borderRadius: 5
           }}
           onUserMedia={init}
           mirrored={true}
