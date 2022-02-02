@@ -1,5 +1,8 @@
 .content {
-  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  justify-content: center;
 }
 
 .logo {
@@ -11,4 +14,8 @@
   background: rgba(255, 255, 255, 0.3);
   justify-content: center;
   align-items: center;
+}
+.body {
+  width: 100vw;
+  height: 100vh;
 }
