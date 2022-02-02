@@ -3,3 +3,9 @@ export interface ISet {
   reps: number;
   rest: number;
 }
+
+export interface IWorkout{
+  user: string;
+  name: string;
+  workout: ISet[];
+}
