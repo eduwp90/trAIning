@@ -6,6 +6,7 @@ import WebcamAI from "../Components/webcamAI";
 import { iconSelector } from "../Components/icons";
 import SaveWorkout from "../Components/saveWorkout";
 import modelsByType from "../Services/modelService";
+import sound from "../Services/soundService";
 
 const { Step } = Steps;
 
@@ -71,9 +72,14 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
     });
   };
 
+  function beep() {
+    sound.play();
+  }
+
   const incrementRepCount = () => {
     if (!isResting.current) setRepCount((prev) => prev + 1);
     console.log("isResting? inside closure ", isResting.current);
+    beep();
   };
 
   useEffect(() => {
