@@ -1,9 +1,19 @@
 import db from "../Config/firestore";
-import { collection, addDoc, query, where, getDocs } from "firebase/firestore/lite";
+import {
+  collection,
+  addDoc,
+  query,
+  where,
+  getDocs,
+  DocumentReference,
+  DocumentData,
+  Query
+} from "firebase/firestore/lite";
+import { ISet, IWorkout, IWorkoutResponse } from "../interfaces";
 
-export async function addWorkout(user: string, workout: any, name: string) {
+export async function addWorkout(user: string, workout: ISet[], name: string): Promise<void> {
   try {
-    const docRef = await addDoc(collection(db, "workoutsDb"), {
+    const docRef: DocumentReference<DocumentData> = await addDoc(collection(db, "workoutsDb"), {
       user: user,
       workout: workout,
       name: name
@@ -14,20 +24,22 @@ export async function addWorkout(user: string, workout: any, name: string) {
   }
 }
 
-export async function getUserWorkouts(user: string): Promise<any[] | undefined> {
-  const q = query(collection(db, "workoutsDb"), where("user", "==", user));
+export async function getUserWorkouts(user: string): Promise<IWorkout[] | undefined> {
+  const q: Query<DocumentData> = query(collection(db, "workoutsDb"), where("user", "==", user));
 
   try {
-    const querySnapshot = await getDocs(q);
-    const res: any[] = [];
-    querySnapshot.forEach((doc) => {
-      res.push(doc.data());
+    const querySnapshot: DocumentData = await getDocs(q);
+    const res: IWorkoutResponse[] = [];
+    querySnapshot.forEach((doc: IWorkoutResponse) => {
+      const obj: IWorkoutResponse = doc.data();
+      obj.id = doc.id;
+      res.push(obj);
       // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
+      console.log(obj);
     });
     return res;
-  } catch (error) {
-    console.log(error);
+  } catch (e) {
+    console.log(e);
     return;
   }
 }
