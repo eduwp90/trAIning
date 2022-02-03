@@ -1,18 +1,14 @@
 import { Button } from "antd";
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import WorkoutsContext from "../workoutContext";
+import WorkoutList from "../Components/workoutList";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
 
-  const { userWorkouts } = useContext(WorkoutsContext);
-
   return (
     <div>
-      {userWorkouts.map((workout: any) => {
-        return <p>{`${workout.workout[0].exer}`}</p>;
-      })}
+      <WorkoutList />
       <Button
         onClick={() => {
           navigate("/workout");
