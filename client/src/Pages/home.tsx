@@ -26,8 +26,17 @@ const Home: React.FC = () => {
 
   return (
     <div className="pages-Div">
+      <div className="list_title">
+        <h2>Your workouts</h2>
+      </div>
+      <WorkoutList workouts={userWorkouts}></WorkoutList>
+      <div className="list_title">
+        <h2>Here are some recomedantions</h2>
+      </div>
       <WorkoutList workouts={userWorkouts}></WorkoutList>
       <Button
+        className="new_workout_btn"
+        size="large"
         onClick={() => {
           navigate("/workout");
         }}>

@@ -7,6 +7,7 @@
   position: relative;
   background: white;
   border-radius: @borderRadius;
+  box-shadow: @boxShadow;
 }
 
 .set-Div_inputs {
@@ -26,21 +27,35 @@
 }
 
 //WorkoutItem
-
 .workout_container {
   height: 20vh;
-  margin: 0 2px;
-  width: 80vw;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  margin-right: 1rem;
+  margin-left: 2px;
+  width: 60vw;
   background: white;
+  border-radius: @borderRadius;
+  box-shadow: @boxShadow;
+}
+
+.workout_info {
+  margin: 1rem;
 }
 
 //WorkoutList
 .workout_scroll {
   display: flex;
+  margin-left: 5vw;
 }
 
 .workout_list {
   display: flex;
   overflow-x: scroll;
-  width: 90vw;
+  width: 100vw;
+  scrollbar-width: 0px;
+}
+
+.workout_list::-webkit-scrollbar {
+  display: none;
 }
