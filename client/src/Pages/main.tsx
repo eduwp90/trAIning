@@ -21,7 +21,7 @@ const Main: React.FC = () => {
       <Header className="navbar">
         <div className="nav-logo">LOGO</div>
         <div className="nav-content">
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["0"]}>
+          <Menu mode="horizontal" defaultSelectedKeys={["0"]}>
             <Menu.Item key={0}>
               <Link to="/home">{`Home`}</Link>
             </Menu.Item>
@@ -29,7 +29,7 @@ const Main: React.FC = () => {
         </div>
         <div className="nav-user">
           {user && (
-            <Menu mode="horizontal" className="user-menu" theme="dark">
+            <Menu mode="horizontal" className="user-menu">
               <Menu.SubMenu
                 key={"submenu"}
                 title={
