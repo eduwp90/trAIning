@@ -1,22 +1,65 @@
 import React from "react";
-import { Layout } from "antd";
+import { Avatar, Layout, Menu, Image } from "antd";
 import "./pages.less";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
+import { LogoutOutlined } from "@ant-design/icons";
+import { useAuthState } from "react-firebase-hooks/auth";
+import AuthService from "../Services/authService";
 
 const { Header, Content } = Layout;
 
 const Main: React.FC = () => {
+  const [user] = useAuthState(AuthService.auth);
 
+  const logout = (): void => {
+    AuthService.logoutUser();
+  };
+
+  console.log("user ", user);
   return (
-    <Layout>
-      <Header>
-        <div className="logo">NAV BAR</div>
+    <Layout className="layout">
+      <Header className="navbar">
+        <div className="nav-logo">LOGO</div>
+        <div className="nav-content">
+          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["0"]}>
+            <Menu.Item key={0}>
+              <Link to="/home">{`Home`}</Link>
+            </Menu.Item>
+          </Menu>
+        </div>
+        <div className="nav-user">
+          {user && (
+            <Menu mode="horizontal" className="user-menu" theme="dark">
+              <Menu.SubMenu
+                key={"submenu"}
+                title={
+                  <Avatar
+                    src={
+                      user?.photoURL && (
+                        <Image
+                          src={user.photoURL}
+                          style={{
+                            width: 32
+                          }}
+                        />
+                      )
+                    }>
+                    {!user.photoURL && `${user.email?.charAt(0).toUpperCase()}`}
+                  </Avatar>
+                }>
+                <Menu.Item key="logout" onClick={logout}>
+                  <LogoutOutlined /> Logout
+                </Menu.Item>
+              </Menu.SubMenu>
+            </Menu>
+          )}
+        </div>
       </Header>
-        <Content>
-          <div className="content">
-            <Outlet />
-          </div>
-        </Content>
+      <Content>
+        <div className="content">
+          <Outlet />
+        </div>
+      </Content>
     </Layout>
   );
 };
