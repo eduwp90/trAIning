@@ -1,4 +1,5 @@
 import "./components.less";
+import { Progress } from "antd";
 
 type ProgressBarProps = {
   progress: number;
@@ -6,10 +7,14 @@ type ProgressBarProps = {
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ progress }) => {
   return (
-    <div className="progressBar-Div">
-      <div className="progressBar_complete" style={{ width: progress + "%" }}></div>
-      {/* <div className="progressBar_incomplete"></div> */}
-    </div>
+    <Progress
+      percent={progress}
+      status="active"
+      showInfo={false}
+      strokeColor="#2a9d8f"
+      trailColor="#264653"
+      strokeWidth={12}
+    />
   );
 };
 
