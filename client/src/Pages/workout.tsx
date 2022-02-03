@@ -7,6 +7,7 @@ import { iconSelector } from "../Components/icons";
 import SaveWorkout from "../Components/saveWorkout";
 import modelsByType from "../Services/modelService";
 import sound from "../Services/soundService";
+import ProgressBar from "../Components/progressBar";
 
 const { Step } = Steps;
 
@@ -114,6 +115,7 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
               </p>
             </div>
           )}
+          <ProgressBar progress={(repCount / workout[current].reps) * 100} />
           {workout.length > 1 && current !== workout.length - 1 ? (
             <p>
               {" "}
@@ -121,6 +123,7 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
             </p>
           ) : null}
         </div>
+
         <div className="steps-action">
           <SaveWorkout isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} workout={workout} />
         </div>
