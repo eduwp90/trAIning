@@ -6,6 +6,10 @@ import WebcamAI from "../Components/webcamAI";
 import { iconSelector } from "../Components/icons";
 import SaveWorkout from "../Components/saveWorkout";
 import modelsByType from "../Services/modelService";
+import sound from "../Services/soundService";
+import ProgressBar from "../Components/progressBar";
+import Countdown from "antd/lib/statistic/Countdown";
+import { getSparseReshapeMultipleNegativeOneOutputDimErrorMessage } from "@tensorflow/tfjs-core/dist/backends/backend_util";
 
 const { Step } = Steps;
 
@@ -17,6 +21,7 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
   const [current, setCurrent] = useState(0);
   const [repCount, setRepCount] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [rest, setRest] = useState(false);
   const isResting = useRef(false);
   const currentStepRef = createRef<HTMLDivElement>();
   const URL = useRef(modelsByType[workout[current].exer]);
@@ -39,9 +44,10 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
 
   const renderRest = (time: number): void => {
     if (time > 0) {
+      setRest(true);
       isResting.current = true;
       setTimeout(() => {
-        console.log("renderrest ", isResting);
+        setRest(false);
         isResting.current = false;
       }, time * 60000);
     }
@@ -71,9 +77,16 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
     });
   };
 
+  function beep() {
+    sound.play();
+  }
+
   const incrementRepCount = () => {
-    if (!isResting.current) setRepCount((prev) => prev + 1);
-    console.log("isResting? inside closure ", isResting.current);
+    if (!isResting.current) {
+      setRepCount((prev) => prev + 1);
+      console.log("isResting? inside closure ", isResting.current);
+      beep();
+    }
   };
 
   useEffect(() => {
@@ -92,21 +105,25 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
           <WebcamAI incrementRepCount={incrementRepCount} URL={URL} />
         </div>
         <div className="set-info">
-          {!isResting.current ? (
+          {!isResting.current || !rest ? (
             <div>
               <p className="set-info-current">Current set:</p>
               <p className="set-info-current">
-                Completed ({repCount}/{workout[current].reps}) reps of {workout[current].exer}s
+                Completed ({repCount}/{workout[current].reps}) reps of {workout[current].exer}
               </p>
             </div>
           ) : (
             <div>
               <p>Take a moment to grab a glass of water.</p>
-              <p>
-                Your workout will continue in {workout[current - 1].rest} minute
-                {workout[current - 1].rest > 1 ? "s" : ""}
-              </p>
+
+              <Countdown
+                title={"Your workout will continue in:"}
+                value={Date.now() + 60000 * workout[current - 1].rest}
+              />
             </div>
+          )}
+          {!rest && repCount < workout[current].reps && (
+            <ProgressBar progress={(repCount / workout[current].reps) * 100} />
           )}
           {workout.length > 1 && current !== workout.length - 1 ? (
             <p>
@@ -115,6 +132,7 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
             </p>
           ) : null}
         </div>
+
         <div className="steps-action">
           <SaveWorkout isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} workout={workout} />
         </div>
