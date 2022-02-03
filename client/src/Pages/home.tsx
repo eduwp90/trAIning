@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserWorkouts } from "../Services/dbService";
 import { useAuthState } from "react-firebase-hooks/auth";
-import AuthService from "../Services/authService"
-import {  IWorkout } from "../interfaces";
+import AuthService from "../Services/authService";
+import { IWorkout } from "../interfaces";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -14,20 +14,20 @@ const Home: React.FC = () => {
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
       if (user) {
-         const data: IWorkout[] | undefined = await getUserWorkouts(user!.uid);
-      if (data) {
-        setUserWorkouts([...userWorkouts, ...data])
-      };
+        const data: IWorkout[] | undefined = await getUserWorkouts(user!.uid);
+        if (data) {
+          setUserWorkouts([...userWorkouts, ...data]);
+        }
       }
     };
-     fetchData();
+    fetchData();
   }, [user]);
 
   return (
     <div className="pages-Div">
       <div>
         {userWorkouts.map((workout: IWorkout) => {
-        return <p key={userWorkouts.indexOf(workout)}>{`${workout.workout[0].exer}`}</p>
+          return <p key={userWorkouts.indexOf(workout)}>{`${workout.workout[0].exer}`}</p>;
         })}
       </div>
       <Button
