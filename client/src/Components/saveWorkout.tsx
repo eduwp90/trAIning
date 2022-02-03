@@ -1,30 +1,31 @@
-import React from "react";
-import { Modal } from "antd";
-import { ISet } from "../interfaces";
-import { addWorkout } from "../Services/dbService";
-import { useAuthState } from "react-firebase-hooks/auth";
-import AuthService from "../Services/authService";
-
-const { confirm } = Modal;
+import React, { useContext } from "react";
+import { Button, Modal } from "antd";
+import { useNavigate } from "react-router-dom";
+import { WorkoutContext } from "../Context/workoutProvider";
+import { IWorkoutContext } from "../interfaces";
 
 type SaveWorkoutProps = {
   isModalVisible: boolean;
   setIsModalVisible: Function;
-  workout: ISet[];
 };
 
-const SaveWorkout: React.FC<SaveWorkoutProps> = ({ isModalVisible, setIsModalVisible, workout }) => {
-  const [user] = useAuthState(AuthService.auth);
+const SaveWorkout: React.FC<SaveWorkoutProps> = ({ isModalVisible, setIsModalVisible }) => {
+const {clearWorkout} = useContext<IWorkoutContext>(WorkoutContext)
+  const navigate = useNavigate()
 
   const handleOk = () => {
-    setIsModalVisible(false);
-    // save workout somewhere
-    addWorkout(user!.uid, workout, "test");
+    navigate('/summary')
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  const returnHome = () => {
+    clearWorkout()
+    navigate('/')
+  }
+
 
   return (
     <div className="popup">
@@ -32,9 +33,22 @@ const SaveWorkout: React.FC<SaveWorkoutProps> = ({ isModalVisible, setIsModalVis
         title="Do you want to save this workout?"
         visible={isModalVisible}
         onOk={handleOk}
-        onCancel={handleCancel}></Modal>
+        onCancel={handleCancel}
+        closable
+        footer={[
+            <Button key="submit" type="primary" onClick={handleOk}>
+              Save
+            </Button>,
+            <Button
+              onClick={returnHome}
+            >
+              return to home
+            </Button>
+        ]}/>
     </div>
   );
 };
 
 export default SaveWorkout;
+
+

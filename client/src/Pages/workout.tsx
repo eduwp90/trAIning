@@ -1,11 +1,12 @@
-import React, { createRef, ReactNode, useEffect, useState, useRef } from "react";
+import React, { createRef, ReactNode, useEffect, useState, useRef, useContext } from "react";
 import "./pages.less";
 import { Steps, message, Avatar } from "antd";
-import { ISet } from "../interfaces";
+import { IWorkoutContext } from "../interfaces";
 import WebcamAI from "../Components/webcamAI";
 import { iconSelector } from "../Components/icons";
 import SaveWorkout from "../Components/saveWorkout";
 import modelsByType from "../Services/modelService";
+import { WorkoutContext } from "../Context/workoutProvider";
 import sound from "../Services/soundService";
 import ProgressBar from "../Components/progressBar";
 import Countdown from "antd/lib/statistic/Countdown";
@@ -13,15 +14,13 @@ import { getSparseReshapeMultipleNegativeOneOutputDimErrorMessage } from "@tenso
 
 const { Step } = Steps;
 
-type WorkoutProps = {
-  workout: ISet[];
-};
 
-const Workout: React.FC<WorkoutProps> = ({ workout }) => {
-  const [current, setCurrent] = useState(0);
-  const [repCount, setRepCount] = useState(0);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [rest, setRest] = useState(false);
+const Workout: React.FC = () => {
+const {workout } = useContext<IWorkoutContext>(WorkoutContext)
+  const [current, setCurrent] = useState<number>(0);
+  const [repCount, setRepCount] = useState<number>(0);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [rest, setRest] = useState<boolean>(false);
   const isResting = useRef(false);
   const currentStepRef = createRef<HTMLDivElement>();
   const URL = useRef(modelsByType[workout[current].exer]);
@@ -134,7 +133,7 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
         </div>
 
         <div className="steps-action">
-          <SaveWorkout isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} workout={workout} />
+          <SaveWorkout isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} />
         </div>
       </div>
     </div>

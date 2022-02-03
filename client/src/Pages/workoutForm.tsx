@@ -1,32 +1,34 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Form } from "antd";
 import Set from "../Components/set";
-import { ISet } from "../interfaces";
+import { IWorkoutContext } from "../interfaces";
 import Workout from "./workout";
+import { WorkoutContext } from "../Context/workoutProvider";
 
 const WorkoutForm: React.FC = () => {
   const [formSets, setFormSets] = useState<JSX.Element[]>([<Set key={0} id={0} removeSet={removeSet}></Set>]);
   const [keyCount, setKeyCount] = useState<number>(1);
-  const [workout, setWorkout] = useState<ISet[] | null>(null);
+  const {workout, storeWorkout} = useContext<IWorkoutContext>(WorkoutContext)
 
   const addSet = (): void => {
     setFormSets((prev) => [...prev, <Set key={keyCount} id={keyCount} removeSet={removeSet}></Set>]);
     setKeyCount((prev) => prev + 1);
   };
+
   function removeSet(id: number): void {
     setFormSets((prev) => prev.filter((set) => set.props.id !== id));
   }
 
   const onFinish = (e: React.FormEvent<HTMLInputElement>): void => {
     console.log(Object.values(e));
-    setWorkout(Object.values(e));
+    storeWorkout(Object.values(e));
   };
 
   const validateMessages = {
     required: "${label} is required!"
   };
 
-  return !workout ? (
+  return workout.length === 0 ? (
     <div className="pages-Div">
       <Form
         layout="vertical"
@@ -45,7 +47,7 @@ const WorkoutForm: React.FC = () => {
       </Form>
     </div>
   ) : (
-    <Workout workout={workout} />
+      <Workout />
   );
 };
 

@@ -12,6 +12,11 @@ export interface IWorkout {
   workout: ISet[];
 }
 
+export interface IWorkoutContext{
+  workout: ISet[],
+  storeWorkout: (sets: ISet[]) => void,
+  clearWorkout: ()=> void
+}
 export interface IWorkoutResponse extends IWorkout, DocumentData {
   id: string;
 }
