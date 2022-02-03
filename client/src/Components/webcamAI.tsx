@@ -68,7 +68,6 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
     if (webcamRef.current !== null) {
       const { pose, posenetOutput } = await model.estimatePose(webcamRef.current.getCanvas());
       const prediction = await model.predict(posenetOutput);
-      console.log(prediction);
       for (let i = maxPredictions - 2; i > maxPredictions - 4; i--) {
         //-> looping from second-to-last to third-to-last -> shape of array: ["neutral", "position", ("position",) "invalid"]
         if (prediction[i].probability.toFixed(2) > 0.92) {
