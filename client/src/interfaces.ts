@@ -9,3 +9,9 @@ export interface IWorkout{
   name: string;
   workout: ISet[];
 }
+
+export interface IWorkoutContext{
+  workout: ISet[],
+  storeWorkout: (sets: ISet[]) => void,
+  clearWorkout: ()=> void
+}

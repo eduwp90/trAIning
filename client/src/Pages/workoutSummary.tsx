@@ -46,8 +46,8 @@ const WorkoutSummary: React.FC/*<WorkoutSummaryProps>*/ = () => {
    };
 
 
-  const sets = workout.map(set => {
-    const id = workout.indexOf(set)
+  const sets: JSX.Element[] = workout.map(set => {
+    const id: number = workout.indexOf(set)
     return (<div key={id} id={`${id}`} className="set-Div">
       <div className="set-Div_inputs">
         <Form.Item
