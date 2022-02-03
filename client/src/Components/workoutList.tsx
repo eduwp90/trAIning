@@ -14,12 +14,7 @@ const WorkoutList: React.FC<WorkoutListProps> = ({ workouts }) => {
 
   return (
     <div className="workout_list">
-      <div className="workout_scroll">
-        {/* {workouts.map((workout: IWorkout) => {
-          return <WorkoutItem workout={workout} key={workouts.indexOf(workout)}></WorkoutItem>;
-        })} */}
-        {workoutItems}
-      </div>
+      <div className="workout_scroll">{workoutItems}</div>
     </div>
   );
 };
