@@ -5,7 +5,6 @@ import { ISet } from "../interfaces";
 import WebcamAI from "../Components/webcamAI";
 import { iconSelector } from "../Components/icons";
 import SaveWorkout from "../Components/saveWorkout";
-import WorkoutsContext from "../workoutContext";
 
 const { Step } = Steps;
 
