@@ -1,6 +1,6 @@
 import Webcam from "react-webcam";
 import * as tmPose from "@teachablemachine/pose";
-import { MutableRefObject, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { Keypoint } from "@tensorflow-models/posenet";
 
 //const URL = "https://teachablemachine.withgoogle.com/models/HQvC3rR8v/";
@@ -8,6 +8,8 @@ import { Keypoint } from "@tensorflow-models/posenet";
 let model: { getTotalClasses: Function; estimatePose: Function; predict: Function },
   ctx: CanvasRenderingContext2D,
   maxPredictions: number;
+
+let isMounted: boolean;
 
 type WebcamAIProps = {
   incrementRepCount: Function;
@@ -60,6 +62,8 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
   }
 
   async function loop(): Promise<void> {
+    console.log("Running pose calculations...");
+    if (!isMounted) return;
     await predict();
     window.requestAnimationFrame(loop);
   }
@@ -94,6 +98,14 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
       }
     }
   }
+
+  useEffect(() => {
+    isMounted = true;
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <>
