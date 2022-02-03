@@ -5,6 +5,8 @@ import { getUserWorkouts } from "../Services/dbService";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
 import { IWorkout } from "../interfaces";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -25,11 +27,16 @@ const Home: React.FC = () => {
 
   return (
     <div className="pages-Div">
-      <div>
+      <Swiper pagination={true} modules={[Pagination]} className="swiper">
         {userWorkouts.map((workout: IWorkout) => {
-          return <p key={userWorkouts.indexOf(workout)}>{`${workout.workout[0].exer}`}</p>;
+          return (
+            <SwiperSlide className="swiper-slide" key={userWorkouts.indexOf(workout)}>
+              {`${workout.workout[0].exer}`}
+            </SwiperSlide>
+          );
         })}
-      </div>
+      </Swiper>
+
       <Button
         onClick={() => {
           navigate("/workout");
