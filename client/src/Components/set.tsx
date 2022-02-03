@@ -17,7 +17,6 @@ const Set: React.FC<SetProps> = ({ id, removeSet }) => {
         <Form.Item
           name={[id, "exer"]}
           label="Select Exercise"
-          required
           rules={[
             {
               required: true
@@ -35,7 +34,6 @@ const Set: React.FC<SetProps> = ({ id, removeSet }) => {
         <Form.Item
           name={[id, "reps"]}
           label="Nº of repetitions"
-          required
           rules={[
             {
               required: true
@@ -47,7 +45,6 @@ const Set: React.FC<SetProps> = ({ id, removeSet }) => {
         <Form.Item
           name={[id, "rest"]}
           label="Rest time"
-          required
           rules={[
             {
               required: true

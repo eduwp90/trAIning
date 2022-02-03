@@ -24,10 +24,12 @@ const Home: React.FC = () => {
   }, [user]);
 
   return (
-    <div>
-      {userWorkouts.map((workout: IWorkout) => {
-        return <p key={userWorkouts.indexOf(workout)}>{`${workout.workout[0].exer}`}</p>;
-      })}
+    <div className="pages-Div">
+      <div>
+        {userWorkouts.map((workout: IWorkout) => {
+        return <p key={userWorkouts.indexOf(workout)}>{`${workout.workout[0].exer}`}</p>
+        })}
+      </div>
       <Button
         onClick={() => {
           navigate("/workout");
