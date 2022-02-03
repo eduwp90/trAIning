@@ -1,6 +1,6 @@
 import Webcam from "react-webcam";
 import * as tmPose from "@teachablemachine/pose";
-import { MutableRefObject, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { Keypoint } from "@tensorflow-models/posenet";
 
 //const URL = "https://teachablemachine.withgoogle.com/models/HQvC3rR8v/";
@@ -8,6 +8,8 @@ import { Keypoint } from "@tensorflow-models/posenet";
 let model: { getTotalClasses: Function; estimatePose: Function; predict: Function },
   ctx: CanvasRenderingContext2D,
   maxPredictions: number;
+
+let isMounted: boolean;
 
 type WebcamAIProps = {
   incrementRepCount: Function;
@@ -60,6 +62,8 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
   }
 
   async function loop(): Promise<void> {
+    console.log("Running pose calculations...");
+    if (!isMounted) return;
     await predict();
     window.requestAnimationFrame(loop);
   }
@@ -68,9 +72,10 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
     if (webcamRef.current !== null) {
       const { pose, posenetOutput } = await model.estimatePose(webcamRef.current.getCanvas());
       const prediction = await model.predict(posenetOutput);
-      for (let i = 0; i < maxPredictions; i++) {
-        if (prediction[i].probability.toFixed(2) > 0.95) {
-          if (prediction[i].className !== repStatus && prediction[i].className !== "Neutral") {
+      for (let i = maxPredictions - 2; i > maxPredictions - 4; i--) {
+        //-> looping from second-to-last to third-to-last -> shape of array: ["neutral", "position", ("position",) "invalid"]
+        if (prediction[i].probability.toFixed(2) > 0.92) {
+          if (prediction[i].className !== repStatus) {
             repStatus = prediction[i].className;
             incrementRepCount();
           }
@@ -93,6 +98,14 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
       }
     }
   }
+
+  useEffect(() => {
+    isMounted = true;
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <>
@@ -128,7 +141,8 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
           textAlign: "center",
           zIndex: 10,
           width: size,
-          height: size * 0.75
+          height: size * 0.75,
+          borderRadius: 5
         }}></canvas>
     </>
   );
