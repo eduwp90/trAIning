@@ -5,6 +5,7 @@ import { getUserWorkouts } from "../Services/dbService";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
 import { IWorkout } from "../interfaces";
+import WorkoutList from "../Components/workoutList";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -25,12 +26,17 @@ const Home: React.FC = () => {
 
   return (
     <div className="pages-Div">
-      <div>
-        {userWorkouts.map((workout: IWorkout) => {
-          return <p key={userWorkouts.indexOf(workout)}>{`${workout.name}`}</p>;
-        })}
+      <div className="list_title">
+        <h2>Your workouts</h2>
       </div>
+      <WorkoutList workouts={userWorkouts}></WorkoutList>
+      <div className="list_title">
+        <h2>Here are some recomedantions</h2>
+      </div>
+      <WorkoutList workouts={userWorkouts}></WorkoutList>
       <Button
+        className="new_workout_btn"
+        size="large"
         onClick={() => {
           navigate("/workout");
         }}>
