@@ -9,6 +9,7 @@ import Register from "./Pages/register";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "./Services/authService";
 import WorkoutSummary from "./Pages/workoutSummary";
+import WorkoutProvider from "./Context/workoutProvider";
 
 const App: React.FC = () => {
   const [user, loading] = useAuthState(AuthService.auth);
@@ -24,16 +25,18 @@ const App: React.FC = () => {
   }, [user, loading]);
 
   return (
+        <WorkoutProvider>
     <Routes>
-      <Route path="/" element={<Main />}>
+      <Route path="/" element={<Main />} >
         <Route index element={<Home />} />
         <Route path="home" element={<Home />} />
-        <Route path="workout" element={<WorkoutForm />} />
+          <Route path="workout" element={<WorkoutForm />} />
         <Route path="summary" element={<WorkoutSummary />}/>
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
     </Routes>
+        </WorkoutProvider>
   );
 };
 

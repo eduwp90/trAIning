@@ -11,23 +11,23 @@ const Home: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
   const [userWorkouts, setUserWorkouts] = useState<IWorkout[]>([]);
 
+
   useEffect(() => {
-    const fetchData = async (): Promise<void> => {
       if (user) {
-        const data: IWorkout[] | undefined = await getUserWorkouts(user!.uid);
-        if (data) {
-          setUserWorkouts([...userWorkouts, ...data]);
-        }
+        getUserWorkouts(user!.uid)
+       .then(data => {
+         if (data) {
+           setUserWorkouts([...userWorkouts, ...data]);
+         } })
       }
-    };
-    fetchData();
-  }, [user]);
+
+  },[user]);
 
   return (
     <div className="pages-Div">
       <div>
         {userWorkouts.map((workout: IWorkout) => {
-          return <p key={userWorkouts.indexOf(workout)}>{`${workout.workout[0].exer}`}</p>;
+          return <p key={userWorkouts.indexOf(workout)}>{`${workout.name}`}</p>;
         })}
       </div>
       <Button

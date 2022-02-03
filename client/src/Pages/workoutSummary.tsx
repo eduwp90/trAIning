@@ -1,52 +1,38 @@
 import { CloseOutlined } from '@ant-design/icons';
 import { Button, Form, Input, InputNumber, Radio, Select  } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { ISet } from '../interfaces';
+import React, { useContext, useEffect, useState } from 'react';
+import { ISet, IWorkoutContext } from '../interfaces';
 import "./pages.less"
 import "../Components/components.less"
 import { addWorkout } from '../Services/dbService';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import AuthService from '../Services/authService';
+import { WorkoutContext } from '../Context/workoutProvider';
+import { useNavigate } from 'react-router-dom';
 const { Option } = Select;
 
-// type WorkoutSummaryProps = {
-//   workout?: ISet[]
-// }
 
-const WorkoutSummary: React.FC/*<WorkoutSummaryProps>*/ = () => {
+
+const WorkoutSummary: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
   const [setsDisabled, setSetsDisabled] = useState<boolean>(true);
-  const [S, setS] = useState<JSX.Element[]>([]);
-
-  const workout = [{
-    exer: "push-ups",
-    reps: 5,
-    rest: 1
-  }, {
-    exer: "squats",
-    reps: 5,
-    rest: 1
-    },
-  {
-    exer: "jumping-jacks",
-    reps: 5,
-    rest: 1
-    }]
-
-
+  const [sets, setSets] = useState<JSX.Element[]>([]);
+  const {workout, clearWorkout} = useContext<IWorkoutContext>(WorkoutContext)
+  const navigate = useNavigate()
 
   const onFinish = (e: React.FormEvent<HTMLInputElement>): void => {
     const workoutArray = Object.values(e)
-    const name = workoutArray.pop()
-    const sets = workoutArray
+    const name: string = workoutArray.pop()
+    const sets: ISet[] = workoutArray
     if (user) {
-      // addWorkout(user.uid, sets, name)
+      addWorkout(user.uid, sets, name)
+        .then(() => { clearWorkout() })
+        .then(() => { navigate('/') })
+        .catch((e)=>{console.log(e)})
     }
-
    };
 
-
-  const sets: JSX.Element[] = workout.map(set => {
+  const setsArray: JSX.Element[] = workout.map(set => {
     const id: number = workout.indexOf(set)
     return (<div key={id} id={`${id}`} className="set-Div">
       <div className="set-Div_inputs">
@@ -67,7 +53,6 @@ const WorkoutSummary: React.FC/*<WorkoutSummaryProps>*/ = () => {
             <Option value="side-squats">side squats</Option>
           </Select>
         </Form.Item>
-
         <Form.Item
           name={[id,  "reps"]}
           label="Nº of repetitions"
@@ -96,9 +81,7 @@ const WorkoutSummary: React.FC/*<WorkoutSummaryProps>*/ = () => {
             <Radio.Button value={5}>5 min</Radio.Button>
           </Radio.Group>
           </Form.Item>
-
       </div>
-
       <Button className="round_button" onClick={() => removeSet(id) }>
         <CloseOutlined />
       </Button>
@@ -106,11 +89,18 @@ const WorkoutSummary: React.FC/*<WorkoutSummaryProps>*/ = () => {
   })
 
   function removeSet(id: number): void {
-    setS((prev) => prev.filter((set) => parseInt(set.props.id) !== id));
+    setSets((prev) => prev.filter((set) => parseInt(set.props.id) !== id));
+  }
+  function handleEdit():void {
+    setSetsDisabled(false)
   }
 
+  useEffect(() => {
+    setSets(setsArray)
+  },[setsDisabled])
+
 useEffect(() => {
-    setS(sets)
+    setSets(setsArray)
 }, [])
 
   return (
@@ -125,9 +115,9 @@ useEffect(() => {
           ]}>
         <Input placeholder='e.g. Workout 1' />
         </Form.Item>
-        <p>Would you like to edit your sets? <Button onClick={()=>{setSetsDisabled(false)}}>Edit</Button></p>
-        {S}
-        <Button type="primary" htmlType="submit">Save workout</Button>
+        <p>Would you like to edit your sets? <Button onClick={()=>handleEdit()}>Edit</Button></p>
+        {sets}
+        <Button type="primary" htmlType="submit" >Save workout</Button>
         </Form>;
 
     </div>)
