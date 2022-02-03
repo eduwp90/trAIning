@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "antd/dist/antd.less";
+import { Link } from "react-router-dom";
 import { Form, Input, Button, Alert } from "antd";
 import AuthService from "../Services/authService";
 import { useNavigate } from "react-router";
@@ -36,9 +37,15 @@ const Register: React.FC = () => {
   }, [user]);
 
   return (
-    <>
+    <div className="pages-Div">
       {error && <Alert message={errorMsg} type="error" showIcon />}
-      <Form layout="vertical" form={form} name="register" onFinish={onFinish} scrollToFirstError>
+      <Form
+        layout="vertical"
+        form={form}
+        name="register"
+        className="register-form"
+        onFinish={onFinish}
+        scrollToFirstError>
         <Form.Item
           name="email"
           label="E-mail"
@@ -95,9 +102,12 @@ const Register: React.FC = () => {
           <Button type="primary" htmlType="submit" loading={loading}>
             Register
           </Button>
+          <div className="register-link">
+            or <Link to="/login">login</Link>
+          </div>
         </Form.Item>
       </Form>
-    </>
+    </div>
   );
 };
 

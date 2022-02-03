@@ -1,8 +1,7 @@
 import Webcam from "react-webcam";
 import * as tmPose from "@teachablemachine/pose";
-import { useRef, useState, useContext } from "react";
+import { useRef, useState } from "react";
 import { Keypoint } from "@tensorflow-models/posenet";
-import WorkoutsContext from "../workoutContext";
 
 const URL = "https://teachablemachine.withgoogle.com/models/HQvC3rR8v/";
 // const URL = 'https://teachablemachine.withgoogle.com/models/jwj-LGant/';
@@ -108,7 +107,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount }) => {
             zIndex: 9,
             width: size,
             height: size * 0.75,
-            borderRadius: 2
+            borderRadius: 5
           }}
           onUserMedia={init}
           mirrored={true}
