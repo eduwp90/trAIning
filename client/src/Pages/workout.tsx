@@ -1,11 +1,11 @@
-import React, { createRef, ReactNode, useEffect } from "react";
+import React, { createRef, ReactNode, useEffect, useState, useRef } from "react";
 import "./pages.less";
-import { Steps, Button, message, Avatar } from "antd";
+import { Steps, message, Avatar } from "antd";
 import { ISet } from "../interfaces";
 import WebcamAI from "../Components/webcamAI";
 import { iconSelector } from "../Components/icons";
 import SaveWorkout from "../Components/saveWorkout";
-import WorkoutsContext from "../workoutContext";
+import modelsByType from "../Services/modelService";
 
 const { Step } = Steps;
 
@@ -14,13 +14,14 @@ type WorkoutProps = {
 };
 
 const Workout: React.FC<WorkoutProps> = ({ workout }) => {
-  const [current, setCurrent] = React.useState(0);
-  const [repCount, setRepCount] = React.useState(0);
-  const [isModalVisible, setIsModalVisible] = React.useState(false);
-  const isResting = React.useRef(false);
+  const [current, setCurrent] = useState(0);
+  const [repCount, setRepCount] = useState(0);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const isResting = useRef(false);
   const currentStepRef = createRef<HTMLDivElement>();
+  const URL = useRef(modelsByType[workout[current].exer]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (repCount === workout[current].reps && current < workout.length - 1) {
       console.log("reps", repCount);
       setCurrent((prev) => prev + 1);
@@ -30,30 +31,32 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
       message.success("What a great workout! Nicely done!");
       setIsModalVisible(true);
     }
-  }, [repCount]);
+  }, [repCount, current, workout]);
 
-  const prev = (): void => {
-    setCurrent((prev) => prev - 1);
-  };
+  useEffect(() => {
+    URL.current = modelsByType[workout[current].exer];
+  }, [current, workout]);
 
-  const renderRest = (time: number) => {
-    isResting.current = true;
-    setTimeout(() => {
-      console.log("renderrest ", isResting);
-      isResting.current = false;
-    }, time * 60000);
+  const renderRest = (time: number): void => {
+    if (time > 0) {
+      isResting.current = true;
+      setTimeout(() => {
+        console.log("renderrest ", isResting);
+        isResting.current = false;
+      }, time * 60000);
+    }
   };
 
   const generateStepItems = (): ReactNode => {
     return workout.map((item) => {
       function setIcon() {
-        let I = iconSelector(item.exer);
+        let Icon = iconSelector(item.exer);
         if (workout.indexOf(item) === current) {
-          return <Avatar style={{ backgroundColor: "green", color: "white" }} icon={<I />} />;
+          return <Avatar style={{ backgroundColor: "#264653", color: "white" }} icon={<Icon />} />;
         } else if (workout.indexOf(item) < current) {
-          return <Avatar style={{ backgroundColor: "lightgray", color: "white" }} icon={<I />} />;
+          return <Avatar style={{ backgroundColor: "#2A9D8F", color: "white" }} icon={<Icon />} />;
         } else {
-          return <Avatar style={{ backgroundColor: "grey", color: "white" }} icon={<I />} />;
+          return <Avatar style={{ backgroundColor: "#E9C46A", color: "white" }} icon={<Icon />} />;
         }
       }
       if (workout.indexOf(item) === current) {
@@ -67,7 +70,6 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
       return <Step icon={setIcon()} key={item.exer} />;
     });
   };
-  console.log("isResting? increment ", isResting.current);
 
   const incrementRepCount = () => {
     if (!isResting.current) setRepCount((prev) => prev + 1);
@@ -87,7 +89,7 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
       </div>
       <div className="workoutContent-Div">
         <div className="steps-content">
-          <WebcamAI incrementRepCount={incrementRepCount} />
+          <WebcamAI incrementRepCount={incrementRepCount} URL={URL} />
         </div>
         <div className="set-info">
           {!isResting.current ? (
@@ -109,16 +111,11 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
           {workout.length > 1 && current !== workout.length - 1 ? (
             <p>
               {" "}
-              Up next: {workout[current + 1].reps} reps of {workout[current + 1].exer}s
+              Up next: {workout[current + 1].reps} reps of {workout[current + 1].exer}
             </p>
           ) : null}
         </div>
         <div className="steps-action">
-          {current > 0 && (
-            <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
-              Previous
-            </Button>
-          )}
           <SaveWorkout isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} workout={workout} />
         </div>
       </div>

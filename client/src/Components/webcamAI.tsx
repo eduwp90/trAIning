@@ -1,10 +1,9 @@
 import Webcam from "react-webcam";
 import * as tmPose from "@teachablemachine/pose";
-import { useRef, useState, useContext } from "react";
+import { MutableRefObject, useRef, useState } from "react";
 import { Keypoint } from "@tensorflow-models/posenet";
-import WorkoutsContext from "../workoutContext";
 
-const URL = "https://teachablemachine.withgoogle.com/models/HQvC3rR8v/";
+//const URL = "https://teachablemachine.withgoogle.com/models/HQvC3rR8v/";
 // const URL = 'https://teachablemachine.withgoogle.com/models/jwj-LGant/';
 let model: { getTotalClasses: Function; estimatePose: Function; predict: Function },
   ctx: CanvasRenderingContext2D,
@@ -12,9 +11,10 @@ let model: { getTotalClasses: Function; estimatePose: Function; predict: Functio
 
 type WebcamAIProps = {
   incrementRepCount: Function;
+  URL: MutableRefObject<string>;
 };
 
-const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount }) => {
+const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
   let repStatus: string = "Neutral";
 
   const [size, setSize] = useState<number>(window.innerWidth * 0.9);
@@ -25,8 +25,8 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount }) => {
   const webcamRef = useRef<Webcam>(null);
 
   async function init(): Promise<void> {
-    const modelURL = URL + "model.json";
-    const metadataURL = URL + "metadata.json";
+    const modelURL = URL.current + "model.json";
+    const metadataURL = URL.current + "metadata.json";
 
     model = await tmPose.load(modelURL, metadataURL);
     maxPredictions = model.getTotalClasses();
@@ -108,7 +108,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount }) => {
             zIndex: 9,
             width: size,
             height: size * 0.75,
-            borderRadius: 2
+            borderRadius: 5
           }}
           onUserMedia={init}
           mirrored={true}
