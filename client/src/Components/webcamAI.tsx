@@ -141,7 +141,8 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
           textAlign: "center",
           zIndex: 10,
           width: size,
-          height: size * 0.75
+          height: size * 0.75,
+          borderRadius: 5
         }}></canvas>
     </>
   );

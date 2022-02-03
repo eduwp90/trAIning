@@ -8,6 +8,8 @@ import SaveWorkout from "../Components/saveWorkout";
 import modelsByType from "../Services/modelService";
 import sound from "../Services/soundService";
 import ProgressBar from "../Components/progressBar";
+import Countdown from "antd/lib/statistic/Countdown";
+import { getSparseReshapeMultipleNegativeOneOutputDimErrorMessage } from "@tensorflow/tfjs-core/dist/backends/backend_util";
 
 const { Step } = Steps;
 
@@ -113,10 +115,11 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
           ) : (
             <div>
               <p>Take a moment to grab a glass of water.</p>
-              <p>
-                Your workout will continue in {workout[current - 1].rest} minute
-                {workout[current - 1].rest > 1 ? "s" : ""}
-              </p>
+
+              <Countdown
+                title={"Your workout will continue in:"}
+                value={Date.now() + 60000 * workout[current - 1].rest}
+              />
             </div>
           )}
           {!rest && repCount < workout[current].reps && (
