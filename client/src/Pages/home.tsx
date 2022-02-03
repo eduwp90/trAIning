@@ -9,10 +9,12 @@ const Home: React.FC = () => {
   const { userWorkouts } = useContext(WorkoutsContext);
 
   return (
-    <div>
-      {userWorkouts.map((workout: any) => {
-        return <p>{`${workout.workout[0].exer}`}</p>;
-      })}
+    <div className="pages-Div">
+      <div>
+        {userWorkouts.map((workout: any) => {
+          return <p>{`${workout.workout[0].exer}`}</p>;
+        })}
+      </div>
       <Button
         onClick={() => {
           navigate("/workout");

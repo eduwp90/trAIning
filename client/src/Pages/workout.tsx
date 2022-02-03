@@ -5,7 +5,6 @@ import { ISet } from "../interfaces";
 import WebcamAI from "../Components/webcamAI";
 import { iconSelector } from "../Components/icons";
 import SaveWorkout from "../Components/saveWorkout";
-import WorkoutsContext from "../workoutContext";
 
 const { Step } = Steps;
 
@@ -49,11 +48,11 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
       function setIcon() {
         let I = iconSelector(item.exer);
         if (workout.indexOf(item) === current) {
-          return <Avatar style={{ backgroundColor: "green", color: "white" }} icon={<I />} />;
+          return <Avatar style={{ backgroundColor: "#264653", color: "white" }} icon={<I />} />;
         } else if (workout.indexOf(item) < current) {
-          return <Avatar style={{ backgroundColor: "lightgray", color: "white" }} icon={<I />} />;
+          return <Avatar style={{ backgroundColor: "#2A9D8F", color: "white" }} icon={<I />} />;
         } else {
-          return <Avatar style={{ backgroundColor: "grey", color: "white" }} icon={<I />} />;
+          return <Avatar style={{ backgroundColor: "#E9C46A", color: "white" }} icon={<I />} />;
         }
       }
       if (workout.indexOf(item) === current) {
