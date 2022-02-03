@@ -96,7 +96,7 @@ const Workout: React.FC<WorkoutProps> = ({ workout }) => {
             <div>
               <p className="set-info-current">Current set:</p>
               <p className="set-info-current">
-                Completed ({repCount}/{workout[current].reps}) reps of {workout[current].exer}s
+                Completed ({repCount}/{workout[current].reps}) reps of {workout[current].exer}
               </p>
             </div>
           ) : (
