@@ -10,9 +10,9 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      {userWorkouts.map((workout: any) => {
+      {/* {userWorkouts.map((workout: any) => {
         return <p>{`${workout.workout[0].exer}`}</p>;
-      })}
+      })} */}
       <Button
         onClick={() => {
           navigate("/workout");
