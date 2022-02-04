@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ISet, IWorkoutContext } from "../interfaces";
 import "./pages.less";
 import "../Components/components.less";
-import { addWorkout } from "../Services/dbService";
+import { addWorkout, updateWorkout } from "../Services/dbService";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
 import { WorkoutContext } from "../Context/workoutProvider";
@@ -17,29 +17,34 @@ const WorkoutSummary: React.FC = () => {
   const [sets, setSets] = useState<JSX.Element[]>([]);
   const {workout, clearWorkout, savedWorkout, clearSavedWorkout} = useContext<IWorkoutContext>(WorkoutContext)
   const navigate = useNavigate()
+  const workoutFromContext = (workout.length > 0 ? workout : (savedWorkout && savedWorkout.workout))
 
   const onFinish = (e: React.FormEvent<HTMLInputElement>): void => {
     const workoutArray = Object.values(e);
     const name: string = workoutArray.pop();
-    const sets: ISet[] = workoutArray;
+    const sets: ISet[] =  workoutArray;
     if (user) {
       if (workout.length > 0) {
         addWorkout(user.uid, sets, name)
         .then(() => { clearWorkout() })
         .then(() => { navigate('/') })
         .catch((e)=>{console.log(e)})
-      } else {
-        updateWorkout(user.uid, sets, name)
+      }
+      else if (savedWorkout) {
+        console.log(savedWorkout)
+        console.log(name)
+        console.log(sets)
+        updateWorkout(savedWorkout.id, sets, name)
         .then(() => { clearSavedWorkout() })
         .then(() => { navigate('/') })
         .catch((e)=>{console.log(e)})
       }
-
     }
   };
 
-  const setsArray: JSX.Element[] = workout.map((set) => {
-    const id: number = workout.indexOf(set);
+  const setsArray: JSX.Element[] | null = workoutFromContext && workoutFromContext.map((set) => {
+    const id: number = workoutFromContext.indexOf(set);
+    console.log(id)
     return (
       <div key={id} id={`${id}`} className="set-Div">
         <div className="set-Div_inputs">
@@ -111,11 +116,15 @@ const WorkoutSummary: React.FC = () => {
   }
 
   useEffect(() => {
-    setSets(setsArray);
+    if (setsArray) {
+      setSets(setsArray);
+    }
   }, [setsDisabled]);
 
   useEffect(() => {
-    setSets(setsArray);
+     if (setsArray) {
+      setSets(setsArray);
+    }
   }, []);
 
   return (
@@ -129,16 +138,21 @@ const WorkoutSummary: React.FC = () => {
             {
               required: true
             }
-          ]}>
+          ]}
+        initialValue={savedWorkout && savedWorkout.name}>
           <Input placeholder="e.g. Workout 1" />
         </Form.Item>
         <p>
           Would you like to edit your sets? <Button onClick={() => handleEdit()}>Edit</Button>
         </p>
         {sets}
+        <div className={savedWorkout ? "buttonDiv" : ''}>
+          { savedWorkout &&<Button onClick={(()=>{navigate('/')})}>Return to home</Button> }
         <Button type="primary" htmlType="submit">
           Save workout
         </Button>
+          </div>
+
       </Form>
       ;
     </div>

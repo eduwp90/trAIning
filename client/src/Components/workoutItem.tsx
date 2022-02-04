@@ -23,7 +23,7 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({ workout }) => {
     storeSavedWorkout(workout)
     navigate("/summary")
   }
-
+console.log("here",workout)
   return (
     <div className="workout_container" onClick={editWorkout}>
       <div className="workout_headline"></div>

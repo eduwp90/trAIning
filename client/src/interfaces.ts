@@ -7,6 +7,7 @@ export interface ISet {
 }
 
 export interface IWorkout {
+  id: string,
   user: string;
   name: string;
   workout: ISet[];
