@@ -10,7 +10,7 @@ const WorkoutProvider: React.FC = ({ children }) => {
   //useState<ISet[]>([]);
 
   const storeWorkout = (sets: ISet[]): void => {
-    setWorkout(JSON.stringify(sets));
+    setWorkout(sets);
   };
 
   const clearWorkout = (): void => {
@@ -22,12 +22,14 @@ const WorkoutProvider: React.FC = ({ children }) => {
 
 export default WorkoutProvider;
 
-const useStateWithLocalStorageForArray = (localStorageKey: string): [string, Dispatch<SetStateAction<string>>] => {
-  let savedArray = localStorage.getItem(localStorageKey) || [];
-  if (typeof savedArray === 'string')
-    savedArray = JSON.parse(savedArray);
-  } 
-  const [value, setValue] = useState(savedArray);
+const useStateWithLocalStorageForArray = (localStorageKey: string): [ISet[], Dispatch<SetStateAction<ISet[]>>] => {
+  let stringifiedArray = localStorage.getItem(localStorageKey);
+  let savedWorkout;
+  if (typeof stringifiedArray === "string") {
+    savedWorkout = JSON.parse(stringifiedArray);
+  }
+
+  const [value, setValue] = useState(savedWorkout || []);
 
   useEffect(() => {
     localStorage.setItem(localStorageKey, JSON.stringify(value));
