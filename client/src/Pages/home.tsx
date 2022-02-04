@@ -27,7 +27,7 @@ const Home: React.FC = () => {
     return () => {
       mounted = false;
     };
-  }, [user, userWorkouts]);
+  }, [user]);
 
   return (
     <div className="pages-Div">

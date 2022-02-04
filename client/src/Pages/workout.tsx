@@ -26,41 +26,36 @@ const Workout: React.FC = () => {
   const URL = useRef(modelsByType[workout[current].exer]);
 
   useEffect(() => {
+    const renderNextSet = (): void => {
+      setRepCount(0);
+      renderRest(workout[current].rest);
+      setCurrent((prev) => prev + 1);
+    };
+    const renderRest = (time: number): void => {
+      if (time > 0) {
+        setRest(true);
+        isResting.current = true;
+        setTimeout(() => {
+          setRest(false);
+          isResting.current = false;
+        }, time * 60000);
+      }
+    };
     if (repCount === workout[current].reps && current < workout.length - 1) {
       renderNextSet();
     } else if (repCount === workout[current].reps && current === workout.length - 1) {
       renderFinishedWorkout();
     }
-  }, [repCount, current, workout]);
+  }, [repCount, current, workout, setRepCount, setCurrent, setRest]);
 
   useEffect(() => {
     URL.current = modelsByType[workout[current].exer];
-    return () => {
-      URL.current = "";
-    };
   }, [current, workout]);
-
-  const renderNextSet = (): void => {
-    setCurrent((prev) => prev + 1);
-    setRepCount(0);
-    renderRest(workout[current].rest);
-  };
 
   const renderFinishedWorkout = (): void => {
     message.success("What a great workout! Nicely done!");
     isFinished.current = true;
     setIsModalVisible(true);
-  };
-
-  const renderRest = (time: number): void => {
-    if (time > 0) {
-      setRest(true);
-      isResting.current = true;
-      setTimeout(() => {
-        setRest(false);
-        isResting.current = false;
-      }, time * 60000);
-    }
   };
 
   const generateStepItems = (): ReactNode => {
