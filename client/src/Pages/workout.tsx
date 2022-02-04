@@ -10,7 +10,7 @@ import { WorkoutContext } from "../Context/workoutProvider";
 import sound from "../Services/soundService";
 import ProgressBar from "../Components/progressBar";
 import Countdown from "antd/lib/statistic/Countdown";
-import { useStateWithLocalStorage } from "../Services/customHookService";
+import { useStateWithLocalStorage, useStateWithLocalStorageForBoolean } from "../Services/customHookService";
 
 const { Step } = Steps;
 
@@ -19,7 +19,7 @@ const Workout: React.FC = () => {
   const [current, setCurrent] = useStateWithLocalStorage("current");
   const [repCount, setRepCount] = useStateWithLocalStorage("repCount");
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [rest, setRest] = useState<boolean>(false);
+  const [rest, setRest] = useStateWithLocalStorageForBoolean("restState");
   const isResting = useRef(false);
   const currentStepRef = createRef<HTMLDivElement>();
   const URL = useRef(modelsByType[workout[current].exer]);
