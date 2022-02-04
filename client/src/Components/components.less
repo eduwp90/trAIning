@@ -26,6 +26,50 @@
   margin: 5px;
 }
 
+//webcamAI
+
+.webcam-stack-container {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.webcam-component {
+  grid-row-start: 1;
+  grid-column-start: 1;
+  border-radius: 5px;
+}
+
+.webcam-canvas {
+  grid-row-start: 1;
+  grid-column-start: 1;
+  border-radius: 5px;
+  text-align: center;
+  z-index: 2;
+}
+
+//Webcam overlay
+
+.overlay-container {
+  height: 100%;
+  width: 100%;
+  grid-row-start: 1;
+  grid-column-start: 1;
+  border-radius: 5px;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.8);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.overlay-container-hide {
+  display: none;
+}
+
 //WorkoutItem
 .workout_container {
   height: 20vh;

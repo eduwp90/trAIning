@@ -21,6 +21,7 @@ const Workout: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [rest, setRest] = useStateWithLocalStorageForBoolean("restState");
   const isResting = useRef(false);
+  const isFinished = useRef(false);
   const currentStepRef = createRef<HTMLDivElement>();
   const URL = useRef(modelsByType[workout[current].exer]);
 
@@ -31,6 +32,7 @@ const Workout: React.FC = () => {
       renderRest(workout[current].rest);
     } else if (repCount === workout[current].reps && current === workout.length - 1) {
       message.success("What a great workout! Nicely done!");
+      isFinished.current = true;
       setIsModalVisible(true);
     }
   }, [repCount, current, workout]);
@@ -98,7 +100,7 @@ const Workout: React.FC = () => {
       </div>
       <div className="workoutContent-Div">
         <div className="steps-content">
-          <WebcamAI incrementRepCount={incrementRepCount} URL={URL} />
+          <WebcamAI incrementRepCount={incrementRepCount} URL={URL} isResting={rest} isFinished={isFinished.current} />
         </div>
         <div className="set-info">
           {!isResting.current || !rest ? (
