@@ -2,6 +2,7 @@ import Webcam from "react-webcam";
 import * as tmPose from "@teachablemachine/pose";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { Keypoint } from "@tensorflow-models/posenet";
+import "./components.less";
 
 //const URL = "https://teachablemachine.withgoogle.com/models/HQvC3rR8v/";
 // const URL = 'https://teachablemachine.withgoogle.com/models/jwj-LGant/';
@@ -70,7 +71,6 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
 
   async function predict(): Promise<void> {
     if (webcamRef.current !== null && webcamRef.current.getCanvas() !== null) {
-
       const { pose, posenetOutput } = await model.estimatePose(webcamRef.current.getCanvas());
       const prediction = await model.predict(posenetOutput);
       for (let i = maxPredictions - 2; i > maxPredictions - 4; i--) {
@@ -84,8 +84,6 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
       }
       drawPose(pose);
     }
-
-
   }
 
   function drawPose(pose: { keypoints: Keypoint[]; score: number }): void {
@@ -112,41 +110,27 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
 
   return (
     <>
-      {webcamRef ? (
-        <Webcam
-          ref={webcamRef}
+      <div className="webcam-stack-container">
+        {webcamRef && (
+          <Webcam
+            className="webcam-component"
+            ref={webcamRef}
+            style={{
+              width: size,
+              height: size * 0.75
+            }}
+            onUserMedia={init}
+            mirrored={true}
+          />
+        )}
+        <canvas
+          className="webcam-canvas"
+          id="canvas"
           style={{
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
-            right: 0,
-            left: 0,
-            zIndex: 9,
             width: size,
-            height: size * 0.75,
-            borderRadius: 5
-          }}
-          onUserMedia={init}
-          mirrored={true}
-        />
-      ) : (
-        <div>Teachable Machine Pose Model</div>
-      )}
-
-      <canvas
-        id="canvas"
-        style={{
-          position: "absolute",
-          marginLeft: "auto",
-          marginRight: "auto",
-          left: 0,
-          right: 0,
-          textAlign: "center",
-          zIndex: 10,
-          width: size,
-          height: size * 0.75,
-          borderRadius: 5
-        }}></canvas>
+            height: size * 0.75
+          }}></canvas>
+      </div>
     </>
   );
 };
