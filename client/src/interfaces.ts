@@ -13,10 +13,14 @@ export interface IWorkout {
 }
 
 export interface IWorkoutContext{
+  savedWorkout: IWorkout | null,
+  storeSavedWorkout: (exisitingWorkout: IWorkout) => void,
+  clearSavedWorkout: ()=> void,
   workout: ISet[],
   storeWorkout: (sets: ISet[]) => void,
   clearWorkout: ()=> void
 }
+
 export interface IWorkoutResponse extends IWorkout, DocumentData {
   id: string;
 }

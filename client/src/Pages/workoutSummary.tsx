@@ -17,7 +17,7 @@ const WorkoutSummary: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
   const [setsDisabled, setSetsDisabled] = useState<boolean>(true);
   const [sets, setSets] = useState<JSX.Element[]>([]);
-  const {workout, clearWorkout} = useContext<IWorkoutContext>(WorkoutContext)
+  const {workout, clearWorkout, savedWorkout, clearSavedWorkout} = useContext<IWorkoutContext>(WorkoutContext)
   const navigate = useNavigate()
 
   const onFinish = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -25,10 +25,18 @@ const WorkoutSummary: React.FC = () => {
     const name: string = workoutArray.pop()
     const sets: ISet[] = workoutArray
     if (user) {
-      addWorkout(user.uid, sets, name)
+      if (workout.length > 0) {
+        addWorkout(user.uid, sets, name)
         .then(() => { clearWorkout() })
         .then(() => { navigate('/') })
         .catch((e)=>{console.log(e)})
+      } else {
+        updateWorkout(user.uid, sets, name)
+        .then(() => { clearSavedWorkout() })
+        .then(() => { navigate('/') })
+        .catch((e)=>{console.log(e)})
+      }
+
     }
    };
 

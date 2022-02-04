@@ -31,7 +31,7 @@ const App: React.FC = () => {
         <Route index element={<Home />} />
         <Route path="home" element={<Home />} />
           <Route path="workout" element={<WorkoutForm />} />
-        <Route path="summary" element={<WorkoutSummary />}/>
+          <Route path="summary" element={<WorkoutSummary />} />
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
