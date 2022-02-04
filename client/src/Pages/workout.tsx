@@ -10,7 +10,7 @@ import { WorkoutContext } from "../Context/workoutProvider";
 import sound from "../Services/soundService";
 import ProgressBar from "../Components/progressBar";
 import Countdown from "antd/lib/statistic/Countdown";
-import useStateWithLocalStorage from "../Services/customHookService";
+import { useStateWithLocalStorage } from "../Services/customHookService";
 
 const { Step } = Steps;
 

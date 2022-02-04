@@ -1,4 +1,5 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { ISet } from "../interfaces";
 
 const useStateWithLocalStorage = (localStorageKey: string): [number, Dispatch<SetStateAction<number>>] => {
   const number = Number(localStorage.getItem(localStorageKey));
@@ -11,4 +12,20 @@ const useStateWithLocalStorage = (localStorageKey: string): [number, Dispatch<Se
   return [value, setValue];
 };
 
-export default useStateWithLocalStorage;
+const useStateWithLocalStorageForArray = (localStorageKey: string): [ISet[], Dispatch<SetStateAction<ISet[]>>] => {
+  let stringifiedArray = localStorage.getItem(localStorageKey);
+  let savedWorkout;
+  if (typeof stringifiedArray === "string") {
+    savedWorkout = JSON.parse(stringifiedArray);
+  }
+
+  const [value, setValue] = useState(savedWorkout || []);
+
+  useEffect(() => {
+    localStorage.setItem(localStorageKey, JSON.stringify(value));
+  }, [value, localStorageKey]);
+
+  return [value, setValue];
+};
+
+export { useStateWithLocalStorage, useStateWithLocalStorageForArray };

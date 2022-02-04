@@ -1,4 +1,5 @@
-import React, { createContext, useState, useEffect, Dispatch, SetStateAction } from "react";
+import React, { createContext } from "react";
+import { useStateWithLocalStorageForArray } from "../Services/customHookService";
 import { ISet, IWorkoutContext } from "../interfaces";
 
 const contextDefaultValues: IWorkoutContext = { workout: [], storeWorkout: () => {}, clearWorkout: () => {} };
@@ -21,19 +22,3 @@ const WorkoutProvider: React.FC = ({ children }) => {
 };
 
 export default WorkoutProvider;
-
-const useStateWithLocalStorageForArray = (localStorageKey: string): [ISet[], Dispatch<SetStateAction<ISet[]>>] => {
-  let stringifiedArray = localStorage.getItem(localStorageKey);
-  let savedWorkout;
-  if (typeof stringifiedArray === "string") {
-    savedWorkout = JSON.parse(stringifiedArray);
-  }
-
-  const [value, setValue] = useState(savedWorkout || []);
-
-  useEffect(() => {
-    localStorage.setItem(localStorageKey, JSON.stringify(value));
-  }, [value, localStorageKey]);
-
-  return [value, setValue];
-};
