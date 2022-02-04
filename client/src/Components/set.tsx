@@ -50,7 +50,7 @@ const Set: React.FC<SetProps> = ({ id, removeSet }) => {
               required: true
             }
           ]}>
-          <Radio.Group size="large">
+          <Radio.Group size="large" buttonStyle="solid">
             <Radio.Button value={0}>0 min</Radio.Button>
             <Radio.Button value={1}>1 min</Radio.Button>
             <Radio.Button value={3}>3 min</Radio.Button>
