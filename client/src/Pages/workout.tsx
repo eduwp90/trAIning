@@ -14,14 +14,14 @@ import { getSparseReshapeMultipleNegativeOneOutputDimErrorMessage } from "@tenso
 
 const { Step } = Steps;
 
-
 const Workout: React.FC = () => {
-const {workout } = useContext<IWorkoutContext>(WorkoutContext)
+  const { workout } = useContext<IWorkoutContext>(WorkoutContext);
   const [current, setCurrent] = useState<number>(0);
   const [repCount, setRepCount] = useState<number>(0);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [rest, setRest] = useState<boolean>(false);
   const isResting = useRef(false);
+  const isFinished = useRef(false);
   const currentStepRef = createRef<HTMLDivElement>();
   const URL = useRef(modelsByType[workout[current].exer]);
 
@@ -33,6 +33,7 @@ const {workout } = useContext<IWorkoutContext>(WorkoutContext)
       renderRest(workout[current].rest);
     } else if (repCount === workout[current].reps && current === workout.length - 1) {
       message.success("What a great workout! Nicely done!");
+      isFinished.current = true;
       setIsModalVisible(true);
     }
   }, [repCount, current, workout]);
@@ -101,7 +102,12 @@ const {workout } = useContext<IWorkoutContext>(WorkoutContext)
       </div>
       <div className="workoutContent-Div">
         <div className="steps-content">
-          <WebcamAI incrementRepCount={incrementRepCount} URL={URL} />
+          <WebcamAI
+            incrementRepCount={incrementRepCount}
+            URL={URL}
+            isResting={isResting.current}
+            isFinished={isFinished.current}
+          />
         </div>
         <div className="set-info">
           {!isResting.current || !rest ? (

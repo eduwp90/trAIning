@@ -16,10 +16,36 @@ let isMounted: boolean;
 type WebcamAIProps = {
   incrementRepCount: Function;
   URL: MutableRefObject<string>;
+  isResting: boolean;
+  isFinished: boolean;
 };
 
-const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
+const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, isFinished }) => {
   let repStatus: string = "Neutral";
+
+  const localResting = useRef<boolean>(false);
+  const localFinished = useRef<boolean>(false);
+  const localStarted = useRef<boolean>(false);
+
+  const shouldCountandRender = function (start: boolean, rest: boolean, finish: boolean): boolean {
+    return start && !rest && !finish ? true : false;
+  };
+
+  const startExercise = function (): void {
+    localStarted.current = true;
+  };
+
+  const updateStatus = function (): string {
+    if (!localStarted) {
+      return "NOT STARTED";
+    } else if (localResting) {
+      return "RESTING";
+    } else if (localFinished) {
+      return "FINISHED";
+    } else {
+      return "RUNNING";
+    }
+  };
 
   const [size, setSize] = useState<number>(window.innerWidth * 0.9);
   window.onresize = (): void => {
@@ -64,8 +90,9 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
   }
 
   async function loop(): Promise<void> {
-    console.log("Running pose calculations...");
     if (!isMounted) return;
+
+    console.log("Running pose calculations...");
     await predict();
     window.requestAnimationFrame(loop);
   }
@@ -74,12 +101,14 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
     if (webcamRef.current !== null && webcamRef.current.getCanvas() !== null) {
       const { pose, posenetOutput } = await model.estimatePose(webcamRef.current.getCanvas());
       const prediction = await model.predict(posenetOutput);
-      for (let i = maxPredictions - 2; i > maxPredictions - 4; i--) {
-        //-> looping from second-to-last to third-to-last -> shape of array: ["neutral", "position", ("position",) "invalid"]
-        if (prediction[i].probability.toFixed(2) > 0.92) {
-          if (prediction[i].className !== repStatus) {
-            repStatus = prediction[i].className;
-            incrementRepCount();
+      if (shouldCountandRender(localStarted.current, localResting.current, localFinished.current)) {
+        for (let i = maxPredictions - 2; i > maxPredictions - 4; i--) {
+          //-> looping from second-to-last to third-to-last -> shape of array: ["neutral", "position", ("position",) "invalid"]
+          if (prediction[i].probability.toFixed(2) > 0.92) {
+            if (prediction[i].className !== repStatus) {
+              repStatus = prediction[i].className;
+              incrementRepCount();
+            }
           }
         }
       }
@@ -92,7 +121,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
       if (webcamRef.current.getCanvas()) {
         ctx.drawImage(webcamRef.current.getCanvas()!, 0, 0);
         // draw the keypoints and skeleton
-        if (pose) {
+        if (pose && shouldCountandRender(localStarted.current, localResting.current, localFinished.current)) {
           const minPartConfidence = 0.5;
           tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
           tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
@@ -103,16 +132,22 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
 
   useEffect(() => {
     isMounted = true;
-
     return () => {
       isMounted = false;
     };
   }, []);
 
+  useEffect(() => {
+    console.log("use effect ", isResting, isFinished);
+    localResting.current = isResting;
+    localFinished.current = isFinished;
+    console.log("use effect localrest ", localResting.current, localFinished.current);
+  }, [isResting, isFinished]);
+
   return (
     <>
       <div className="webcam-stack-container">
-        <WebcamOverlay />
+        <WebcamOverlay startExercise={startExercise} status={updateStatus()} />
         {webcamRef && (
           <Webcam
             className="webcam-component"
@@ -125,6 +160,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
             mirrored={true}
           />
         )}
+
         <canvas
           className="webcam-canvas"
           id="canvas"
