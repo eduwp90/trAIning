@@ -12,22 +12,22 @@ const Home: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
   const [userWorkouts, setUserWorkouts] = useState<IWorkout[]>([]);
 
-  const renderUserWorkouts = async () => {
-    let userData;
-    if (user) {
-      userData = await getUserWorkouts(user!.uid);
-    }
-    if (userData) {
-      setUserWorkouts([...userWorkouts, ...userData]);
-    }
-  };
-
   useEffect(() => {
+    let mounted = true;
+    const renderUserWorkouts = async () => {
+      let userData;
+      if (user && mounted) {
+        userData = await getUserWorkouts(user!.uid);
+      }
+      if (userData && mounted) {
+        setUserWorkouts([...userWorkouts, ...userData]);
+      }
+    };
     renderUserWorkouts();
     return () => {
-      setUserWorkouts([]);
+      mounted = false;
     };
-  }, [user]);
+  }, [user, userWorkouts]);
 
   return (
     <div className="pages-Div">
