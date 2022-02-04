@@ -10,10 +10,8 @@ import { WorkoutContext } from "../Context/workoutProvider";
 import sound from "../Services/soundService";
 import ProgressBar from "../Components/progressBar";
 import Countdown from "antd/lib/statistic/Countdown";
-import { getSparseReshapeMultipleNegativeOneOutputDimErrorMessage } from "@tensorflow/tfjs-core/dist/backends/backend_util";
 
 const { Step } = Steps;
-
 
 const Workout: React.FC = () => {
 const {workout } = useContext<IWorkoutContext>(WorkoutContext)
@@ -57,12 +55,11 @@ const {workout } = useContext<IWorkoutContext>(WorkoutContext)
       function setIcon() {
         let Icon = iconSelector(item.exer);
         if (workout.indexOf(item) === current) {
-          return <Avatar style={{ backgroundColor: "#264653", color: "white" }} icon={<Icon />} />;
+          return <Avatar style={{ backgroundColor: "#2A9D8F ", color: "white" }} icon={<Icon />} />;
         } else if (workout.indexOf(item) < current) {
-          return <Avatar style={{ backgroundColor: "#2A9D8F", color: "white" }} icon={<Icon />} />;
-        } else {
-          return <Avatar style={{ backgroundColor: "#E9C46A", color: "white" }} icon={<Icon />} />;
+          return <Avatar style={{ border: "1px solid #2A9D8F", color: "white" }} icon={<Icon />} />;
         }
+        return <Avatar style={{ backgroundColor: "#lightgray", color: "white" }} icon={<Icon />} />;
       }
       if (workout.indexOf(item) === current) {
         return (
@@ -76,11 +73,11 @@ const {workout } = useContext<IWorkoutContext>(WorkoutContext)
     });
   };
 
-  function beep() {
+  function beep():void {
     sound.play();
   }
 
-  const incrementRepCount = () => {
+  const incrementRepCount = (): void => {
     if (!isResting.current) {
       setRepCount((prev) => prev + 1);
       console.log("isResting? inside closure ", isResting.current);

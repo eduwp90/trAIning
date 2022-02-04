@@ -74,7 +74,7 @@ const WorkoutSummary: React.FC = () => {
             }
           ]}
         initialValue={set.rest}>
-          <Radio.Group size="large" disabled={setsDisabled}>
+          <Radio.Group size="large" disabled={setsDisabled} buttonStyle="solid">
             <Radio.Button value={0}>0 min</Radio.Button>
             <Radio.Button value={1}>1 min</Radio.Button>
             <Radio.Button value={3}>3 min</Radio.Button>
