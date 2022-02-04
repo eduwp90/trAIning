@@ -26,6 +26,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
   const localResting = useRef<boolean>(false);
   const localFinished = useRef<boolean>(false);
   const localStarted = useRef<boolean>(false);
+  const [status, setStatus] = useState<string>("NOT STARTED");
 
   const shouldCountandRender = function (start: boolean, rest: boolean, finish: boolean): boolean {
     return start && !rest && !finish ? true : false;
@@ -33,14 +34,15 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
 
   const startExercise = function (): void {
     localStarted.current = true;
+    setStatus("RUNNING");
   };
 
   const updateStatus = function (): string {
-    if (!localStarted) {
+    if (!localStarted.current) {
       return "NOT STARTED";
-    } else if (localResting) {
+    } else if (localResting.current) {
       return "RESTING";
-    } else if (localFinished) {
+    } else if (localFinished.current) {
       return "FINISHED";
     } else {
       return "RUNNING";
@@ -141,13 +143,14 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
     console.log("use effect ", isResting, isFinished);
     localResting.current = isResting;
     localFinished.current = isFinished;
+    setStatus(updateStatus());
     console.log("use effect localrest ", localResting.current, localFinished.current);
-  }, [isResting, isFinished]);
+  }, [isResting, isFinished, localStarted]);
 
   return (
     <>
       <div className="webcam-stack-container">
-        <WebcamOverlay startExercise={startExercise} status={updateStatus()} />
+        <WebcamOverlay startExercise={startExercise} status={status} />
         {webcamRef && (
           <Webcam
             className="webcam-component"

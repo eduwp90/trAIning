@@ -75,7 +75,7 @@ const Workout: React.FC = () => {
     });
   };
 
-  function beep():void {
+  function beep(): void {
     sound.play();
   }
 
@@ -100,12 +100,7 @@ const Workout: React.FC = () => {
       </div>
       <div className="workoutContent-Div">
         <div className="steps-content">
-          <WebcamAI
-            incrementRepCount={incrementRepCount}
-            URL={URL}
-            isResting={isResting.current}
-            isFinished={isFinished.current}
-          />
+          <WebcamAI incrementRepCount={incrementRepCount} URL={URL} isResting={rest} isFinished={isFinished.current} />
         </div>
         <div className="set-info">
           {!isResting.current || !rest ? (
