@@ -5,8 +5,6 @@ import { Keypoint } from "@tensorflow-models/posenet";
 import "./components.less";
 import WebcamOverlay from "./webcamOverlay";
 
-//const URL = "https://teachablemachine.withgoogle.com/models/HQvC3rR8v/";
-// const URL = 'https://teachablemachine.withgoogle.com/models/jwj-LGant/';
 let model: { getTotalClasses: Function; estimatePose: Function; predict: Function },
   ctx: CanvasRenderingContext2D,
   maxPredictions: number;

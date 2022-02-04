@@ -10,13 +10,14 @@ import { WorkoutContext } from "../Context/workoutProvider";
 import sound from "../Services/soundService";
 import ProgressBar from "../Components/progressBar";
 import Countdown from "antd/lib/statistic/Countdown";
+import { useStateWithLocalStorage } from "../Services/customHookService";
 
 const { Step } = Steps;
 
 const Workout: React.FC = () => {
   const { workout } = useContext<IWorkoutContext>(WorkoutContext);
-  const [current, setCurrent] = useState<number>(0);
-  const [repCount, setRepCount] = useState<number>(0);
+  const [current, setCurrent] = useStateWithLocalStorage("current");
+  const [repCount, setRepCount] = useStateWithLocalStorage("repCount");
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [rest, setRest] = useState<boolean>(false);
   const isResting = useRef(false);
@@ -26,7 +27,6 @@ const Workout: React.FC = () => {
 
   useEffect(() => {
     if (repCount === workout[current].reps && current < workout.length - 1) {
-      console.log("reps", repCount);
       setCurrent((prev) => prev + 1);
       setRepCount(0);
       renderRest(workout[current].rest);
