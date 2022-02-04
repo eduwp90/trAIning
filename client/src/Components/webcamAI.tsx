@@ -3,8 +3,6 @@ import * as tmPose from "@teachablemachine/pose";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { Keypoint } from "@tensorflow-models/posenet";
 
-//const URL = "https://teachablemachine.withgoogle.com/models/HQvC3rR8v/";
-// const URL = 'https://teachablemachine.withgoogle.com/models/jwj-LGant/';
 let model: { getTotalClasses: Function; estimatePose: Function; predict: Function },
   ctx: CanvasRenderingContext2D,
   maxPredictions: number;
@@ -70,7 +68,6 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
 
   async function predict(): Promise<void> {
     if (webcamRef.current !== null && webcamRef.current.getCanvas() !== null) {
-
       const { pose, posenetOutput } = await model.estimatePose(webcamRef.current.getCanvas());
       const prediction = await model.predict(posenetOutput);
       for (let i = maxPredictions - 2; i > maxPredictions - 4; i--) {
@@ -84,8 +81,6 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
       }
       drawPose(pose);
     }
-
-
   }
 
   function drawPose(pose: { keypoints: Keypoint[]; score: number }): void {
