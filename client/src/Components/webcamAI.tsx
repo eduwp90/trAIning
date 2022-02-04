@@ -3,6 +3,7 @@ import * as tmPose from "@teachablemachine/pose";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { Keypoint } from "@tensorflow-models/posenet";
 import "./components.less";
+import WebcamOverlay from "./webcamOverlay";
 
 //const URL = "https://teachablemachine.withgoogle.com/models/HQvC3rR8v/";
 // const URL = 'https://teachablemachine.withgoogle.com/models/jwj-LGant/';
@@ -111,6 +112,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
   return (
     <>
       <div className="webcam-stack-container">
+        <WebcamOverlay />
         {webcamRef && (
           <Webcam
             className="webcam-component"
