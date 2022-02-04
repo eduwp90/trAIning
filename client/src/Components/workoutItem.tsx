@@ -15,7 +15,7 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({ workout }) => {
       <div className="workout_info">
         <h4 className="workout_info_name">{workout.name}</h4>
         <h5 className="workout_info_exercise">{workout.workout[0].exer}</h5>
-        <Button className="startworkoutButton">Start workout</Button>
+        <Button type="text" className="startworkoutButton">Start workout</Button>
         <EditOutlined style={{position:"absolute", top:"1em", right:"1em"}}/>
       </div>
     </div>
