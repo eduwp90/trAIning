@@ -27,19 +27,30 @@ const Workout: React.FC = () => {
 
   useEffect(() => {
     if (repCount === workout[current].reps && current < workout.length - 1) {
-      setCurrent((prev) => prev + 1);
-      setRepCount(0);
-      renderRest(workout[current].rest);
+      renderNextSet();
     } else if (repCount === workout[current].reps && current === workout.length - 1) {
-      message.success("What a great workout! Nicely done!");
-      isFinished.current = true;
-      setIsModalVisible(true);
+      renderFinishedWorkout();
     }
   }, [repCount, current, workout]);
 
   useEffect(() => {
     URL.current = modelsByType[workout[current].exer];
+    return () => {
+      URL.current = "";
+    };
   }, [current, workout]);
+
+  const renderNextSet = (): void => {
+    setCurrent((prev) => prev + 1);
+    setRepCount(0);
+    renderRest(workout[current].rest);
+  };
+
+  const renderFinishedWorkout = (): void => {
+    message.success("What a great workout! Nicely done!");
+    isFinished.current = true;
+    setIsModalVisible(true);
+  };
 
   const renderRest = (time: number): void => {
     if (time > 0) {

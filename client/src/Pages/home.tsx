@@ -12,17 +12,22 @@ const Home: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
   const [userWorkouts, setUserWorkouts] = useState<IWorkout[]>([]);
 
+  const renderUserWorkouts = async () => {
+    let userData;
+    if (user) {
+      userData = await getUserWorkouts(user!.uid);
+    }
+    if (userData) {
+      setUserWorkouts([...userWorkouts, ...userData]);
+    }
+  };
 
   useEffect(() => {
-      if (user) {
-        getUserWorkouts(user!.uid)
-       .then(data => {
-         if (data) {
-           setUserWorkouts([...userWorkouts, ...data]);
-         } })
-      }
-
-  },[user]);
+    renderUserWorkouts();
+    return () => {
+      setUserWorkouts([]);
+    };
+  }, [user]);
 
   return (
     <div className="pages-Div">
