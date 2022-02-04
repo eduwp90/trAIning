@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 import { ISet, IWorkout, IWorkoutContext } from '../interfaces';
-
+import { useStateWithLocalStorageForArray } from "../Services/customHookService";
 const contextDefaultValues: IWorkoutContext = {
   savedWorkout: null,
   storeSavedWorkout: () => { },
@@ -10,12 +10,12 @@ const contextDefaultValues: IWorkoutContext = {
   clearWorkout: () => { }
 };
 
-export const WorkoutContext = createContext<IWorkoutContext >(contextDefaultValues)
+export const WorkoutContext = createContext<IWorkoutContext>(contextDefaultValues);
 
 const WorkoutProvider: React.FC = ({ children }) => {
-  const [workout, setWorkout] = useState<ISet[]>([]);
+  //const [workout, setWorkout] = useState<ISet[]>([]);
   const [savedWorkout, setSavedWorkout] = useState < IWorkout | null>(null)
-
+  const [workout, setWorkout] = useStateWithLocalStorageForArray("storedWorkout");
   const storeWorkout = (sets: ISet[] ): void => {
   setWorkout(sets)
   }
@@ -24,8 +24,8 @@ const WorkoutProvider: React.FC = ({ children }) => {
   }
 
   const clearWorkout = (): void => {
-  setWorkout([])
-  }
+    setWorkout([]);
+  };
 
   const storeSavedWorkout= (exisitingWorkout: IWorkout):void => {
     setSavedWorkout(exisitingWorkout)
