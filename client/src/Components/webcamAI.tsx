@@ -56,7 +56,9 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
 
     if (canvas) {
       canvas.width = size;
+      console.log(canvas)
       canvas.height = size * 0.75;
+      console.log(canvas)
       ctx = getCanvasRenderingContext2D(canvas)!;
     }
   }
@@ -64,12 +66,14 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
   async function loop(): Promise<void> {
     console.log("Running pose calculations...");
     if (!isMounted) return;
+    console.log('here')
     await predict();
     window.requestAnimationFrame(loop);
   }
 
   async function predict(): Promise<void> {
-    if (webcamRef.current !== null) {
+    if (webcamRef.current !== null && webcamRef.current.getCanvas() !== null) {
+
       const { pose, posenetOutput } = await model.estimatePose(webcamRef.current.getCanvas());
       const prediction = await model.predict(posenetOutput);
       for (let i = maxPredictions - 2; i > maxPredictions - 4; i--) {
@@ -83,6 +87,8 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL }) => {
       }
       drawPose(pose);
     }
+
+
   }
 
   function drawPose(pose: { keypoints: Keypoint[]; score: number }): void {
