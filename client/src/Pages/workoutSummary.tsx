@@ -93,7 +93,7 @@ const WorkoutSummary: React.FC = () => {
               }
             ]}
             initialValue={set.rest}>
-            <Radio.Group size="large" disabled={setsDisabled} buttonStyle="solid">
+            <Radio.Group size="large" disabled={setsDisabled}>
               <Radio.Button value={0}>0 min</Radio.Button>
               <Radio.Button value={1}>1 min</Radio.Button>
               <Radio.Button value={3}>3 min</Radio.Button>
@@ -121,15 +121,28 @@ const WorkoutSummary: React.FC = () => {
   }
 
   useEffect(() => {
-    if (setsArray) {
-      setSets(setsArray);
+    let mounted = true;
+    if (mounted) {
+      if (setsArray) {
+        setSets(setsArray);
+      }
     }
+    return () => {
+      mounted = false;
+    };
   }, [setsDisabled]);
 
   useEffect(() => {
-     if (setsArray) {
-      setSets(setsArray);
+    let mounted = true;
+    if (mounted) {
+      if (setsArray) {
+        setSets(setsArray)
+      }
+
     }
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   return (
