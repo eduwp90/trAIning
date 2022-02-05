@@ -7,19 +7,18 @@ import AuthService from "../Services/authService";
 import { IWorkout, IWorkoutContext } from "../interfaces";
 import WorkoutList from "../Components/workoutList";
 import { WorkoutContext } from "../Context/workoutProvider";
-import { clear } from "console";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const [user] = useAuthState(AuthService.auth);
   const [userWorkouts, setUserWorkouts] = useState<IWorkout[]>([]);
   const [publicWorkouts, setPublicWorkouts] = useState<IWorkout[]>([]);
-  const {clearWorkout, clearExistingWorkout} = useContext<IWorkoutContext>(WorkoutContext)
+  const { clearWorkout, clearExistingWorkout } = useContext<IWorkoutContext>(WorkoutContext);
 
   useEffect(() => {
     let mounted = true;
-    clearExistingWorkout()
-    clearWorkout()
+    clearExistingWorkout();
+    clearWorkout();
     const renderUserWorkouts = async () => {
       let userData;
       let publicData;
