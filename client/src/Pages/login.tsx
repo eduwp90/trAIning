@@ -35,30 +35,34 @@ const Login: React.FC = () => {
   }, [user]);
 
   return (
-    <div className="pages-Div">
-      {error && <Alert message={errorMsg} type="error" showIcon />}
-      <Form
-        name="normal_login"
-        layout="vertical"
-        className="login-form"
-        initialValues={{ remember: true }}
-        onFinish={onFinish}>
-        <Form.Item name="email" rules={[{ required: true, message: "Please input your Email!" }]}>
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
-        </Form.Item>
-        <Form.Item name="password" rules={[{ required: true, message: "Please input your Password!" }]}>
-          <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
-        </Form.Item>
+    <div className="background-div">
+      <div className="login-container">
+        <div className="login-logo">LOGO</div>
+        <h1>Log in</h1>
+        {error && <Alert message={errorMsg} type="error" showIcon style={{ margin: "1rem 0" }} />}
+        <Form
+          name="normal_login"
+          layout="vertical"
+          className="login-form"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}>
+          <Form.Item name="email" rules={[{ required: true, message: "Please input your Email!" }]}>
+            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
+          </Form.Item>
+          <Form.Item name="password" rules={[{ required: true, message: "Please input your Password!" }]}>
+            <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
+          </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button" loading={loading}>
-            Log in
-          </Button>
-          <div className="register-link">
-            or <Link to="/register"> register now!</Link>
-          </div>
-        </Form.Item>
-      </Form>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" className="login-form-button" loading={loading}>
+              Log in
+            </Button>
+            <div className="register-link">
+              or <Link to="/register"> register now!</Link>
+            </div>
+          </Form.Item>
+        </Form>
+      </div>
     </div>
   );
 };
