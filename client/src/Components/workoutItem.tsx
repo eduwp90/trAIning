@@ -12,7 +12,8 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({ workout }) => {
       <div className="workout_headline"></div>
       <div className="workout_info">
         <h4 className="workout_info_name">{workout.name}</h4>
-        <h5 className="workout_info_exercise">{workout.workout[0].exer}</h5>
+        {workout.time && <h5 className="workout_info_time">Duration: {workout.time} min</h5>}
+        {workout.calories && <h5 className="workout_info_calories">Est. calories: {workout.calories} Kcals</h5>}
       </div>
     </div>
   );
