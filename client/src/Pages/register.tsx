@@ -19,6 +19,7 @@ const Register: React.FC = () => {
   const onFinish = async (values: any) => {
     setLoading(true);
     setError(false);
+    console.log(values);
 
     const res: UserInfo | string = await AuthService.signupUser(values.email, values.password);
 
@@ -108,10 +109,10 @@ const Register: React.FC = () => {
 
           <Space style={{ display: "flex" }} align="baseline">
             <Form.Item name="height" rules={[{ required: true, message: "Missing height" }]}>
-              <InputNumber min={100} max={250} placeholder="Height" addonAfter="cm" />
+              <InputNumber min={100} max={250} placeholder="Height" addonAfter="cm" type="number" />
             </Form.Item>
-            <Form.Item name="surname" rules={[{ required: true, message: "Missing weight" }]}>
-              <InputNumber min={20} max={200} placeholder="Weight" addonAfter="Kg" />
+            <Form.Item name="weight" rules={[{ required: true, message: "Missing weight" }]}>
+              <InputNumber min={20} max={200} placeholder="Weight" addonAfter="Kg" type="number" />
             </Form.Item>
           </Space>
 
