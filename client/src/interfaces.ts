@@ -10,6 +10,8 @@ export interface IWorkout {
   id: string,
   user: string;
   name: string;
+  time: number;
+  calories: number;
   workout: ISet[];
 }
 
