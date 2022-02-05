@@ -59,7 +59,7 @@ const Workout: React.FC = () => {
   };
 
   const generateStepItems = (): ReactNode => {
-    return workout.map((item) => {
+    return workout.map((item, i, array) => {
       function setIcon() {
         let Icon = iconSelector(item.exer);
         if (workout.indexOf(item) === current) {
@@ -69,15 +69,20 @@ const Workout: React.FC = () => {
         }
         return <Avatar style={{ backgroundColor: "#lightgray", color: "white" }} icon={<Icon />} />;
       }
+      let lastClass = "";
+      if (i === 0) lastClass = " ant-first";
+      if (i === array.length - 1) lastClass = " ant-last";
+      if (array.length === 1) lastClass = " ant-only";
       if (workout.indexOf(item) === current) {
         return (
-          <div className="ant-steps-item ant-steps" ref={currentStepRef}>
+          <div className={"ant-steps-item ant-steps" + lastClass}>
+            <div id="step-anchor" ref={currentStepRef}></div>
             <Step icon={setIcon()} key={item.exer} />
           </div>
         );
       }
 
-      return <Step icon={setIcon()} key={item.exer} />;
+      return <Step className={lastClass} icon={setIcon()} key={item.exer} />;
     });
   };
 
@@ -94,7 +99,7 @@ const Workout: React.FC = () => {
   };
 
   useEffect(() => {
-    currentStepRef.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "center" });
+    currentStepRef.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "start" });
   }, [currentStepRef]);
 
   return (
