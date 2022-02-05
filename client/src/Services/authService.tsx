@@ -6,7 +6,8 @@ import {
   signInWithEmailAndPassword,
   UserInfo,
   signOut,
-  signInWithPopup
+  signInWithPopup,
+  getAdditionalUserInfo
 } from "firebase/auth";
 import initFirebase from "../Config/firebase";
 import { GoogleAuthProvider } from "firebase/auth";
@@ -48,6 +49,7 @@ const signInWithGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, provider);
     console.log(res);
+    console.log(getAdditionalUserInfo(res));
   } catch (error) {
     console.log(error);
   }

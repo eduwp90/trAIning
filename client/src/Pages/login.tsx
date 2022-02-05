@@ -36,7 +36,7 @@ const Login: React.FC = () => {
   useEffect(() => {
     if (user) navigate("/");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, []);
 
   return (
     <div className="background-div">
