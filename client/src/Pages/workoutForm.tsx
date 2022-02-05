@@ -2,13 +2,15 @@ import React, { useContext, useState } from "react";
 import { Button, Form } from "antd";
 import Set from "../Components/set";
 import { IWorkoutContext } from "../interfaces";
-import Workout from "./workout";
 import { WorkoutContext } from "../Context/workoutProvider";
+import { useNavigate } from "react-router-dom";
+
 
 const WorkoutForm: React.FC = () => {
   const [formSets, setFormSets] = useState<JSX.Element[]>([<Set key={0} id={0} removeSet={removeSet}></Set>]);
   const [keyCount, setKeyCount] = useState<number>(1);
-  const {workout, storeWorkout} = useContext<IWorkoutContext>(WorkoutContext)
+  const {storeWorkout} = useContext<IWorkoutContext>(WorkoutContext)
+  const navigate = useNavigate()
 
   const addSet = (): void => {
     setFormSets((prev) => [...prev, <Set key={keyCount} id={keyCount} removeSet={removeSet}></Set>]);
@@ -19,16 +21,17 @@ const WorkoutForm: React.FC = () => {
     setFormSets((prev) => prev.filter((set) => set.props.id !== id));
   }
 
-  const onFinish = (e: React.FormEvent<HTMLInputElement>): void => {
+  const onFinish = async (e: React.FormEvent<HTMLInputElement>): Promise<void> => {
     console.log(Object.values(e));
-    storeWorkout(Object.values(e));
+    await storeWorkout(Object.values(e));
+    navigate('/workout')
   };
 
   const validateMessages = {
     required: "${label} is required!"
   };
 
-  return workout.length === 0 ? (
+  return  (
     <div className="pages-Div">
       <Form
         layout="vertical"
@@ -46,9 +49,7 @@ const WorkoutForm: React.FC = () => {
         </Button>
       </Form>
     </div>
-  ) : (
-      <Workout />
-  );
+  )
 };
 
 export default WorkoutForm;

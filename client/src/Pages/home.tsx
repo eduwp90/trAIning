@@ -43,7 +43,7 @@ const Home: React.FC = () => {
         className="new_workout_btn"
         size="large"
         onClick={() => {
-          navigate("/workout");
+          navigate("createworkout");
         }}>
         Create a new workout
       </Button>

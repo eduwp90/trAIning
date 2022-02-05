@@ -14,8 +14,8 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({ workout }) => {
   const { storeExistingWorkout } = useContext<IWorkoutContext>(WorkoutContext)
   const navigate = useNavigate()
 
-  const startWorkout = (): void => {
-   storeExistingWorkout(workout)
+  const startWorkout = async(): Promise<void> => {
+   await storeExistingWorkout(workout)
     navigate("/workout")
   }
 

@@ -30,8 +30,8 @@ const WorkoutProvider: React.FC = ({ children }) => {
 
   };
 
-  const storeExistingWorkout= (exisitingWorkout: IWorkout):void => {
-    setExistingWorkout(exisitingWorkout)
+  const storeExistingWorkout= async (exisitingWorkout: IWorkout):Promise<void> => {
+    await setExistingWorkout(exisitingWorkout)
 }
   return (
     <WorkoutContext.Provider value={{existingWorkout, storeExistingWorkout, clearExistingWorkout, workout, storeWorkout, clearWorkout}}>
