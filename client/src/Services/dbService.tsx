@@ -65,6 +65,7 @@ export async function getUserWorkouts(user: string): Promise<IWorkout[] | undefi
 // Active Dates array
 
 export async function addDate(user: string, date: Dayjs): Promise<void> {
+  console.log("got here in teh service");
   try {
     const docRef: DocumentReference<DocumentData> = doc(db, "profile", user);
     await updateDoc(docRef, {

@@ -1,4 +1,4 @@
-import React, { createRef, ReactNode, useEffect, useState, useRef, useContext, useCallback } from "react";
+import React, { createRef, ReactNode, useEffect, useState, useRef, useContext } from "react";
 import "./pages.less";
 import { Steps, message, Avatar } from "antd";
 import { ISet, IWorkoutContext } from "../interfaces";
@@ -14,7 +14,6 @@ import { useStateWithLocalStorage } from "../Services/customHookService";
 
 const { Step } = Steps;
 
-
 const Workout: React.FC = () => {
   const { workout, existingWorkout } = useContext<IWorkoutContext>(WorkoutContext);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,24 +25,18 @@ const Workout: React.FC = () => {
   const isFinished = useRef(false);
   const currentStepRef = createRef<HTMLDivElement>();
   const [sets, setSets] = useState<ISet[]>([]);
-  const [URL, setURL] = useState('');
-  //const URL = useRef(modelsByType[sets[current].exer]);
-
-
-
-
+  const [URL, setURL] = useState("");
 
   useEffect(() => {
     if (workout.length > 0) {
-      setSets(workout)
-
+      setSets(workout);
     } else {
       if (existingWorkout) {
-        setSets(existingWorkout.workout)
+        setSets(existingWorkout.workout);
       }
     }
-    setIsLoading(false)
-  }, [workout, existingWorkout])
+    setIsLoading(false);
+  }, [workout, existingWorkout]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -67,13 +60,14 @@ const Workout: React.FC = () => {
       } else if (repCount === sets[current].reps && current === sets.length - 1) {
         renderFinishedWorkout();
       }
-    }}, [repCount, current, sets, setRepCount, setCurrent, setRest]);
+    }
+  }, [repCount, current, sets, setRepCount, setCurrent, setRest]);
 
   useEffect(() => {
     if (!isLoading) {
       //URL.current = modelsByType[sets[current].exer]
-      setURL(modelsByType[sets[current].exer])
-    };
+      setURL(modelsByType[sets[current].exer]);
+    }
   }, [current, sets]);
 
   const renderFinishedWorkout = (): void => {
@@ -117,7 +111,6 @@ const Workout: React.FC = () => {
   const incrementRepCount = (): void => {
     if (!isResting.current) {
       setRepCount((prev) => prev + 1);
-      console.log("isResting? inside closure ", isResting.current);
       beep();
     }
   };
@@ -126,8 +119,10 @@ const Workout: React.FC = () => {
     currentStepRef.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "start" });
   }, [currentStepRef]);
 
-  return ( isLoading ? <p>loading</p>
-    :<div className="workout-Div">
+  return isLoading ? (
+    <p>loading</p>
+  ) : (
+    <div className="workout-Div">
       <div className="steps-Div">
         <Steps current={current} responsive={false}>
           {generateStepItems()}
@@ -149,15 +144,10 @@ const Workout: React.FC = () => {
             <div>
               <p>Take a moment to grab a glass of water.</p>
 
-              <Countdown
-                title={"Your workout will continue in:"}
-                value={Date.now() + 60000 * sets[current - 1].rest}
-              />
+              <Countdown title={"Your workout will continue in:"} value={Date.now() + 60000 * sets[current - 1].rest} />
             </div>
           )}
-          {!rest && repCount < sets[current].reps && (
-            <ProgressBar progress={(repCount / sets[current].reps) * 100} />
-          )}
+          {!rest && repCount < sets[current].reps && <ProgressBar progress={(repCount / sets[current].reps) * 100} />}
           {sets.length > 1 && current !== sets.length - 1 ? (
             <p>
               {" "}
