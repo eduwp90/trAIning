@@ -110,11 +110,8 @@ const Workout: React.FC = () => {
   }
 
   const incrementRepCount = (): void => {
-    if (!isResting.current) {
-      setRepCount((prev) => prev + 1);
-      console.log("incrementrepcount workout.tsx");
-      beep();
-    }
+    setRepCount((prev) => prev + 1);
+    beep();
   };
 
   useEffect(() => {

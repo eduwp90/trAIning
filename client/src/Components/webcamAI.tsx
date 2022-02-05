@@ -57,13 +57,19 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
 
   const webcamRef = useRef<Webcam>(null);
 
-  async function init(): Promise<void> {
+  async function loadModel() {
     console.log("loading model ", URL);
     const modelURL = URL + "model.json";
     const metadataURL = URL + "metadata.json";
 
     model = await tmPose.load(modelURL, metadataURL);
     maxPredictions = model.getTotalClasses();
+    return model;
+  }
+
+  async function init(): Promise<void> {
+    model = await loadModel();
+
     window.requestAnimationFrame(loop);
 
     const getCanvasElementById = (id: string): HTMLCanvasElement => {
@@ -109,9 +115,8 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
         if (!cycleRep && prediction[1].probability.toFixed(2) > 0.92) {
           cycleRep = true;
           incrementRepCount();
-          console.log("increment from webcam");
         }
-        if (cycleRep && prediction[1].probability.toFixed(2) < 0.92) {
+        if (cycleRep && prediction[1].probability.toFixed(2) < 0.8) {
           cycleRep = false;
         }
       }
@@ -149,11 +154,12 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
   }, [isResting, isFinished, localStarted]);
 
   useEffect(() => {
+    async function reload() {
+      model = await loadModel();
+    }
     setStop(true);
-    setTimeout(function () {
-      setStop(false);
-      init();
-    }, 500);
+    reload();
+    setTimeout(() => setStop(false), 500);
   }, [URL]);
 
   return (
