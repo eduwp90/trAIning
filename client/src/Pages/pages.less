@@ -89,14 +89,29 @@
   align-items: center;
 }
 
+.google-signin-btn {
+  width: 100%;
+}
+
+.ant-divider-horizontal.ant-divider-with-text::before,
+.ant-divider-horizontal.ant-divider-with-text::after {
+  transform: translateY(0%) !important;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
 .register-link {
-  display: inline-block;
-  padding-left: 10px;
+  display: flex;
+  width: 100%;
+  justify-content: center;
 }
 
 .register-link a {
   color: @heading-color;
   font-weight: 500;
+  padding-left: 6px;
 }
 
 /* workout-form page */

@@ -1,5 +1,5 @@
-import { Form, Input, Button, Alert } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { Form, Input, Button, Alert, Divider } from "antd";
+import { UserOutlined, LockOutlined, GoogleOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../Services/authService";
 import { useEffect, useState } from "react";
@@ -39,7 +39,13 @@ const Login: React.FC = () => {
       <div className="login-container">
         <div className="login-logo">LOGO</div>
         <h1>Log in</h1>
-        {error && <Alert message={errorMsg} type="error" showIcon style={{ margin: "1rem 0" }} />}
+        <Button className="google-signin-btn" type="default" icon={<GoogleOutlined />}>
+          Continue with Google
+        </Button>
+        <Divider plain >
+          or
+        </Divider>
+        {error && <Alert message={errorMsg} type="error" showIcon style={{ marginBottom: "1rem" }} />}
         <Form
           name="normal_login"
           layout="vertical"
@@ -57,10 +63,10 @@ const Login: React.FC = () => {
             <Button type="primary" htmlType="submit" className="login-form-button" loading={loading}>
               Log in
             </Button>
-            <div className="register-link">
-              or <Link to="/register"> register now!</Link>
-            </div>
           </Form.Item>
+            <div className="register-link">
+              Not a member? <Link to="/register"> Create account!</Link>
+            </div>
         </Form>
       </div>
     </div>

@@ -5,50 +5,39 @@ import {
   UserCredential,
   signInWithEmailAndPassword,
   UserInfo,
-  signOut,
-} from 'firebase/auth';
-import initFirebase from '../Config/firebase';
+  signOut
+} from "firebase/auth";
+import initFirebase from "../Config/firebase";
+import { GoogleAuthProvider } from "firebase/auth";
+
+const provider: GoogleAuthProvider = new GoogleAuthProvider();
 
 initFirebase();
 
 const auth: Auth = getAuth();
 
-const signupUser = async (
-  email: string,
-  password: string
-): Promise<UserInfo | string> => {
+const signupUser = async (email: string, password: string): Promise<UserInfo | string> => {
   try {
-    const result: UserCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    const result: UserCredential = await createUserWithEmailAndPassword(auth, email, password);
 
     return result.user;
   } catch (e: unknown) {
-    let message = 'Unknown Error';
+    let message = "Unknown Error";
     if (e instanceof Error) {
-      message = e.message.replace('Firebase: ', '');
+      message = e.message.replace("Firebase: ", "");
     }
     return message;
   }
 };
 
-const loginUser = async (
-  email: string,
-  password: string
-): Promise<UserInfo | string> => {
+const loginUser = async (email: string, password: string): Promise<UserInfo | string> => {
   try {
-    const result: UserCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    const result: UserCredential = await signInWithEmailAndPassword(auth, email, password);
     return result.user;
   } catch (e: unknown) {
-    let message = 'Unknown Error';
+    let message = "Unknown Error";
     if (e instanceof Error) {
-      message = e.message.replace('Firebase: ', '');
+      message = e.message.replace("Firebase: ", "");
     }
     return message;
   }
@@ -62,7 +51,7 @@ const AuthService = {
   auth,
   signupUser,
   loginUser,
-  logoutUser,
+  logoutUser
 };
 
 export default AuthService;
