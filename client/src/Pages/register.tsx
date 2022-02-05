@@ -6,6 +6,7 @@ import AuthService from "../Services/authService";
 import { useNavigate } from "react-router";
 import { UserInfo } from "@firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { createUserProfile } from "../Services/dbService";
 
 const Register: React.FC = () => {
   const [form] = Form.useForm();
@@ -27,6 +28,7 @@ const Register: React.FC = () => {
       setErrorMsg(res);
       setLoading(false);
     } else {
+      createUserProfile(res.uid);
       navigate("/");
     }
   };
