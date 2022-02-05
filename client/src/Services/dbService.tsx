@@ -50,7 +50,7 @@ export async function getUserWorkouts(user: string): Promise<IWorkout[] | undefi
       obj.id = doc.id;
       res.push(obj);
       // doc.data() is never undefined for query doc snapshots
-      console.log(obj);
+      //console.log(obj);
     });
     return res;
   } catch (e) {

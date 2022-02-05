@@ -14,9 +14,9 @@ export interface IWorkout {
 }
 
 export interface IWorkoutContext{
-  savedWorkout: IWorkout | null,
-  storeSavedWorkout: (exisitingWorkout: IWorkout) => void,
-  clearSavedWorkout: ()=> void,
+  existingWorkout: IWorkout | null,
+  storeExistingWorkout: (exisitingWorkout: IWorkout) => void,
+  clearExistingWorkout: ()=> void,
   workout: ISet[],
   storeWorkout: (sets: ISet[]) => void,
   clearWorkout: ()=> void

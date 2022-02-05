@@ -2,9 +2,9 @@ import React, { createContext, useState } from 'react';
 import { ISet, IWorkout, IWorkoutContext } from '../interfaces';
 import { useStateWithLocalStorageForArray } from "../Services/customHookService";
 const contextDefaultValues: IWorkoutContext = {
-  savedWorkout: null,
-  storeSavedWorkout: () => { },
-  clearSavedWorkout: ()=>{},
+  existingWorkout: null,
+  storeExistingWorkout: () => { },
+  clearExistingWorkout: ()=>{},
   workout: [],
   storeWorkout: () => { },
   clearWorkout: () => { }
@@ -14,24 +14,27 @@ export const WorkoutContext = createContext<IWorkoutContext>(contextDefaultValue
 
 const WorkoutProvider: React.FC = ({ children }) => {
   //const [workout, setWorkout] = useState<ISet[]>([]);
-  const [savedWorkout, setSavedWorkout] = useState < IWorkout | null>(null)
+  const [existingWorkout, setExistingWorkout] = useState < IWorkout | null>(null)
   const [workout, setWorkout] = useStateWithLocalStorageForArray("storedWorkout");
-  const storeWorkout = (sets: ISet[] ): void => {
+
+  const storeWorkout = (sets: ISet[]): void => {
   setWorkout(sets)
   }
-  const clearSavedWorkout = (): void => {
-    setSavedWorkout(null)
+  const clearExistingWorkout = ():void => {
+    setExistingWorkout(contextDefaultValues.existingWorkout)
+
   }
 
   const clearWorkout = (): void => {
     setWorkout([]);
+
   };
 
-  const storeSavedWorkout= (exisitingWorkout: IWorkout):void => {
-    setSavedWorkout(exisitingWorkout)
+  const storeExistingWorkout= (exisitingWorkout: IWorkout):void => {
+    setExistingWorkout(exisitingWorkout)
 }
   return (
-    <WorkoutContext.Provider value={{savedWorkout, storeSavedWorkout, clearSavedWorkout, workout, storeWorkout, clearWorkout}}>
+    <WorkoutContext.Provider value={{existingWorkout, storeExistingWorkout, clearExistingWorkout, workout, storeWorkout, clearWorkout}}>
     {children}
     </WorkoutContext.Provider>
   );

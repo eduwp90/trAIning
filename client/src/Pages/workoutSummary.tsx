@@ -15,9 +15,9 @@ const WorkoutSummary: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
   const [setsDisabled, setSetsDisabled] = useState<boolean>(true);
   const [sets, setSets] = useState<JSX.Element[]>([]);
-  const {workout, clearWorkout, savedWorkout, clearSavedWorkout} = useContext<IWorkoutContext>(WorkoutContext)
+  const {workout, clearWorkout, existingWorkout, clearExistingWorkout} = useContext<IWorkoutContext>(WorkoutContext)
   const navigate = useNavigate()
-  const workoutFromContext = (workout.length > 0 ? workout : (savedWorkout && savedWorkout.workout))
+  const workoutFromContext = (workout.length > 0 ? workout : (existingWorkout && existingWorkout.workout))
 
   const onFinish = (e: React.FormEvent<HTMLInputElement>): void => {
     const workoutArray = Object.values(e);
@@ -30,12 +30,12 @@ const WorkoutSummary: React.FC = () => {
         .then(() => { navigate('/') })
         .catch((e)=>{console.log(e)})
       }
-      else if (savedWorkout) {
-        console.log(savedWorkout)
+      else if (existingWorkout) {
+        console.log(existingWorkout)
         console.log(name)
         console.log(sets)
-        updateWorkout(savedWorkout.id, sets, name)
-        .then(() => { clearSavedWorkout() })
+        updateWorkout(existingWorkout.id, sets, name)
+        .then(() => { clearExistingWorkout() })
         .then(() => { navigate('/') })
         .catch((e)=>{console.log(e)})
       }
@@ -115,6 +115,11 @@ const WorkoutSummary: React.FC = () => {
     setSetsDisabled(false);
   }
 
+  function returnHome(): void{
+    clearExistingWorkout()
+    navigate('/')
+  }
+
   useEffect(() => {
     if (setsArray) {
       setSets(setsArray);
@@ -139,15 +144,15 @@ const WorkoutSummary: React.FC = () => {
               required: true
             }
           ]}
-        initialValue={savedWorkout && savedWorkout.name}>
+        initialValue={existingWorkout && existingWorkout.name}>
           <Input placeholder="e.g. Workout 1" />
         </Form.Item>
         <p>
           Would you like to edit your sets? <Button onClick={() => handleEdit()}>Edit</Button>
         </p>
         {sets}
-        <div className={savedWorkout ? "buttonDiv" : ''}>
-          { savedWorkout &&<Button onClick={(()=>{navigate('/')})}>Return to home</Button> }
+        <div className={existingWorkout ? "buttonDiv" : ''}>
+          { existingWorkout &&<Button onClick={returnHome}>Return to home</Button> }
         <Button type="primary" htmlType="submit">
           Save workout
         </Button>

@@ -11,28 +11,28 @@ type WorkoutItemProps = {
 };
 
 const WorkoutItem: React.FC<WorkoutItemProps> = ({ workout }) => {
-  const { storeSavedWorkout } = useContext<IWorkoutContext>(WorkoutContext)
+  const { storeExistingWorkout } = useContext<IWorkoutContext>(WorkoutContext)
   const navigate = useNavigate()
 
   const startWorkout = (): void => {
-   storeSavedWorkout(workout)
+   storeExistingWorkout(workout)
     navigate("/workout")
   }
 
   const editWorkout = (): void => {
-    storeSavedWorkout(workout)
+    storeExistingWorkout(workout)
     navigate("/summary")
   }
-console.log("here",workout)
+
   return (
     <div className="workout_container" onClick={editWorkout}>
       <div className="workout_headline"></div>
       <div className="workout_info">
         <h4 className="workout_info_name">{workout.name}</h4>
         <h5 className="workout_info_exercise">{workout.workout[0].exer}</h5>
-        <Button type="text" className="startworkoutButton" onClick={startWorkout}>Start workout</Button>
+        <Button  type="text" className="startworkoutButton" onClick={startWorkout}>Start workout</Button>
         {/* <EditOutlined style={{ position: "absolute", top: "1em", right: "1em" }} /> */}
-        {/* <InfoCircleOutlined style={{ position: "absolute", top: "1em", right: "1em" }}/> */}
+        <InfoCircleOutlined style={{ position: "absolute", top: "1em", right: "1em" }}/>
       </div>
     </div>
   );
