@@ -7,7 +7,9 @@ import {
   getDocs,
   DocumentReference,
   DocumentData,
-  Query
+  Query,
+  doc,
+  updateDoc
 } from "firebase/firestore/lite";
 import { ISet, IWorkout, IWorkoutResponse } from "../interfaces";
 
@@ -24,6 +26,19 @@ export async function addWorkout(user: string, workout: ISet[], name: string): P
   }
 }
 
+export async function updateWorkout(id: string, workout: ISet[], name: string): Promise<void> {
+  try {
+    const docRef: DocumentReference<DocumentData> = doc(db, "workoutsDb", id);
+      await updateDoc(docRef, {
+        name: name,
+        workout: workout
+    })
+    console.log("Document updated with ID: ", docRef.id);
+  } catch (e) {
+    console.log("Error adding document: ", e);
+  }
+}
+
 export async function getUserWorkouts(user: string): Promise<IWorkout[] | undefined> {
   const q: Query<DocumentData> = query(collection(db, "workoutsDb"), where("user", "==", user));
 
@@ -35,7 +50,7 @@ export async function getUserWorkouts(user: string): Promise<IWorkout[] | undefi
       obj.id = doc.id;
       res.push(obj);
       // doc.data() is never undefined for query doc snapshots
-      console.log(obj);
+      //console.log(obj);
     });
     return res;
   } catch (e) {

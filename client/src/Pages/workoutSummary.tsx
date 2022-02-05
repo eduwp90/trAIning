@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ISet, IWorkoutContext } from "../interfaces";
 import "./pages.less";
 import "../Components/components.less";
-import { addWorkout } from "../Services/dbService";
+import { addWorkout, updateWorkout } from "../Services/dbService";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
 import { WorkoutContext } from "../Context/workoutProvider";
@@ -15,29 +15,36 @@ const WorkoutSummary: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
   const [setsDisabled, setSetsDisabled] = useState<boolean>(true);
   const [sets, setSets] = useState<JSX.Element[]>([]);
-  const { workout, clearWorkout } = useContext<IWorkoutContext>(WorkoutContext);
-  const navigate = useNavigate();
+  const {workout, clearWorkout, existingWorkout, clearExistingWorkout} = useContext<IWorkoutContext>(WorkoutContext)
+  const navigate = useNavigate()
+  const workoutFromContext = (workout.length > 0 ? workout : (existingWorkout && existingWorkout.workout))
 
   const onFinish = (e: React.FormEvent<HTMLInputElement>): void => {
     const workoutArray = Object.values(e);
     const name: string = workoutArray.pop();
-    const sets: ISet[] = workoutArray;
+    const sets: ISet[] =  workoutArray;
     if (user) {
-      addWorkout(user.uid, sets, name)
-        .then(() => {
-          clearWorkout();
-        })
-        .then(() => {
-          navigate("/");
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      if (workout.length > 0) {
+        addWorkout(user.uid, sets, name)
+        .then(() => { clearWorkout() })
+        .then(() => { navigate('/') })
+        .catch((e)=>{console.log(e)})
+      }
+      else if (existingWorkout) {
+        console.log(existingWorkout)
+        console.log(name)
+        console.log(sets)
+        updateWorkout(existingWorkout.id, sets, name)
+        .then(() => { clearExistingWorkout() })
+        .then(() => { navigate('/') })
+        .catch((e)=>{console.log(e)})
+      }
     }
   };
 
-  const setsArray: JSX.Element[] = workout.map((set) => {
-    const id: number = workout.indexOf(set);
+  const setsArray: JSX.Element[] | null = workoutFromContext && workoutFromContext.map((set) => {
+    const id: number = workoutFromContext.indexOf(set);
+    console.log(id)
     return (
       <div key={id} id={`${id}`} className="set-Div">
         <div className="set-Div_inputs">
@@ -108,10 +115,17 @@ const WorkoutSummary: React.FC = () => {
     setSetsDisabled(false);
   }
 
+  function returnHome(): void{
+    clearExistingWorkout()
+    navigate('/')
+  }
+
   useEffect(() => {
     let mounted = true;
     if (mounted) {
-      setSets(setsArray);
+      if (setsArray) {
+        setSets(setsArray);
+      }
     }
     return () => {
       mounted = false;
@@ -121,7 +135,10 @@ const WorkoutSummary: React.FC = () => {
   useEffect(() => {
     let mounted = true;
     if (mounted) {
-      setSets(setsArray);
+      if (setsArray) {
+        setSets(setsArray)
+      }
+
     }
     return () => {
       mounted = false;
@@ -139,16 +156,21 @@ const WorkoutSummary: React.FC = () => {
             {
               required: true
             }
-          ]}>
+          ]}
+        initialValue={existingWorkout && existingWorkout.name}>
           <Input placeholder="e.g. Workout 1" />
         </Form.Item>
         <p>
           Would you like to edit your sets? <Button onClick={() => handleEdit()}>Edit</Button>
         </p>
         {sets}
+        <div className={existingWorkout ? "buttonDiv" : ''}>
+          { existingWorkout &&<Button onClick={returnHome}>Return to home</Button> }
         <Button type="primary" htmlType="submit">
           Save workout
         </Button>
+          </div>
+
       </Form>
       ;
     </div>
