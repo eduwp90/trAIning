@@ -6,6 +6,8 @@ import AuthService from "../Services/authService";
 import { useNavigate } from "react-router";
 import { UserInfo } from "@firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { calculateBMI } from "../helpers";
+import { addNewProfile } from "../Services/dbService";
 
 const Register: React.FC = () => {
   const [form] = Form.useForm();
@@ -21,6 +23,8 @@ const Register: React.FC = () => {
     setError(false);
     console.log(values);
 
+    const bmi: number = calculateBMI(values.height, values.weight);
+
     const res: UserInfo | string = await AuthService.signupUser(values.email, values.password);
 
     if (typeof res === "string") {
@@ -28,6 +32,7 @@ const Register: React.FC = () => {
       setErrorMsg(res);
       setLoading(false);
     } else {
+      addNewProfile(res.uid, values.name, values.surname, values.height, values.weight, bmi);
       navigate("/");
     }
   };
