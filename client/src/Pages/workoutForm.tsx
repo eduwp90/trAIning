@@ -21,9 +21,9 @@ const WorkoutForm: React.FC = () => {
     setFormSets((prev) => prev.filter((set) => set.props.id !== id));
   }
 
-  const onFinish = async (e: React.FormEvent<HTMLInputElement>): Promise<void> => {
+  const onFinish = (e: React.FormEvent<HTMLInputElement>): void => {
     console.log(Object.values(e));
-    await storeWorkout(Object.values(e));
+    storeWorkout(Object.values(e));
     navigate('/workout')
   };
 
