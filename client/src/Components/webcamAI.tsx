@@ -13,7 +13,7 @@ let isMounted: boolean;
 
 type WebcamAIProps = {
   incrementRepCount: Function;
-  URL: MutableRefObject<string>;
+  URL: string;
   isResting: boolean;
   isFinished: boolean;
 };
@@ -55,8 +55,8 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
   const webcamRef = useRef<Webcam>(null);
 
   async function init(): Promise<void> {
-    const modelURL = URL.current + "model.json";
-    const metadataURL = URL.current + "metadata.json";
+    const modelURL = URL+ "model.json";
+    const metadataURL = URL+ "metadata.json";
 
     model = await tmPose.load(modelURL, metadataURL);
     maxPredictions = model.getTotalClasses();

@@ -11,16 +11,20 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   const [user] = useAuthState(AuthService.auth);
   const [userWorkouts, setUserWorkouts] = useState<IWorkout[]>([]);
+  const [publicWorkouts, setPublicWorkouts] = useState<IWorkout[]>([]);
 
   useEffect(() => {
     let mounted = true;
     const renderUserWorkouts = async () => {
       let userData;
+      let publicData;
       if (user && mounted) {
         userData = await getUserWorkouts(user!.uid);
+        publicData = await getUserWorkouts("public");
       }
-      if (userData && mounted) {
+      if (userData && publicData && mounted) {
         setUserWorkouts([...userWorkouts, ...userData]);
+        setPublicWorkouts([...publicWorkouts, ...publicData]);
       }
     };
     renderUserWorkouts();
@@ -38,12 +42,12 @@ const Home: React.FC = () => {
       <div className="list_title">
         <h2>Here are some recomedantions</h2>
       </div>
-      <WorkoutList workouts={userWorkouts}></WorkoutList>
+      <WorkoutList workouts={publicWorkouts}></WorkoutList>
       <Button
         className="new_workout_btn"
         size="large"
         onClick={() => {
-          navigate("/workout");
+          navigate("createworkout");
         }}>
         Create a new workout
       </Button>
