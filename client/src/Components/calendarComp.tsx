@@ -2,7 +2,7 @@ import React from "react";
 // import CalendarComponent from "../Components/calendar";
 import { DatePicker, TimePicker, Calendar } from "../Calendar";
 // import format from "dayjs";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 // const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 
@@ -10,38 +10,34 @@ type CalendarCompProps = {
   daysActive: Dayjs[];
 };
 const CalendarComp: React.FC<CalendarCompProps> = ({ daysActive }) => {
-  // function onChange(date: any, dateString: any) {
-  //   console.log(date, dateString);
-  // }
-  function onPanelChange(value: any, mode: any) {
-    console.log(value, mode);
+  function onChange(day: Dayjs) {
+    // console.log(day);
   }
 
   function onFullRender(date: Dayjs) {
-    console.log(date);
-    if (daysActive[0] === date) {
-      console.log(date);
-      console.log(daysActive);
+    if (daysActive.find((day) => day.isSame(date, "day"))) {
+      return (
+        <div
+          style={{
+            background: "#2a9d8f",
+            color: "white",
+            borderRadius: "15px",
+            margin: "0 8px"
+          }}>
+          {date.date()}
+        </div>
+      );
     }
     return <div>{date.date()}</div>;
   }
 
   return (
-    <div className="pages-Div">
-      <div>
-        {/* <DatePicker onChange={onChange} /> */}
-        <br />
-        {/* <MonthPicker onChange={onChange} placeholder="Select month" /> */}
-        <br />
-        {/* <RangePicker onChange={onChange} /> */}
-        <br />
-        {/* <WeekPicker onChange={onChange} placeholder="Select week" /> */}
-      </div>
-      <Calendar onPanelChange={onPanelChange} fullscreen={false} dateFullCellRender={onFullRender} />
+    <div className="calendar-Div">
+      <h2>Days Active:</h2>
+      <Calendar fullscreen={false} dateFullCellRender={onFullRender} defaultValue={dayjs()} onChange={onChange} />
       {/* <div>
-        <TimePicker defaultValue={format("12:08:23", "HH:mm:ss")} size="large" />
-        <TimePicker defaultValue={format("12:08:23", "HH:mm:ss")} />
-        <TimePicker defaultValue={format("12:08:23", "HH:mm:ss")} size="small" />
+        <DatePicker onChange={onChange} size="large" />
+        <TimePicker defaultValue={dayjs("12:08:23", "HH:mm:ss")} size="large" />
       </div> */}
     </div>
   );
