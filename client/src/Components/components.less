@@ -74,11 +74,15 @@
 
 .workout_container {
   height: 20vh;
+  max-height: 10rem;
+  min-height: 7rem;
   margin-top: 0.5rem;
   margin-bottom: 2rem;
   margin-right: 1rem;
   margin-left: 2px;
   width: 60vw;
+  max-width: 20rem;
+  min-width: 15rem;
   background: white;
   border-radius: @borderRadius;
   box-shadow: @boxShadow;
@@ -108,9 +112,15 @@
   display: flex;
   overflow-x: scroll;
   width: 100vw;
-  scrollbar-width: 0px;
+  // scrollbar-width: 0px;
 }
 
-.workout_list::-webkit-scrollbar {
-  display: none;
+.workout_list::-webkit-scrollbar-track {
+  background-color: black;
+}
+
+@media only screen and (max-width: 500px) {
+  .workout_list::-webkit-scrollbar {
+    display: none;
+  }
 }
