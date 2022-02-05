@@ -41,6 +41,7 @@ const Main: React.FC = () => {
                           style={{
                             width: 32
                           }}
+                          preview={false}
                         />
                       )
                     }>

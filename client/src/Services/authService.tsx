@@ -5,7 +5,8 @@ import {
   UserCredential,
   signInWithEmailAndPassword,
   UserInfo,
-  signOut
+  signOut,
+  signInWithPopup
 } from "firebase/auth";
 import initFirebase from "../Config/firebase";
 import { GoogleAuthProvider } from "firebase/auth";
@@ -43,6 +44,15 @@ const loginUser = async (email: string, password: string): Promise<UserInfo | st
   }
 };
 
+const signInWithGoogle = async () => {
+  try {
+    const res = await signInWithPopup(auth, provider);
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const logoutUser = () => {
   signOut(auth);
 };
@@ -51,7 +61,8 @@ const AuthService = {
   auth,
   signupUser,
   loginUser,
-  logoutUser
+  logoutUser,
+  signInWithGoogle
 };
 
 export default AuthService;

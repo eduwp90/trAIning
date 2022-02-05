@@ -29,6 +29,10 @@ const Login: React.FC = () => {
     }
   };
 
+  const googleBtn = async () => {
+    AuthService.signInWithGoogle();
+  };
+
   useEffect(() => {
     if (user) navigate("/");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,12 +43,10 @@ const Login: React.FC = () => {
       <div className="login-container">
         <div className="login-logo">LOGO</div>
         <h1>Log in</h1>
-        <Button className="google-signin-btn" type="default" icon={<GoogleOutlined />}>
+        <Button className="google-signin-btn" type="default" icon={<GoogleOutlined />} onClick={googleBtn}>
           Continue with Google
         </Button>
-        <Divider plain >
-          or
-        </Divider>
+        <Divider plain>or</Divider>
         {error && <Alert message={errorMsg} type="error" showIcon style={{ marginBottom: "1rem" }} />}
         <Form
           name="normal_login"
@@ -64,9 +66,9 @@ const Login: React.FC = () => {
               Log in
             </Button>
           </Form.Item>
-            <div className="register-link">
-              Not a member? <Link to="/register"> Create account!</Link>
-            </div>
+          <div className="register-link">
+            Not a member? <Link to="/register"> Create account!</Link>
+          </div>
         </Form>
       </div>
     </div>
