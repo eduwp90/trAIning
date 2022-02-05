@@ -1,20 +1,25 @@
 import { Button } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserWorkouts } from "../Services/dbService";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
-import { IWorkout } from "../interfaces";
+import { IWorkout, IWorkoutContext } from "../interfaces";
 import WorkoutList from "../Components/workoutList";
+import { WorkoutContext } from "../Context/workoutProvider";
+import { clear } from "console";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const [user] = useAuthState(AuthService.auth);
   const [userWorkouts, setUserWorkouts] = useState<IWorkout[]>([]);
   const [publicWorkouts, setPublicWorkouts] = useState<IWorkout[]>([]);
+  const {clearWorkout, clearExistingWorkout} = useContext<IWorkoutContext>(WorkoutContext)
 
   useEffect(() => {
     let mounted = true;
+    clearExistingWorkout()
+    clearWorkout()
     const renderUserWorkouts = async () => {
       let userData;
       let publicData;
