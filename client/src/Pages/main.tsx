@@ -47,6 +47,9 @@ const Main: React.FC = () => {
                     {!user.photoURL && `${user.email?.charAt(0).toUpperCase()}`}
                   </Avatar>
                 }>
+                <Menu.Item key="analytics">
+                  <Link to="/analytics">Analytics</Link>
+                </Menu.Item>
                 <Menu.Item key="logout" onClick={logout}>
                   <LogoutOutlined /> Logout
                 </Menu.Item>
