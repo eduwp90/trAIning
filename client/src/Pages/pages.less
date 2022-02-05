@@ -147,55 +147,20 @@
   justify-content: center;
 }
 
-.ant-steps-item:not(.ant-last .ant-first) {
+.ant-steps-item {
   display: flex;
   align-items: center;
-  min-width: 40.5vw;
-  max-width: 40.5vw;
+  min-width: 30vw;
+  max-width: 30vw;
   height: 100%;
+}
+
+.ant-steps-horizontal {
+  width: auto;
 }
 
 .ant-steps-label-horizontal {
   width: auto;
-  overflow: hidden;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.ant-first {
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  height: 100%;
-  max-width: calc(~"40.5vw - 16px") !important;
-  min-width: calc(~"40.5vw - 16px") !important;
-}
-
-.ant-last {
-  display: flex;
-  align-items: center;
-  justify-content: end;
-  height: 100%;
-  max-width: 48px !important;
-  min-width: 48px !important;
-}
-
-.ant-only {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  max-width: 32px !important;
-  min-width: 32px !important;
-}
-
-#step-anchor {
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-  text-align: center;
 }
 
 #summaryForm {
@@ -221,9 +186,4 @@ h2 {
   position: fixed;
   bottom: 2rem;
   box-shadow: @boxShadow;
-}
-
-.buttonDiv {
-  display: flex;
-  justify-content: space-between;
 }

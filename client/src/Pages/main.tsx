@@ -21,9 +21,9 @@ const Main: React.FC = () => {
       <Header className="navbar">
         <div className="nav-logo">LOGO</div>
         <div className="nav-content">
-          <Menu mode="horizontal" defaultSelectedKeys={["0"]}>
+          <Menu mode="horizontal" defaultSelectedKeys={[]} style={{ flexGrow: "1" }}>
             <Menu.Item key={0}>
-              <Link to="/home">{`Home`}</Link>
+              <Link to="/">Home</Link>
             </Menu.Item>
           </Menu>
         </div>
