@@ -7,6 +7,7 @@ export interface ISet {
 }
 
 export interface IWorkout {
+  id: string,
   user: string;
   name: string;
   time: number;
@@ -14,11 +15,15 @@ export interface IWorkout {
   workout: ISet[];
 }
 
-export interface IWorkoutContext {
-  workout: ISet[];
-  storeWorkout: (sets: ISet[]) => void;
-  clearWorkout: () => void;
+export interface IWorkoutContext{
+  existingWorkout: IWorkout | null,
+  storeExistingWorkout: (exisitingWorkout: IWorkout) => void,
+  clearExistingWorkout: ()=> void,
+  workout: ISet[],
+  storeWorkout: (sets: ISet[]) => void,
+  clearWorkout: ()=> void
 }
+
 export interface IWorkoutResponse extends IWorkout, DocumentData {
   id: string;
 }

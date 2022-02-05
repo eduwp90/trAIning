@@ -1,7 +1,7 @@
-import React, { createRef, ReactNode, useEffect, useState, useRef, useContext } from "react";
+import React, { createRef, ReactNode, useEffect, useState, useRef, useContext, useCallback } from "react";
 import "./pages.less";
 import { Steps, message, Avatar } from "antd";
-import { IWorkoutContext } from "../interfaces";
+import { ISet, IWorkoutContext } from "../interfaces";
 import WebcamAI from "../Components/webcamAI";
 import { iconSelector } from "../Components/icons";
 import SaveWorkout from "../Components/saveWorkout";
@@ -14,8 +14,10 @@ import { useStateWithLocalStorage } from "../Services/customHookService";
 
 const { Step } = Steps;
 
+
 const Workout: React.FC = () => {
-  const { workout } = useContext<IWorkoutContext>(WorkoutContext);
+  const { workout, existingWorkout } = useContext<IWorkoutContext>(WorkoutContext);
+  const [isLoading, setIsLoading] = useState(true);
   const [current, setCurrent] = useStateWithLocalStorage("current");
   const [repCount, setRepCount] = useStateWithLocalStorage("repCount");
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -23,34 +25,56 @@ const Workout: React.FC = () => {
   const isResting = useRef(false);
   const isFinished = useRef(false);
   const currentStepRef = createRef<HTMLDivElement>();
-  const URL = useRef(modelsByType[workout[current].exer]);
+  const [sets, setSets] = useState<ISet[]>([]);
+  const [URL, setURL] = useState('');
+  //const URL = useRef(modelsByType[sets[current].exer]);
+
+
+
+
 
   useEffect(() => {
-    const renderNextSet = (): void => {
-      setRepCount(0);
-      renderRest(workout[current].rest);
-      setCurrent((prev) => prev + 1);
-    };
-    const renderRest = (time: number): void => {
-      if (time > 0) {
-        setRest(true);
-        isResting.current = true;
-        setTimeout(() => {
-          setRest(false);
-          isResting.current = false;
-        }, time * 60000);
+    if (workout.length > 0) {
+      setSets(workout)
+
+    } else {
+      if (existingWorkout) {
+        setSets(existingWorkout.workout)
       }
-    };
-    if (repCount === workout[current].reps && current < workout.length - 1) {
-      renderNextSet();
-    } else if (repCount === workout[current].reps && current === workout.length - 1) {
-      renderFinishedWorkout();
     }
-  }, [repCount, current, workout, setRepCount, setCurrent, setRest]);
+    setIsLoading(false)
+  }, [workout, existingWorkout])
 
   useEffect(() => {
-    URL.current = modelsByType[workout[current].exer];
-  }, [current, workout]);
+    if (!isLoading) {
+      const renderNextSet = (): void => {
+        setRepCount(0);
+        renderRest(sets[current].rest);
+        setCurrent((prev) => prev + 1);
+      };
+      const renderRest = (time: number): void => {
+        if (time > 0) {
+          setRest(true);
+          isResting.current = true;
+          setTimeout(() => {
+            setRest(false);
+            isResting.current = false;
+          }, time * 60000);
+        }
+      };
+      if (repCount === sets[current].reps && current < sets.length - 1) {
+        renderNextSet();
+      } else if (repCount === sets[current].reps && current === sets.length - 1) {
+        renderFinishedWorkout();
+      }
+    }}, [repCount, current, sets, setRepCount, setCurrent, setRest]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      //URL.current = modelsByType[sets[current].exer]
+      setURL(modelsByType[sets[current].exer])
+    };
+  }, [current, sets]);
 
   const renderFinishedWorkout = (): void => {
     message.success("What a great workout! Nicely done!");
@@ -59,12 +83,12 @@ const Workout: React.FC = () => {
   };
 
   const generateStepItems = (): ReactNode => {
-    return workout.map((item, i, array) => {
+    return sets.map((item, i, array) => {
       function setIcon() {
         let Icon = iconSelector(item.exer);
-        if (workout.indexOf(item) === current) {
+        if (sets.indexOf(item) === current) {
           return <Avatar style={{ backgroundColor: "#2A9D8F ", color: "white" }} icon={<Icon />} />;
-        } else if (workout.indexOf(item) < current) {
+        } else if (sets.indexOf(item) < current) {
           return <Avatar style={{ border: "1px solid #2A9D8F", color: "white" }} icon={<Icon />} />;
         }
         return <Avatar style={{ backgroundColor: "#lightgray", color: "white" }} icon={<Icon />} />;
@@ -73,7 +97,7 @@ const Workout: React.FC = () => {
       if (i === 0) lastClass = " ant-first";
       if (i === array.length - 1) lastClass = " ant-last";
       if (array.length === 1) lastClass = " ant-only";
-      if (workout.indexOf(item) === current) {
+      if (sets.indexOf(item) === current) {
         return (
           <div className={"ant-steps-item ant-steps" + lastClass}>
             <div id="step-anchor" ref={currentStepRef}></div>
@@ -102,8 +126,8 @@ const Workout: React.FC = () => {
     currentStepRef.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "start" });
   }, [currentStepRef]);
 
-  return (
-    <div className="workout-Div">
+  return ( isLoading ? <p>loading</p>
+    :<div className="workout-Div">
       <div className="steps-Div">
         <Steps current={current} responsive={false}>
           {generateStepItems()}
@@ -118,7 +142,7 @@ const Workout: React.FC = () => {
             <div>
               <p className="set-info-current">Current set:</p>
               <p className="set-info-current">
-                Completed ({repCount}/{workout[current].reps}) reps of {workout[current].exer}
+                Completed ({repCount}/{sets[current].reps}) reps of {sets[current].exer}
               </p>
             </div>
           ) : (
@@ -127,17 +151,17 @@ const Workout: React.FC = () => {
 
               <Countdown
                 title={"Your workout will continue in:"}
-                value={Date.now() + 60000 * workout[current - 1].rest}
+                value={Date.now() + 60000 * sets[current - 1].rest}
               />
             </div>
           )}
-          {!rest && repCount < workout[current].reps && (
-            <ProgressBar progress={(repCount / workout[current].reps) * 100} />
+          {!rest && repCount < sets[current].reps && (
+            <ProgressBar progress={(repCount / sets[current].reps) * 100} />
           )}
-          {workout.length > 1 && current !== workout.length - 1 ? (
+          {sets.length > 1 && current !== sets.length - 1 ? (
             <p>
               {" "}
-              Up next: {workout[current + 1].reps} reps of {workout[current + 1].exer}
+              Up next: {sets[current + 1].reps} reps of {sets[current + 1].exer}
             </p>
           ) : null}
         </div>
