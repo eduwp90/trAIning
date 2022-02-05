@@ -10,7 +10,7 @@ type SaveWorkoutProps = {
 };
 
 const SaveWorkout: React.FC<SaveWorkoutProps> = ({ isModalVisible, setIsModalVisible }) => {
-const {clearWorkout} = useContext<IWorkoutContext>(WorkoutContext)
+const {existingWorkout, clearWorkout, clearExistingWorkout} = useContext<IWorkoutContext>(WorkoutContext)
   const navigate = useNavigate()
 
   const handleOk = () => {
@@ -23,28 +23,40 @@ const {clearWorkout} = useContext<IWorkoutContext>(WorkoutContext)
 
   const returnHome = () => {
     clearWorkout()
+    clearExistingWorkout()
     navigate('/')
   }
 
 
   return (
     <div className="popup">
-      <Modal
+      {!existingWorkout? <Modal
         title="Do you want to save this workout?"
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
-        closable
+        closable={false}
         footer={[
-            <Button key="submit" type="primary" onClick={handleOk}>
-              Save
-            </Button>,
-            <Button
-              onClick={returnHome}
-            >
-              return to home
-            </Button>
-        ]}/>
+          <Button key="submit" type="primary" onClick={handleOk}>
+            Save
+          </Button>,
+          <Button
+            onClick={returnHome}
+          >
+            return to home
+          </Button>
+        ]} />
+        : <Modal
+          title={`${existingWorkout.name} complete!`}
+          visible={isModalVisible}
+          closable={false}
+        footer={[
+          <Button
+            onClick={returnHome}
+          >
+            return to home
+          </Button>
+        ]} />}
     </div>
   );
 };
