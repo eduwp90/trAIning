@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "antd/dist/antd.less";
 import { Link } from "react-router-dom";
-import { Form, Input, Button, Alert } from "antd";
+import { Form, Input, Button, Alert, Space, InputNumber } from "antd";
 import AuthService from "../Services/authService";
 import { useNavigate } from "react-router";
 import { UserInfo } from "@firebase/auth";
@@ -39,7 +39,8 @@ const Register: React.FC = () => {
   return (
     <div className="background-div">
       <div className="register-container">
-        {error && <Alert message={errorMsg} type="error" showIcon />}
+        <h1>Sign Up</h1>
+        {error && <Alert message={errorMsg} type="error" showIcon style={{ margin: "1rem 0" }} />}
         <Form
           layout="vertical"
           form={form}
@@ -49,7 +50,6 @@ const Register: React.FC = () => {
           scrollToFirstError>
           <Form.Item
             name="email"
-            label="E-mail"
             rules={[
               {
                 type: "email",
@@ -60,12 +60,11 @@ const Register: React.FC = () => {
                 message: "Please input your E-mail!"
               }
             ]}>
-            <Input />
+            <Input placeholder="Email" />
           </Form.Item>
 
           <Form.Item
             name="password"
-            label="Password"
             rules={[
               {
                 required: true,
@@ -73,12 +72,11 @@ const Register: React.FC = () => {
               }
             ]}
             hasFeedback>
-            <Input.Password />
+            <Input.Password placeholder="Password" />
           </Form.Item>
 
           <Form.Item
             name="confirm"
-            label="Confirm Password"
             dependencies={["password"]}
             hasFeedback
             rules={[
@@ -96,8 +94,26 @@ const Register: React.FC = () => {
                 }
               })
             ]}>
-            <Input.Password />
+            <Input.Password placeholder="Repeat password" />
           </Form.Item>
+
+          <Space style={{ display: "flex" }} align="baseline">
+            <Form.Item name="name" rules={[{ required: true, message: "Missing first name" }]}>
+              <Input placeholder="First Name" />
+            </Form.Item>
+            <Form.Item name="surname" rules={[{ required: true, message: "Missing last name" }]}>
+              <Input placeholder="Last Name" />
+            </Form.Item>
+          </Space>
+
+          <Space style={{ display: "flex" }} align="baseline">
+            <Form.Item name="height" rules={[{ required: true, message: "Missing height" }]}>
+              <InputNumber min={100} max={250} placeholder="Height" addonAfter="cm" />
+            </Form.Item>
+            <Form.Item name="surname" rules={[{ required: true, message: "Missing weight" }]}>
+              <InputNumber min={20} max={200} placeholder="Weight" addonAfter="Kg" />
+            </Form.Item>
+          </Space>
 
           <Form.Item>
             <Button type="primary" htmlType="submit" loading={loading}>
