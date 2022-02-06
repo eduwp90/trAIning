@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { UserInfo } from "@firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./pages.less";
+import { IGoogleUserResponse } from "../interfaces";
 
 const Login: React.FC = () => {
   const [error, setError] = useState(false);
@@ -30,7 +31,25 @@ const Login: React.FC = () => {
   };
 
   const googleBtn = async () => {
-    AuthService.signInWithGoogle();
+    setLoading(true);
+    setError(false);
+    const res: IGoogleUserResponse | undefined = await AuthService.signInWithGoogle();
+    setLoading(false);
+
+    if (res) {
+      if (res.isNewUser) {
+        //redirect to complete register
+        navigate("/register", {
+          state: {
+            googleUserId: res.user.uid,
+            photoURL: res.user.photoURL
+          }
+        });
+      } else {
+        //log in with no further action
+        navigate("/");
+      }
+    }
   };
 
   useEffect(() => {

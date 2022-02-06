@@ -64,18 +64,22 @@ export async function addNewProfile(
   user: string,
   name: string,
   surname: string,
+  photoURL: string,
   height: number,
   weight: number,
   bmi: number
 ): Promise<void> {
   try {
+    console.log("db  ", db);
     await setDoc(doc(db, "profiles", user), {
       name: name,
       surname: surname,
+      photoURL: photoURL,
       height: height,
       weight: weight,
       bmi: bmi,
-      dates: []
+      dates: [],
+      friendsId: []
     });
 
     console.log("Saved profile");

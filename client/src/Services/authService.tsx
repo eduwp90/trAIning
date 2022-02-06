@@ -11,6 +11,8 @@ import {
 } from "firebase/auth";
 import initFirebase from "../Config/firebase";
 import { GoogleAuthProvider } from "firebase/auth";
+import { AdditionalUserInfo } from "@firebase/auth";
+import { IGoogleUserResponse } from "../interfaces";
 
 const provider: GoogleAuthProvider = new GoogleAuthProvider();
 
@@ -45,13 +47,18 @@ const loginUser = async (email: string, password: string): Promise<UserInfo | st
   }
 };
 
-const signInWithGoogle = async () => {
+const signInWithGoogle = async (): Promise<IGoogleUserResponse | undefined> => {
   try {
-    const res = await signInWithPopup(auth, provider);
-    console.log(res);
-    console.log(getAdditionalUserInfo(res));
+    const res: UserCredential = await signInWithPopup(auth, provider);
+
+    const additionalInfo: AdditionalUserInfo | null = getAdditionalUserInfo(res);
+
+    const UserInfo: IGoogleUserResponse = { user: res.user, isNewUser: additionalInfo?.isNewUser || null };
+
+    return UserInfo;
   } catch (error) {
     console.log(error);
+    return;
   }
 };
 
