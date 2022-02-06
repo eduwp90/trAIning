@@ -11,10 +11,11 @@ import {
   doc,
   updateDoc,
   arrayUnion,
-  getDoc
+  getDoc,
+  Timestamp
 } from "firebase/firestore/lite";
 import { ISet, IWorkout, IWorkoutResponse } from "../interfaces";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 export async function addWorkout(user: string, workout: ISet[], name: string): Promise<void> {
   try {
@@ -66,10 +67,11 @@ export async function getUserWorkouts(user: string): Promise<IWorkout[] | undefi
 
 export async function addDate(user: string, date: Dayjs): Promise<void> {
   console.log("got here in teh service");
+  const jsDate = date.toDate();
   try {
-    const docRef: DocumentReference<DocumentData> = doc(db, "profile", user);
+    const docRef: DocumentReference<DocumentData> = doc(db, "profiles", user);
     await updateDoc(docRef, {
-      dates: arrayUnion(date)
+      dates: arrayUnion(jsDate)
     });
     console.log("Document updated with ID: ", docRef.id);
   } catch (e) {
@@ -77,18 +79,28 @@ export async function addDate(user: string, date: Dayjs): Promise<void> {
   }
 }
 
+type tDateResponse = {
+  bmi: number;
+  dates: Timestamp[];
+  height: number;
+  name: string;
+  surname: string;
+  user: string;
+  weight: number;
+};
+
 export async function getUserActiveDates(user: string): Promise<Dayjs[] | undefined> {
-  let array;
+  const userRef = doc(db, "profiles", user);
+  const userProfile = await getDoc(userRef);
+  let userActiveDates: Dayjs[] = [];
   try {
-    const docRef = doc(db, "profiles", user);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      let obj = docSnap.data();
-      array = obj.dates;
-    } else {
-      array = [];
+    if (userProfile.exists()) {
+      const info = userProfile.data();
+      userActiveDates = info.dates.map((date: Timestamp) => {
+        return dayjs(date.toDate());
+      });
     }
-    return array;
+    return userActiveDates;
   } catch (error) {
     console.log("error fetching active dates list", error);
   }
