@@ -1,4 +1,4 @@
-import { Firestore, getFirestore } from "firebase/firestore/lite";
+import { Firestore, getFirestore } from "firebase/firestore";
 import initFirebase from "./firebase";
 
 const db: Firestore = getFirestore(initFirebase());

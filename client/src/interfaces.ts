@@ -1,4 +1,5 @@
 import { DocumentData, Timestamp } from "firebase/firestore/lite";
+import { User } from "firebase/auth";
 
 export interface ISet {
   exer: string;
@@ -35,4 +36,14 @@ export interface IDatesResponse extends DocumentData {
   weight: number;
   name: string;
   surname: string;
+}
+
+export interface IGoogleUserResponse {
+  user: User;
+  isNewUser: boolean | null;
+}
+
+export interface IGoogleDataRouter {
+  googleUserId: string;
+  photoURL: string;
 }

@@ -59,7 +59,7 @@ const Set: React.FC<SetProps> = ({ id, removeSet }) => {
         </Form.Item>
       </div>
 
-      <Button className="round_button" onClick={() => removeSet(id)}>
+      <Button id="round_button" onClick={() => removeSet(id)}>
         <CloseOutlined />
       </Button>
     </div>

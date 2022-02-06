@@ -48,7 +48,7 @@ const Home: React.FC = () => {
       </div>
       <WorkoutList workouts={publicWorkouts}></WorkoutList>
       <Button
-        className="new_workout_btn"
+        id="new_workout_btn"
         size="large"
         onClick={() => {
           navigate("createworkout");

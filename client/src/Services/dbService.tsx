@@ -12,8 +12,9 @@ import {
   updateDoc,
   arrayUnion,
   getDoc,
-  Timestamp
-} from "firebase/firestore/lite";
+  Timestamp,
+  setDoc
+} from "firebase/firestore";
 import { ISet, IWorkout, IWorkoutResponse, IDatesResponse } from "../interfaces";
 import dayjs, { Dayjs } from "dayjs";
 
@@ -97,19 +98,30 @@ export async function getUserActiveDates(user: string): Promise<Dayjs[] | undefi
 
 // Users Database
 
-export async function createUserProfile(user: string): Promise<void> {
+export async function addNewProfile(
+  user: string,
+  name: string,
+  surname: string,
+  photoURL: string,
+  height: number,
+  weight: number,
+  bmi: number
+): Promise<void> {
   try {
-    const docRef: DocumentReference<DocumentData> = await addDoc(collection(db, "profiles"), {
-      user: user,
+    console.log("db  ", db);
+    await setDoc(doc(db, "profiles", user), {
+      name: name,
+      surname: surname,
+      photoURL: photoURL,
+      height: height,
+      weight: weight,
+      bmi: bmi,
       dates: [],
-      name: "",
-      surname: "",
-      weight: 0,
-      height: 0,
-      bmi: 0
+      friendsId: []
     });
-    console.log("Document written with ID: ", docRef.id);
+
+    console.log("Saved profile");
   } catch (e) {
-    console.log("Error adding document: ", e);
+    console.log(e);
   }
 }
