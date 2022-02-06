@@ -9,8 +9,9 @@ import {
   DocumentData,
   Query,
   doc,
-  updateDoc
-} from "firebase/firestore/lite";
+  updateDoc,
+  setDoc
+} from "firebase/firestore";
 import { ISet, IWorkout, IWorkoutResponse } from "../interfaces";
 
 export async function addWorkout(user: string, workout: ISet[], name: string): Promise<void> {
@@ -29,10 +30,10 @@ export async function addWorkout(user: string, workout: ISet[], name: string): P
 export async function updateWorkout(id: string, workout: ISet[], name: string): Promise<void> {
   try {
     const docRef: DocumentReference<DocumentData> = doc(db, "workoutsDb", id);
-      await updateDoc(docRef, {
-        name: name,
-        workout: workout
-    })
+    await updateDoc(docRef, {
+      name: name,
+      workout: workout
+    });
     console.log("Document updated with ID: ", docRef.id);
   } catch (e) {
     console.log("Error adding document: ", e);
@@ -56,5 +57,33 @@ export async function getUserWorkouts(user: string): Promise<IWorkout[] | undefi
   } catch (e) {
     console.log(e);
     return;
+  }
+}
+
+export async function addNewProfile(
+  user: string,
+  name: string,
+  surname: string,
+  photoURL: string,
+  height: number,
+  weight: number,
+  bmi: number
+): Promise<void> {
+  try {
+    console.log("db  ", db);
+    await setDoc(doc(db, "profiles", user), {
+      name: name,
+      surname: surname,
+      photoURL: photoURL,
+      height: height,
+      weight: weight,
+      bmi: bmi,
+      dates: [],
+      friendsId: []
+    });
+
+    console.log("Saved profile");
+  } catch (e) {
+    console.log(e);
   }
 }
