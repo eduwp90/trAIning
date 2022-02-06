@@ -93,14 +93,14 @@ const Workout: React.FC = () => {
       if (array.length === 1) lastClass = " ant-only";
       if (sets.indexOf(item) === current) {
         return (
-          <div className={"ant-steps-item ant-steps" + lastClass}>
+          <div key={i} className={"ant-steps-item ant-steps" + lastClass}>
             <div id="step-anchor" ref={currentStepRef}></div>
-            <Step icon={setIcon()} key={item.exer} />
+            <Step icon={setIcon()} />
           </div>
         );
       }
 
-      return <Step className={lastClass} icon={setIcon()} key={item.exer} />;
+      return <Step className={lastClass} icon={setIcon()} key={i} />;
     });
   };
 

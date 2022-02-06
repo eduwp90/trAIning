@@ -21,9 +21,12 @@ const Main: React.FC = () => {
       <Header className="navbar">
         <div className="nav-logo">LOGO</div>
         <div className="nav-content">
-          <Menu mode="horizontal" defaultSelectedKeys={["0"]}>
+          <Menu mode="horizontal" defaultSelectedKeys={[]} style={{ flexGrow: "1" }}>
             <Menu.Item key={0}>
-              <Link to="/home">{`Home`}</Link>
+              <Link to="/">Home</Link>
+            </Menu.Item>
+            <Menu.Item key="analytics">
+              <Link to="/analytics">Analytics</Link>
             </Menu.Item>
           </Menu>
         </div>
@@ -47,9 +50,6 @@ const Main: React.FC = () => {
                     {!user.photoURL && `${user.email?.charAt(0).toUpperCase()}`}
                   </Avatar>
                 }>
-                <Menu.Item key="analytics">
-                  <Link to="/analytics">Analytics</Link>
-                </Menu.Item>
                 <Menu.Item key="logout" onClick={logout}>
                   <LogoutOutlined /> Logout
                 </Menu.Item>
