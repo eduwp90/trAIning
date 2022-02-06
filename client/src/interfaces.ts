@@ -1,4 +1,4 @@
-import { DocumentData } from "firebase/firestore/lite";
+import { DocumentData, Timestamp } from "firebase/firestore/lite";
 
 export interface ISet {
   exer: string;
@@ -7,7 +7,7 @@ export interface ISet {
 }
 
 export interface IWorkout {
-  id: string,
+  id: string;
   user: string;
   name: string;
   time: number;
@@ -15,15 +15,24 @@ export interface IWorkout {
   workout: ISet[];
 }
 
-export interface IWorkoutContext{
-  existingWorkout: IWorkout | null,
-  storeExistingWorkout: (exisitingWorkout: IWorkout) => void,
-  clearExistingWorkout: ()=> void,
-  workout: ISet[],
-  storeWorkout: (sets: ISet[]) => void,
-  clearWorkout: ()=> void
+export interface IWorkoutContext {
+  existingWorkout: IWorkout | null;
+  storeExistingWorkout: (exisitingWorkout: IWorkout) => void;
+  clearExistingWorkout: () => void;
+  workout: ISet[];
+  storeWorkout: (sets: ISet[]) => void;
+  clearWorkout: () => void;
 }
 
 export interface IWorkoutResponse extends IWorkout, DocumentData {
   id: string;
+}
+
+export interface IDatesResponse extends DocumentData {
+  dates: Timestamp[];
+  bmi: number;
+  height: number;
+  weight: number;
+  name: string;
+  surname: string;
 }

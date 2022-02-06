@@ -14,7 +14,7 @@ import {
   getDoc,
   Timestamp
 } from "firebase/firestore/lite";
-import { ISet, IWorkout, IWorkoutResponse } from "../interfaces";
+import { ISet, IWorkout, IWorkoutResponse, IDatesResponse } from "../interfaces";
 import dayjs, { Dayjs } from "dayjs";
 
 export async function addWorkout(user: string, workout: ISet[], name: string): Promise<void> {
@@ -66,8 +66,7 @@ export async function getUserWorkouts(user: string): Promise<IWorkout[] | undefi
 // Active Dates array
 
 export async function addDate(user: string, date: Dayjs): Promise<void> {
-  console.log("got here in teh service");
-  const jsDate = date.toDate();
+  const jsDate: Date = date.toDate();
   try {
     const docRef: DocumentReference<DocumentData> = doc(db, "profiles", user);
     await updateDoc(docRef, {
@@ -79,23 +78,13 @@ export async function addDate(user: string, date: Dayjs): Promise<void> {
   }
 }
 
-type tDateResponse = {
-  bmi: number;
-  dates: Timestamp[];
-  height: number;
-  name: string;
-  surname: string;
-  user: string;
-  weight: number;
-};
-
 export async function getUserActiveDates(user: string): Promise<Dayjs[] | undefined> {
-  const userRef = doc(db, "profiles", user);
-  const userProfile = await getDoc(userRef);
+  const userRef: DocumentReference<DocumentData> = doc(db, "profiles", user);
+  const userProfile: DocumentData = await getDoc(userRef);
   let userActiveDates: Dayjs[] = [];
   try {
     if (userProfile.exists()) {
-      const info = userProfile.data();
+      const info: IDatesResponse = userProfile.data();
       userActiveDates = info.dates.map((date: Timestamp) => {
         return dayjs(date.toDate());
       });
