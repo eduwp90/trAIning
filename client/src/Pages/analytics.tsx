@@ -3,30 +3,31 @@ import CalendarComp from "../Components/calendarComp";
 import { Dayjs } from "dayjs";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
-import { getUserActiveDates, getUserRepData } from "../Services/dbService";
+import { getUserActiveDates, getUserActivities } from "../Services/dbService";
 import StatisticsComp from "../Components/statisticsComp";
-import { tRepCounts } from "../interfaces";
+import ChartComp from "../Components/chartComp";
+import { tActivities } from "../interfaces";
 
 const Analytics: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
   const [daysActive, setDaysActive] = useState<Dayjs[]>([]);
-  const [userReps, setUserReps] = useState<tRepCounts>();
+  const [userActivities, setUserActivities] = useState<tActivities[]>([]);
 
   useEffect(() => {
     let mounted = true;
-    const populateActiveDatesArray = async () => {
+    const updateState = async () => {
       let activeDates;
-      let userRepData;
+      let activities;
       if (user && mounted) {
         activeDates = await getUserActiveDates(user!.uid);
-        userRepData = await getUserRepData(user!.uid);
+        activities = await getUserActivities(user!.uid);
       }
-      if (activeDates && mounted && userRepData) {
+      if (activeDates && activities && mounted) {
         setDaysActive(activeDates);
-        setUserReps(userRepData);
+        setUserActivities(activities);
       }
     };
-    populateActiveDatesArray();
+    updateState();
     return () => {
       mounted = false;
     };
@@ -37,7 +38,12 @@ const Analytics: React.FC = () => {
         <div className="analytic-calendar-Div">
           <CalendarComp daysActive={daysActive} />
         </div>
-        <div className="analytic-data-Div">{userReps && <StatisticsComp data={userReps} />}</div>
+        {userActivities && (
+          <div className="analytic-data-Div">
+            <StatisticsComp userActivities={userActivities} />
+            <ChartComp userActivities={userActivities} />
+          </div>
+        )}
       </div>
     </div>
   );

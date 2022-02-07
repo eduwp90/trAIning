@@ -31,11 +31,7 @@ export async function getAllProfiles(): Promise<IUserProfile[] | null> {
         bmi: doc.data().bmi,
         friendsId: doc.data().friendsId,
         dates: doc.data().dates,
-        pushups: doc.data().pushups,
-        squats: doc.data().squats,
-        lunges: doc.data().squats,
-        jumpingjacks: doc.data().jumpingjacks,
-        sidesquats: doc.data().sidesquats
+        activities: doc.data().activities
       };
       return profile;
     });
