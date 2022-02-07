@@ -1,4 +1,4 @@
-import React, { createRef, ReactNode, useEffect, useState, useRef, useContext, useCallback } from "react";
+import React, { createRef, ReactNode, useEffect, useState, useRef, useContext } from "react";
 import "./pages.less";
 import { Steps, message, Avatar } from "antd";
 import { ISet, IWorkoutContext } from "../interfaces";
@@ -26,7 +26,6 @@ const Workout: React.FC = () => {
   const currentStepRef = createRef<HTMLDivElement>();
   const [sets, setSets] = useState<ISet[]>([]);
   const [URL, setURL] = useState("");
-  //const URL = useRef(modelsByType[sets[current].exer]);
 
   useEffect(() => {
     if (workout.length > 0) {
@@ -110,8 +109,10 @@ const Workout: React.FC = () => {
   }
 
   const incrementRepCount = (): void => {
-    setRepCount((prev) => prev + 1);
-    beep();
+    if (!isResting.current) {
+      setRepCount((prev) => prev + 1);
+      beep();
+    }
   };
 
   useEffect(() => {

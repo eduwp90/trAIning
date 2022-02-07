@@ -1,4 +1,4 @@
-import { Button, Empty, Skeleton } from "antd";
+import { Button, Empty, Skeleton, Spin } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserWorkouts } from "../Services/dbService";
@@ -7,7 +7,6 @@ import AuthService from "../Services/authService";
 import { IWorkout, IWorkoutContext } from "../interfaces";
 import WorkoutList from "../Components/workoutList";
 import { WorkoutContext } from "../Context/workoutProvider";
-import "antd/dist/antd.css";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -40,20 +39,18 @@ const Home: React.FC = () => {
     };
   }, [user]);
 
-  return isLoading ? (
-    <Skeleton active />
-  ) : (
+  return (
     <div className="pages-Div">
       <div className="list_title">
         <h2>Your workouts</h2>
       </div>
-      {userWorkouts === [] ? <Empty /> : <WorkoutList workouts={userWorkouts}></WorkoutList>}
+      <WorkoutList workouts={userWorkouts} isLoading={isLoading}></WorkoutList>
       <div className="list_title">
         <h2>Here are some recomedantions</h2>
       </div>
-      <WorkoutList workouts={publicWorkouts}></WorkoutList>
+      <WorkoutList workouts={publicWorkouts} isLoading={isLoading}></WorkoutList>
       <Button
-        className="new_workout_btn"
+        id="new_workout_btn"
         size="large"
         onClick={() => {
           navigate("createworkout");

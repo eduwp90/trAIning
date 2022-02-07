@@ -15,98 +15,111 @@ const WorkoutSummary: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
   const [setsDisabled, setSetsDisabled] = useState<boolean>(true);
   const [sets, setSets] = useState<JSX.Element[]>([]);
-  const {workout, clearWorkout, existingWorkout, clearExistingWorkout} = useContext<IWorkoutContext>(WorkoutContext)
-  const navigate = useNavigate()
-  const workoutFromContext = (workout.length > 0 ? workout : (existingWorkout && existingWorkout.workout))
+  const { workout, clearWorkout, existingWorkout, clearExistingWorkout } = useContext<IWorkoutContext>(WorkoutContext);
+  const navigate = useNavigate();
+  const workoutFromContext = workout.length > 0 ? workout : existingWorkout && existingWorkout.workout;
 
   const onFinish = (e: React.FormEvent<HTMLInputElement>): void => {
     const workoutArray = Object.values(e);
     const name: string = workoutArray.pop();
-    const sets: ISet[] =  workoutArray;
+    const sets: ISet[] = workoutArray;
     if (user) {
       if (workout.length > 0) {
         addWorkout(user.uid, sets, name)
-        .then(() => { clearWorkout() })
-        .then(() => { navigate('/') })
-        .catch((e)=>{console.log(e)})
-      }
-      else if (existingWorkout) {
-        console.log(existingWorkout)
-        console.log(name)
-        console.log(sets)
+          .then(() => {
+            clearWorkout();
+          })
+          .then(() => {
+            navigate("/");
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else if (existingWorkout) {
+        console.log(existingWorkout);
+        console.log(name);
+        console.log(sets);
         updateWorkout(existingWorkout.id, sets, name)
-        .then(() => { clearExistingWorkout() })
-        .then(() => { navigate('/') })
-        .catch((e)=>{console.log(e)})
+          .then(() => {
+            clearExistingWorkout();
+          })
+          .then(() => {
+            navigate("/");
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       }
     }
   };
 
-  const setsArray: JSX.Element[] | null = workoutFromContext && workoutFromContext.map((set) => {
-    const id: number = workoutFromContext.indexOf(set);
-    console.log(id)
-    return (
-      <div key={id} id={`${id}`} className="set-Div">
-        <div className="set-Div_inputs">
-          <Form.Item
-            name={[id, "exer"]}
-            label="Select Exercise"
-            rules={[
-              {
-                required: true
-              }
-            ]}
-            initialValue={set.exer}>
-            <Select size="large" placeholder="exercise" style={{ width: 120 }} disabled={setsDisabled}>
-              <Option value="push-ups">push ups</Option>
-              <Option value="squats">squats</Option>
-              <Option value="lunges">lunges</Option>
-              <Option value="jumping-jacks">jumping jacks</Option>
-              <Option value="side-squats">side squats</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name={[id, "reps"]}
-            label="Nº of repetitions"
-            rules={[
-              {
-                required: true
-              }
-            ]}
-            initialValue={set.reps}>
-            <InputNumber
-              size="large"
-              placeholder="Reps"
-              min={1}
-              max={30}
-              style={{ width: 120 }}
-              disabled={setsDisabled}
-            />
-          </Form.Item>
+  const setsArray: JSX.Element[] | null =
+    workoutFromContext &&
+    workoutFromContext.map((set) => {
+      const id: number = workoutFromContext.indexOf(set);
+      console.log(id);
+      return (
+        <div key={id} id={`${id}`} className="set-Div">
+          <div className="set-Div_inputs">
+            <Form.Item
+              name={[id, "exer"]}
+              label="Select Exercise"
+              rules={[
+                {
+                  required: true
+                }
+              ]}
+              initialValue={set.exer}>
+              <Select size="large" placeholder="exercise" style={{ width: 120 }} disabled={setsDisabled}>
+                <Option value="push-ups">push ups</Option>
+                <Option value="squats">squats</Option>
+                <Option value="lunges">lunges</Option>
+                <Option value="jumping-jacks">jumping jacks</Option>
+                <Option value="side-squats">side squats</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              name={[id, "reps"]}
+              label="Nº of repetitions"
+              rules={[
+                {
+                  required: true
+                }
+              ]}
+              initialValue={set.reps}>
+              <InputNumber
+                size="large"
+                placeholder="Reps"
+                min={1}
+                max={30}
+                style={{ width: 120 }}
+                disabled={setsDisabled}
+              />
+            </Form.Item>
 
-          <Form.Item
-            name={[id, "rest"]}
-            label="Rest time"
-            rules={[
-              {
-                required: true
-              }
-            ]}
-            initialValue={set.rest}>
-            <Radio.Group size="large" disabled={setsDisabled}>
-              <Radio.Button value={0}>0 min</Radio.Button>
-              <Radio.Button value={1}>1 min</Radio.Button>
-              <Radio.Button value={3}>3 min</Radio.Button>
-              <Radio.Button value={5}>5 min</Radio.Button>
-            </Radio.Group>
-          </Form.Item>
+            <Form.Item
+              name={[id, "rest"]}
+              label="Rest time"
+              rules={[
+                {
+                  required: true
+                }
+              ]}
+              initialValue={set.rest}>
+              <Radio.Group size="large" disabled={setsDisabled}>
+                <Radio.Button value={0}>0 min</Radio.Button>
+                <Radio.Button value={1}>1 min</Radio.Button>
+                <Radio.Button value={3}>3 min</Radio.Button>
+                <Radio.Button value={5}>5 min</Radio.Button>
+              </Radio.Group>
+            </Form.Item>
+          </div>
+          <Button id="round_button" onClick={() => removeSet(id)}>
+            <CloseOutlined />
+          </Button>
         </div>
-        <Button className="round_button" onClick={() => removeSet(id)}>
-          <CloseOutlined />
-        </Button>
-      </div>
-    );
-  });
+      );
+    });
 
   function removeSet(id: number): void {
     setSets((prev) => prev.filter((set) => parseInt(set.props.id) !== id));
@@ -115,9 +128,9 @@ const WorkoutSummary: React.FC = () => {
     setSetsDisabled(false);
   }
 
-  function returnHome(): void{
-    clearExistingWorkout()
-    navigate('/')
+  function returnHome(): void {
+    clearExistingWorkout();
+    navigate("/");
   }
 
   useEffect(() => {
@@ -136,9 +149,8 @@ const WorkoutSummary: React.FC = () => {
     let mounted = true;
     if (mounted) {
       if (setsArray) {
-        setSets(setsArray)
+        setSets(setsArray);
       }
-
     }
     return () => {
       mounted = false;
@@ -157,20 +169,19 @@ const WorkoutSummary: React.FC = () => {
               required: true
             }
           ]}
-        initialValue={existingWorkout && existingWorkout.name}>
+          initialValue={existingWorkout && existingWorkout.name}>
           <Input placeholder="e.g. Workout 1" />
         </Form.Item>
         <p>
           Would you like to edit your sets? <Button onClick={() => handleEdit()}>Edit</Button>
         </p>
         {sets}
-        <div className={existingWorkout ? "buttonDiv" : ''}>
-          { existingWorkout &&<Button onClick={returnHome}>Return to home</Button> }
-        <Button type="primary" htmlType="submit">
-          Save workout
-        </Button>
-          </div>
-
+        <div className={existingWorkout ? "buttonDiv" : ""}>
+          {existingWorkout && <Button onClick={returnHome}>Return to home</Button>}
+          <Button type="primary" htmlType="submit">
+            Save workout
+          </Button>
+        </div>
       </Form>
       ;
     </div>
