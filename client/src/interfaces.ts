@@ -31,11 +31,17 @@ export interface IWorkoutResponse extends IWorkout, DocumentData {
 
 export interface IDatesResponse extends DocumentData {
   dates: Timestamp[];
+  friendsId: string[];
+  photoURL: string;
   bmi: number;
   height: number;
   weight: number;
   name: string;
   surname: string;
+}
+
+export interface IUserProfile extends IDatesResponse {
+  userId: string;
 }
 
 export interface IGoogleUserResponse {
