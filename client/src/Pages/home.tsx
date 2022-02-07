@@ -46,7 +46,7 @@ const Home: React.FC = () => {
       </div>
       <WorkoutList workouts={userWorkouts} isLoading={isLoading}></WorkoutList>
       <div className="list_title">
-        <h2>Here are some recomedantions</h2>
+        <h2>Here are some recomendations</h2>
       </div>
       <WorkoutList workouts={publicWorkouts} isLoading={isLoading}></WorkoutList>
       <Button

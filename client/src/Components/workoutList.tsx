@@ -2,9 +2,10 @@ import React from "react";
 import WorkoutItem from "./workoutItem";
 import { IWorkout } from "../interfaces";
 import "./components.less";
-import { Spin, Empty } from "antd";
+import { Empty } from "antd";
 import "antd/dist/antd.css";
-import { LoadingOutlined } from "@ant-design/icons";
+import LoadingContent from "./loadingContent";
+import EmptyContent from "./emptyContent";
 
 type WorkoutListProps = {
   workouts: IWorkout[];
@@ -16,18 +17,15 @@ const WorkoutList: React.FC<WorkoutListProps> = ({ workouts, isLoading }) => {
     return <WorkoutItem workout={workout} key={workouts.indexOf(workout)}></WorkoutItem>;
   });
 
-  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-
   return (
     <div className="workout_list">
       {isLoading ? (
-        <Spin indicator={antIcon} />
+        <LoadingContent />
       ) : !workouts.length ? (
-        <Empty />
+        <EmptyContent />
       ) : (
-        <WorkoutList workouts={workouts} isLoading={isLoading}></WorkoutList>
+        <div className="workout_scroll">{workoutItems}</div>
       )}
-      <div className="workout_scroll">{workoutItems}</div>
     </div>
   );
 };
