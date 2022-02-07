@@ -1,14 +1,37 @@
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Avatar, Image } from 'antd';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { IUserProfile } from '../interfaces';
+import AuthService from '../Services/authService';
+import { addFriend, removeFriend } from '../Services/friendsService';
 
 type FriendProfileItemProps = {
-  profile: { userId: string, name: string, surname: string, photoURL: string },
-  list:string
+  profile: IUserProfile,
+  list: string,
+  setExistingFriendsArray: Dispatch<SetStateAction<string[]>>
 }
 
-const FriendProfileItem: React.FC<FriendProfileItemProps> = ({profile, list}) => {
+const FriendProfileItem: React.FC<FriendProfileItemProps> = ({profile, list, setExistingFriendsArray}) => {
+  const [user] = useAuthState(AuthService.auth);
 
+  const addToFriendList = (id: string) => {
+    if (user){
+      addFriend(user.uid, id)
+        .then(res => {
+        setExistingFriendsArray(prev => [...prev, id])
+      })
+    }
+  }
+
+  const removeFromFriendList = (id: string) => {
+if (user){
+      removeFriend(user.uid, id)
+        .then(res => {
+        setExistingFriendsArray(prev => prev.filter(userId => userId !== id))
+      })
+    }
+  }
   return (<div className='friend-item'>
     <div className="avatar-div">
    <Avatar
@@ -31,8 +54,8 @@ const FriendProfileItem: React.FC<FriendProfileItemProps> = ({profile, list}) =>
     </div>
     <div className='friend-btns'>
       {list === "friends"
-        ? <MinusCircleOutlined style={{fontSize:"x-large", color: "lightgrey"}}/>
-        : <PlusCircleOutlined style={{fontSize:"x-large", color: "lightgrey"}}/>
+        ? <MinusCircleOutlined style={{fontSize:"x-large", color: "lightgrey"}} onClick={()=> {removeFromFriendList(profile.userId)}}/>
+        : <PlusCircleOutlined style={{fontSize:"x-large", color: "lightgrey"}} onClick={()=> {addToFriendList(profile.userId)}}/>
       }
     </div>
 
