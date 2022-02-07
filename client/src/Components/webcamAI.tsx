@@ -1,13 +1,11 @@
 import Webcam from "react-webcam";
 import * as tmPose from "@teachablemachine/pose";
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Keypoint } from "@tensorflow-models/posenet";
 import "./components.less";
 import WebcamOverlay from "./webcamOverlay";
 
-let model: { getTotalClasses: Function; estimatePose: Function; predict: Function },
-  ctx: CanvasRenderingContext2D,
-  maxPredictions: number;
+let model: { getTotalClasses: Function; estimatePose: Function; predict: Function }, ctx: CanvasRenderingContext2D;
 
 let isMounted: boolean;
 
@@ -19,13 +17,12 @@ type WebcamAIProps = {
 };
 
 const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, isFinished }) => {
-  let repStatus: string = "Neutral";
-
   const localResting = useRef<boolean>(false);
   const localFinished = useRef<boolean>(false);
   const localStarted = useRef<boolean>(false);
   const [status, setStatus] = useState<string>("NOT STARTED");
   const [stop, setStop] = useState<boolean>(false);
+  const [initialized, setInitialized] = useState<boolean>(false);
 
   let cycleRep = false;
 
@@ -34,7 +31,9 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
   };
 
   const startExercise = function (): void {
+    if (!initialized) init();
     localStarted.current = true;
+
     setStatus("RUNNING");
   };
 
@@ -63,11 +62,12 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
     const metadataURL = URL + "metadata.json";
 
     model = await tmPose.load(modelURL, metadataURL);
-    maxPredictions = model.getTotalClasses();
+
     return model;
   }
 
   async function init(): Promise<void> {
+    setInitialized(true);
     model = await loadModel();
 
     window.requestAnimationFrame(loop);
@@ -100,7 +100,12 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
   }
 
   async function loop(): Promise<void> {
-    if (!isMounted || stop) return;
+    // console.log("eval,in");
+    if (!isMounted || stop) {
+      // console.log("eval,out");
+      setInitialized(false);
+      return;
+    }
 
     // console.log("Running pose calculations...");
     await predict();
@@ -108,6 +113,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
   }
 
   async function predict(): Promise<void> {
+    console.log("eval, ", webcamRef.current !== null && webcamRef.current.getCanvas() !== null);
     if (webcamRef.current !== null && webcamRef.current.getCanvas() !== null) {
       const { pose, posenetOutput } = await model.estimatePose(webcamRef.current.getCanvas());
       const prediction = await model.predict(posenetOutput);
@@ -140,17 +146,18 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
 
   useEffect(() => {
     isMounted = true;
+
     return () => {
       isMounted = false;
     };
   }, []);
 
   useEffect(() => {
-    console.log("use effect ", isResting, isFinished);
+    // console.log("use effect ", isResting, isFinished);
     localResting.current = isResting;
     localFinished.current = isFinished;
     setStatus(updateStatus());
-    console.log("use effect localrest ", localResting.current, localFinished.current);
+    // console.log("use effect localrest ", localResting.current, localFinished.current);
   }, [isResting, isFinished, localStarted]);
 
   useEffect(() => {
@@ -160,6 +167,8 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
     setStop(true);
     reload();
     setTimeout(() => setStop(false), 500);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [URL]);
 
   return (
@@ -175,6 +184,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
               height: size * 0.75
             }}
             onUserMedia={init}
+            onUserMediaError={() => console.log("camera error")}
             mirrored={true}
           />
         )}
