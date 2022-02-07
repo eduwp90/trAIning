@@ -2,8 +2,6 @@ import React from "react";
 import WorkoutItem from "./workoutItem";
 import { IWorkout } from "../interfaces";
 import "./components.less";
-import { Empty } from "antd";
-import "antd/dist/antd.css";
 import LoadingContent from "./loadingContent";
 import EmptyContent from "./emptyContent";
 
