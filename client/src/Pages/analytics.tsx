@@ -3,21 +3,27 @@ import CalendarComp from "../Components/calendarComp";
 import { Dayjs } from "dayjs";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
-import { getUserActiveDates } from "../Services/dbService";
+import { getUserActiveDates, getUserRepData } from "../Services/dbService";
+import StatisticsComp from "../Components/statisticsComp";
+import { tRepCounts } from "../interfaces";
 
 const Analytics: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
   const [daysActive, setDaysActive] = useState<Dayjs[]>([]);
+  const [userReps, setUserReps] = useState<tRepCounts>();
 
   useEffect(() => {
     let mounted = true;
     const populateActiveDatesArray = async () => {
       let activeDates;
+      let userRepData;
       if (user && mounted) {
         activeDates = await getUserActiveDates(user!.uid);
+        userRepData = await getUserRepData(user!.uid);
       }
-      if (activeDates && mounted) {
+      if (activeDates && mounted && userRepData) {
         setDaysActive(activeDates);
+        setUserReps(userRepData);
       }
     };
     populateActiveDatesArray();
@@ -27,7 +33,12 @@ const Analytics: React.FC = () => {
   }, [user]);
   return (
     <div className="pages-Div">
-      <CalendarComp daysActive={daysActive} />
+      <div className="analytic-Div">
+        <div className="analytic-calendar-Div">
+          <CalendarComp daysActive={daysActive} />
+        </div>
+        <div className="analytic-data-Div">{userReps && <StatisticsComp data={userReps} />}</div>
+      </div>
     </div>
   );
 };

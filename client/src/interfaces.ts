@@ -38,6 +38,11 @@ export interface IDatesResponse extends DocumentData {
   weight: number;
   name: string;
   surname: string;
+  pushups: number;
+  squats: number;
+  lunges: number;
+  jumpingjacks: number;
+  sidesquats: number;
 }
 
 export interface IUserProfile extends IDatesResponse {
@@ -53,3 +58,11 @@ export interface IGoogleDataRouter {
   googleUserId: string;
   photoURL: string;
 }
+
+export type tRepCounts = {
+  "push-ups": number;
+  squats: number;
+  lunges: number;
+  "jumping-jacks": number;
+  "side-squats": number;
+};
