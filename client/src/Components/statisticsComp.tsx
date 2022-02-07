@@ -1,27 +1,29 @@
 import React from "react";
-import { List, Avatar } from "antd";
+import { List } from "antd";
+import { tRepCounts } from "../interfaces";
 
-type item = { title: string };
+import StatisticListItem from "./statisticListItem";
 
-type StatisticsCompProps = {
-  data: item[];
+type tStatisticsComp = {
+  data: tRepCounts;
 };
 
-const StatisticsComp: React.FC<StatisticsCompProps> = ({ data }) => {
+const StatisticsComp: React.FC<tStatisticsComp> = ({ data }) => {
+  const arrayOfWorkoutType = [
+    { title: "push-ups", count: data["push-ups"] },
+    { title: "lunges", count: data.lunges },
+    { title: "squats", count: data.squats },
+    { title: "side-squats", count: data["side-squats"] },
+    { title: "jumping-jacks", count: data["jumping-jacks"] }
+  ];
   return (
-    <div>
+    <div className="stats-list">
       <List
         itemLayout="horizontal"
-        dataSource={data}
-        renderItem={(item) => (
-          <List.Item>
-            <List.Item.Meta
-              avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-              title={<a href="https://ant.design">{item.title}</a>}
-              // description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-            />
-          </List.Item>
-        )}
+        dataSource={arrayOfWorkoutType}
+        renderItem={(item) => <StatisticListItem item={item} />}
+        split={false}
+        size={"small"}
       />
     </div>
   );
