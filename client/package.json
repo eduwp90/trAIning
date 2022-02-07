@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@ant-design/plots": "^1.0.8",
     "@craco/craco": "^6.4.3",
     "@teachablemachine/pose": "^0.8.6",
     "@tensorflow/tfjs": "^3.13.0",

@@ -13,10 +13,9 @@ import {
   arrayUnion,
   getDoc,
   Timestamp,
-  setDoc,
-  increment
+  setDoc
 } from "firebase/firestore";
-import { ISet, IWorkout, IWorkoutResponse, IDatesResponse, tRepCounts } from "../interfaces";
+import { ISet, IWorkout, IWorkoutResponse, IDatesResponse, tActivities } from "../interfaces";
 import dayjs, { Dayjs } from "dayjs";
 
 export async function addWorkout(user: string, workout: ISet[], name: string): Promise<void> {
@@ -97,40 +96,33 @@ export async function getUserActiveDates(user: string): Promise<Dayjs[] | undefi
   }
 }
 
-export async function getUserRepData(user: string): Promise<tRepCounts> {
+export async function getUserActivities(user: string): Promise<tActivities[] | undefined> {
   const userRef: DocumentReference<DocumentData> = doc(db, "profiles", user);
   const userProfile: DocumentData = await getDoc(userRef);
-  let repCounts: tRepCounts = { "push-ups": 0, squats: 0, lunges: 0, "jumping-jacks": 0, "side-squats": 0 };
+  let userActivities: tActivities[] = [];
   try {
     if (userProfile.exists()) {
       const info: IDatesResponse = userProfile.data();
-      console.log(info);
-      repCounts = {
-        "push-ups": info.pushups,
-        squats: info.squats,
-        lunges: info.lunges,
-        "jumping-jacks": info.jumpingjacks,
-        "side-squats": info.sidesquats
-      };
+      userActivities = info.activities;
     }
-    return repCounts;
+    return userActivities;
   } catch (error) {
-    console.log("error fetching user reps data", error);
-    return repCounts;
+    console.log("error fetching user activites", error);
   }
 }
 
-export async function setUserRepData(user: string, workout: ISet[]): Promise<void> {
+export async function updateUserActivities(user: string, date: Dayjs, workout: ISet[]): Promise<void> {
   const docRef: DocumentReference<DocumentData> = doc(db, "profiles", user);
+  const jsDate: Date = date.toDate();
   try {
-    workout.forEach(async (set) => {
-      const title = set.exer;
+    workout.forEach(async (set: ISet) => {
+      const type: string = set.exer;
       await updateDoc(docRef, {
-        [title]: increment(set.reps)
+        activities: arrayUnion({ type: type, count: set.reps, date: jsDate })
       });
     });
   } catch (error) {
-    console.log("error updating user reps in db", error);
+    console.log("error adding userActivities", error);
   }
 }
 
@@ -156,11 +148,7 @@ export async function addNewProfile(
       bmi: bmi,
       dates: [],
       friendsId: [],
-      pushups: 0,
-      squats: 0,
-      lunges: 0,
-      jumpingjacks: 0,
-      sidesquats: 0
+      activities: []
     });
 
     console.log("Saved profile");
