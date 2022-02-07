@@ -40,8 +40,8 @@ const Analytics: React.FC = () => {
         </div>
         {userActivities && (
           <div className="analytic-data-Div">
-            {" "}
-            <StatisticsComp userActivities={userActivities} /> <ChartComp userActivities={userActivities} />
+            <StatisticsComp userActivities={userActivities} />
+            <ChartComp userActivities={userActivities} />
           </div>
         )}
       </div>

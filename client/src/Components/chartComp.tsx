@@ -28,7 +28,9 @@ const ChartComp: React.FC<tchartCompProps> = ({ userActivities }) => {
       style: {
         fill: "rgba(0,0,0,0.1)"
       }
-    }
+    },
+    colorField: "type",
+    color: ["#2A9D8F", "#F4A261", "#264653", "#E76F51", "#54585c"]
   };
 
   return (
