@@ -1,5 +1,5 @@
+import { DocumentData, Timestamp } from "firebase/firestore/lite";
 import { User } from "firebase/auth";
-import { DocumentData } from "firebase/firestore/lite";
 
 export interface ISet {
   exer: string;
@@ -27,6 +27,15 @@ export interface IWorkoutContext {
 
 export interface IWorkoutResponse extends IWorkout, DocumentData {
   id: string;
+}
+
+export interface IDatesResponse extends DocumentData {
+  dates: Timestamp[];
+  bmi: number;
+  height: number;
+  weight: number;
+  name: string;
+  surname: string;
 }
 
 export interface IGoogleUserResponse {

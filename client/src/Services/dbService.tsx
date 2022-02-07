@@ -10,9 +10,13 @@ import {
   Query,
   doc,
   updateDoc,
+  arrayUnion,
+  getDoc,
+  Timestamp,
   setDoc
 } from "firebase/firestore";
-import { ISet, IWorkout, IWorkoutResponse } from "../interfaces";
+import { ISet, IWorkout, IWorkoutResponse, IDatesResponse } from "../interfaces";
+import dayjs, { Dayjs } from "dayjs";
 
 export async function addWorkout(user: string, workout: ISet[], name: string): Promise<void> {
   try {
@@ -59,6 +63,40 @@ export async function getUserWorkouts(user: string): Promise<IWorkout[] | undefi
     return;
   }
 }
+
+// Active Dates array
+
+export async function addDate(user: string, date: Dayjs): Promise<void> {
+  const jsDate: Date = date.toDate();
+  try {
+    const docRef: DocumentReference<DocumentData> = doc(db, "profiles", user);
+    await updateDoc(docRef, {
+      dates: arrayUnion(jsDate)
+    });
+    console.log("Document updated with ID: ", docRef.id);
+  } catch (e) {
+    console.log("Error adding document: ", e);
+  }
+}
+
+export async function getUserActiveDates(user: string): Promise<Dayjs[] | undefined> {
+  const userRef: DocumentReference<DocumentData> = doc(db, "profiles", user);
+  const userProfile: DocumentData = await getDoc(userRef);
+  let userActiveDates: Dayjs[] = [];
+  try {
+    if (userProfile.exists()) {
+      const info: IDatesResponse = userProfile.data();
+      userActiveDates = info.dates.map((date: Timestamp) => {
+        return dayjs(date.toDate());
+      });
+    }
+    return userActiveDates;
+  } catch (error) {
+    console.log("error fetching active dates list", error);
+  }
+}
+
+// Users Database
 
 export async function addNewProfile(
   user: string,

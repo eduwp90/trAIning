@@ -1,8 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Button, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import { WorkoutContext } from "../Context/workoutProvider";
 import { IWorkoutContext } from "../interfaces";
+import { addDate } from "../Services/dbService";
+import { useAuthState } from "react-firebase-hooks/auth";
+import AuthService from "../Services/authService";
+import datejs from "dayjs";
 
 type SaveWorkoutProps = {
   isModalVisible: boolean;
@@ -10,11 +14,12 @@ type SaveWorkoutProps = {
 };
 
 const SaveWorkout: React.FC<SaveWorkoutProps> = ({ isModalVisible, setIsModalVisible }) => {
-const {existingWorkout, clearWorkout, clearExistingWorkout} = useContext<IWorkoutContext>(WorkoutContext)
-  const navigate = useNavigate()
+  const { existingWorkout, clearWorkout, clearExistingWorkout } = useContext<IWorkoutContext>(WorkoutContext);
+  const navigate = useNavigate();
+  const [user] = useAuthState(AuthService.auth);
 
   const handleOk = () => {
-    navigate('/summary')
+    navigate("/summary");
   };
 
   const handleCancel = () => {
@@ -22,45 +27,43 @@ const {existingWorkout, clearWorkout, clearExistingWorkout} = useContext<IWorkou
   };
 
   const returnHome = () => {
-    clearWorkout()
-    clearExistingWorkout()
-    navigate('/')
-  }
+    clearWorkout();
+    clearExistingWorkout();
+    navigate("/");
+  };
 
+  useEffect(() => {
+    if (user && isModalVisible) {
+      addDate(user.uid, datejs());
+    }
+  }, [isModalVisible, user]);
 
   return (
     <div className="popup">
-      {!existingWorkout? <Modal
-        title="Do you want to save this workout?"
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        closable={false}
-        footer={[
-          <Button key="submit" type="primary" onClick={handleOk}>
-            Save
-          </Button>,
-          <Button
-            onClick={returnHome}
-          >
-            return to home
-          </Button>
-        ]} />
-        : <Modal
+      {!existingWorkout ? (
+        <Modal
+          title="Do you want to save this workout?"
+          visible={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          closable={false}
+          footer={[
+            <Button key="submit" type="primary" onClick={handleOk}>
+              Save
+            </Button>,
+            <Button onClick={returnHome}>return to home</Button>
+          ]}
+        />
+      ) : (
+        <Modal
           title={`${existingWorkout.name} complete!`}
           visible={isModalVisible}
           closable={false}
-        footer={[
-          <Button
-            onClick={returnHome}
-          >
-            return to home
-          </Button>
-        ]} />}
+          footer={[<Button onClick={returnHome}>return to home</Button>]}
+        />
+      )}
     </div>
   );
 };
 
 export default SaveWorkout;
-
-

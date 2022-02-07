@@ -25,6 +25,9 @@ const Main: React.FC = () => {
             <Menu.Item key={0}>
               <Link to="/">Home</Link>
             </Menu.Item>
+            <Menu.Item key="analytics">
+              <Link to="/analytics">Analytics</Link>
+            </Menu.Item>
           </Menu>
         </div>
         <div className="nav-user">
