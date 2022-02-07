@@ -14,7 +14,7 @@ type SaveWorkoutProps = {
 };
 
 const SaveWorkout: React.FC<SaveWorkoutProps> = ({ isModalVisible, setIsModalVisible }) => {
-  const { existingWorkout, clearWorkout, clearExistingWorkout } = useContext<IWorkoutContext>(WorkoutContext);
+  const { existingWorkout, clearWorkout, clearExistingWorkout, workout } = useContext<IWorkoutContext>(WorkoutContext);
   const navigate = useNavigate();
   const [user] = useAuthState(AuthService.auth);
 
@@ -34,9 +34,10 @@ const SaveWorkout: React.FC<SaveWorkoutProps> = ({ isModalVisible, setIsModalVis
 
   useEffect(() => {
     if (user && isModalVisible) {
+      console.log(workout);
       addDate(user.uid, datejs());
     }
-  }, [isModalVisible, user]);
+  }, [isModalVisible, user, workout]);
 
   return (
     <div className="popup">

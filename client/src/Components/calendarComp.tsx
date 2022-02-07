@@ -1,21 +1,21 @@
 import React from "react";
-// import CalendarComponent from "../Components/calendar";
-import { DatePicker, TimePicker, Calendar } from "../Calendar";
-// import format from "dayjs";
+import { /*DatePicker, TimePicker,*/ Calendar } from "../Calendar";
 import dayjs, { Dayjs } from "dayjs";
 
 // const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
+const unique = (value: Dayjs, index: number, self: Dayjs[]) => {
+  return self.indexOf(value) === index;
+};
 
 type CalendarCompProps = {
   daysActive: Dayjs[];
 };
 const CalendarComp: React.FC<CalendarCompProps> = ({ daysActive }) => {
-  function onChange(day: Dayjs) {
-    // console.log(day);
-  }
+  const totalDays = daysActive.filter(unique);
+  function onChange(day: Dayjs) {}
 
   function onFullRender(date: Dayjs) {
-    if (daysActive.find((day) => day.isSame(date, "day"))) {
+    if (totalDays.find((day) => day.isSame(date, "day"))) {
       return (
         <div
           style={{
@@ -33,7 +33,7 @@ const CalendarComp: React.FC<CalendarCompProps> = ({ daysActive }) => {
 
   return (
     <div className="calendar-Div">
-      <h2>Days Active:</h2>
+      <h2>Days Active:{totalDays.length}</h2>
       <Calendar fullscreen={false} dateFullCellRender={onFullRender} defaultValue={dayjs()} onChange={onChange} />
       {/* <div>
         <DatePicker onChange={onChange} size="large" />
