@@ -1,11 +1,4 @@
-import {
-  InfoCircleFilled,
-  InfoCircleOutlined,
-  PlayCircleFilled,
-  PlayCircleOutlined,
-  PlayCircleTwoTone,
-  PlaySquareOutlined
-} from "@ant-design/icons";
+import { InfoCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";

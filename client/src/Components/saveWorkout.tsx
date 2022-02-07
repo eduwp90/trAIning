@@ -3,7 +3,7 @@ import { Button, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import { WorkoutContext } from "../Context/workoutProvider";
 import { IWorkoutContext } from "../interfaces";
-import { addDate } from "../Services/dbService";
+import { addDate, setUserRepData } from "../Services/dbService";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
 import datejs from "dayjs";
@@ -14,7 +14,7 @@ type SaveWorkoutProps = {
 };
 
 const SaveWorkout: React.FC<SaveWorkoutProps> = ({ isModalVisible, setIsModalVisible }) => {
-  const { existingWorkout, clearWorkout, clearExistingWorkout } = useContext<IWorkoutContext>(WorkoutContext);
+  const { existingWorkout, clearWorkout, clearExistingWorkout, workout } = useContext<IWorkoutContext>(WorkoutContext);
   const navigate = useNavigate();
   const [user] = useAuthState(AuthService.auth);
 
@@ -34,9 +34,10 @@ const SaveWorkout: React.FC<SaveWorkoutProps> = ({ isModalVisible, setIsModalVis
 
   useEffect(() => {
     if (user && isModalVisible) {
+      setUserRepData(user.uid, workout);
       addDate(user.uid, datejs());
     }
-  }, [isModalVisible, user]);
+  }, [isModalVisible, user, workout]);
 
   return (
     <div className="popup">

@@ -13,9 +13,10 @@ import {
   arrayUnion,
   getDoc,
   Timestamp,
-  setDoc
+  setDoc,
+  increment
 } from "firebase/firestore";
-import { ISet, IWorkout, IWorkoutResponse, IDatesResponse } from "../interfaces";
+import { ISet, IWorkout, IWorkoutResponse, IDatesResponse, tRepCounts } from "../interfaces";
 import dayjs, { Dayjs } from "dayjs";
 
 export async function addWorkout(user: string, workout: ISet[], name: string): Promise<void> {
@@ -96,6 +97,43 @@ export async function getUserActiveDates(user: string): Promise<Dayjs[] | undefi
   }
 }
 
+export async function getUserRepData(user: string): Promise<tRepCounts> {
+  const userRef: DocumentReference<DocumentData> = doc(db, "profiles", user);
+  const userProfile: DocumentData = await getDoc(userRef);
+  let repCounts: tRepCounts = { "push-ups": 0, squats: 0, lunges: 0, "jumping-jacks": 0, "side-squats": 0 };
+  try {
+    if (userProfile.exists()) {
+      const info: IDatesResponse = userProfile.data();
+      console.log(info);
+      repCounts = {
+        "push-ups": info.pushups,
+        squats: info.squats,
+        lunges: info.lunges,
+        "jumping-jacks": info.jumpingjacks,
+        "side-squats": info.sidesquats
+      };
+    }
+    return repCounts;
+  } catch (error) {
+    console.log("error fetching user reps data", error);
+    return repCounts;
+  }
+}
+
+export async function setUserRepData(user: string, workout: ISet[]): Promise<void> {
+  const docRef: DocumentReference<DocumentData> = doc(db, "profiles", user);
+  try {
+    workout.forEach(async (set) => {
+      const title = set.exer;
+      await updateDoc(docRef, {
+        [title]: increment(set.reps)
+      });
+    });
+  } catch (error) {
+    console.log("error updating user reps in db", error);
+  }
+}
+
 // Users Database
 
 export async function addNewProfile(
@@ -117,7 +155,12 @@ export async function addNewProfile(
       weight: weight,
       bmi: bmi,
       dates: [],
-      friendsId: []
+      friendsId: [],
+      pushups: 0,
+      squats: 0,
+      lunges: 0,
+      jumpingjacks: 0,
+      sidesquats: 0
     });
 
     console.log("Saved profile");
