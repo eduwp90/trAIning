@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, Empty, Skeleton } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserWorkouts } from "../Services/dbService";
@@ -7,19 +7,20 @@ import AuthService from "../Services/authService";
 import { IWorkout, IWorkoutContext } from "../interfaces";
 import WorkoutList from "../Components/workoutList";
 import { WorkoutContext } from "../Context/workoutProvider";
-import { clear } from "console";
+import "antd/dist/antd.css";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const [user] = useAuthState(AuthService.auth);
   const [userWorkouts, setUserWorkouts] = useState<IWorkout[]>([]);
   const [publicWorkouts, setPublicWorkouts] = useState<IWorkout[]>([]);
-  const {clearWorkout, clearExistingWorkout} = useContext<IWorkoutContext>(WorkoutContext)
+  const [isLoading, setIsLoading] = useState(true);
+  const { clearWorkout, clearExistingWorkout } = useContext<IWorkoutContext>(WorkoutContext);
 
   useEffect(() => {
     let mounted = true;
-    clearExistingWorkout()
-    clearWorkout()
+    clearExistingWorkout();
+    clearWorkout();
     const renderUserWorkouts = async () => {
       let userData;
       let publicData;
@@ -30,6 +31,7 @@ const Home: React.FC = () => {
       if (userData && publicData && mounted) {
         setUserWorkouts([...userWorkouts, ...userData]);
         setPublicWorkouts([...publicWorkouts, ...publicData]);
+        setIsLoading(false);
       }
     };
     renderUserWorkouts();
@@ -38,12 +40,14 @@ const Home: React.FC = () => {
     };
   }, [user]);
 
-  return (
+  return isLoading ? (
+    <Skeleton active />
+  ) : (
     <div className="pages-Div">
       <div className="list_title">
         <h2>Your workouts</h2>
       </div>
-      <WorkoutList workouts={userWorkouts}></WorkoutList>
+      {userWorkouts === [] ? <Empty /> : <WorkoutList workouts={userWorkouts}></WorkoutList>}
       <div className="list_title">
         <h2>Here are some recomedantions</h2>
       </div>
