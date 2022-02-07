@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, Empty, Skeleton, Spin } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserWorkouts } from "../Services/dbService";
@@ -13,6 +13,7 @@ const Home: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
   const [userWorkouts, setUserWorkouts] = useState<IWorkout[]>([]);
   const [publicWorkouts, setPublicWorkouts] = useState<IWorkout[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { clearWorkout, clearExistingWorkout } = useContext<IWorkoutContext>(WorkoutContext);
 
   useEffect(() => {
@@ -29,6 +30,7 @@ const Home: React.FC = () => {
       if (userData && publicData && mounted) {
         setUserWorkouts([...userWorkouts, ...userData]);
         setPublicWorkouts([...publicWorkouts, ...publicData]);
+        setIsLoading(false);
       }
     };
     renderUserWorkouts();
@@ -42,11 +44,11 @@ const Home: React.FC = () => {
       <div className="list_title">
         <h2>Your workouts</h2>
       </div>
-      <WorkoutList workouts={userWorkouts}></WorkoutList>
+      <WorkoutList workouts={userWorkouts} isLoading={isLoading}></WorkoutList>
       <div className="list_title">
-        <h2>Here are some recomedantions</h2>
+        <h2>Here are some recomendations</h2>
       </div>
-      <WorkoutList workouts={publicWorkouts}></WorkoutList>
+      <WorkoutList workouts={publicWorkouts} isLoading={isLoading}></WorkoutList>
       <Button
         id="new_workout_btn"
         size="large"
