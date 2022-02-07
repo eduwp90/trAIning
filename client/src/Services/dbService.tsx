@@ -13,7 +13,8 @@ import {
   arrayUnion,
   getDoc,
   Timestamp,
-  setDoc
+  setDoc,
+  increment
 } from "firebase/firestore";
 import { ISet, IWorkout, IWorkoutResponse, IDatesResponse, tRepCounts } from "../interfaces";
 import dayjs, { Dayjs } from "dayjs";
@@ -103,6 +104,7 @@ export async function getUserRepData(user: string): Promise<tRepCounts> {
   try {
     if (userProfile.exists()) {
       const info: IDatesResponse = userProfile.data();
+      console.log(info);
       repCounts = {
         "push-ups": info.pushups,
         squats: info.squats,
@@ -115,6 +117,20 @@ export async function getUserRepData(user: string): Promise<tRepCounts> {
   } catch (error) {
     console.log("error fetching user reps data", error);
     return repCounts;
+  }
+}
+
+export async function setUserRepData(user: string, workout: ISet[]): Promise<void> {
+  const docRef: DocumentReference<DocumentData> = doc(db, "profiles", user);
+  try {
+    workout.forEach(async (set) => {
+      const title = set.exer;
+      await updateDoc(docRef, {
+        [title]: increment(set.reps)
+      });
+    });
+  } catch (error) {
+    console.log("error updating user reps in db", error);
   }
 }
 
