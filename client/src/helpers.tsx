@@ -5,7 +5,7 @@ export function calculateBMI(height: number, weight: number) {
 //function to calculate calories burn
 // weight x MET x 0.0175 x Mins
 export function calculateTotalCalories(weight: number, exer: string, mins: number) {
-  let MET: number;
+  let MET: number = 0;
   switch (exer) {
     case "squats":
       MET = 5.5;
