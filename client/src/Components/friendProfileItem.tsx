@@ -9,7 +9,7 @@ import { addFriend, removeFriend } from '../Services/friendsService';
 type FriendProfileItemProps = {
   profile: IUserProfile,
   list: string,
-  setExistingFriendsArray: Dispatch<SetStateAction<string[]>>
+  setExistingFriendsArray: Dispatch<SetStateAction<string[] | null>>
 }
 
 const FriendProfileItem: React.FC<FriendProfileItemProps> = ({profile, list, setExistingFriendsArray}) => {
@@ -19,7 +19,13 @@ const FriendProfileItem: React.FC<FriendProfileItemProps> = ({profile, list, set
     if (user){
       addFriend(user.uid, id)
         .then(res => {
-        setExistingFriendsArray(prev => [...prev, id])
+          setExistingFriendsArray(prev => {
+            if (prev) {
+              return [...prev, id]
+            } else {
+              return [id]
+            }
+          })
       })
     }
   }
@@ -28,7 +34,13 @@ const FriendProfileItem: React.FC<FriendProfileItemProps> = ({profile, list, set
 if (user){
       removeFriend(user.uid, id)
         .then(res => {
-        setExistingFriendsArray(prev => prev.filter(userId => userId !== id))
+          setExistingFriendsArray(prev => {
+            if (prev) {
+              return prev.filter(userId => userId !== id)
+            } else {
+              return []
+            }
+          })
       })
     }
   }
