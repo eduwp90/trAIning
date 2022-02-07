@@ -1,3 +1,4 @@
+import { Input } from 'antd';
 import Search from 'antd/lib/input/Search';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -13,19 +14,42 @@ const Friends: React.FC = () => {
   const [existingFriends, setExistingFriends] = useState<IUserProfile[]>([]);
   const [existingFriendsArray, setExistingFriendsArray] = useState<string[]>([]);
   const [allProfiles, setAllProfiles] = useState<IUserProfile[]>([]);
-  const [addFriendsList, setAddFriendsList] = useState< JSX.Element[]>([]);
+  const [searchInput, setSearchInput] = useState('');
+  const [filteredProfiles, setfilteredProfiles] = useState<IUserProfile[]>([]);
+  const setSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('event', event);
+    setSearchInput(event.target.value)
+  };
+  const filteredList = filteredProfiles && filteredProfiles.filter(profile => {
+    return (profile.name.toLowerCase().includes(searchInput.toLocaleLowerCase()) || profile.surname.toLowerCase().includes(searchInput.toLowerCase())) && (!existingFriendsArray.includes(profile.userId))
+  });
 
   async function setStates() {
-  const allProfilesArray = await getAllProfiles();
-   if (allProfilesArray) {
-     setAllProfiles(allProfilesArray)
+    await setAllProfilesArray()
+    await setfriendsIDArray()
+  }
+
+  async function setAllProfilesArray() {
+    if (user) {
+      const allProfilesArray = await getAllProfiles();
+      if (allProfilesArray) {
+      setAllProfiles(allProfilesArray)
+        setfilteredProfiles(allProfilesArray.filter((profile) => {
+       console.log(existingFriendsArray)
+       return(profile.userId !== user.uid)
+     }))
+      }
+
    }
-   if (user) {
-     const friendsIDArray = await getUserFriends(user.uid);
+  }
+
+  async function setfriendsIDArray() {
+    if (user) {
+      const friendsIDArray = await getUserFriends(user.uid);
      if (friendsIDArray) {
        setExistingFriendsArray(friendsIDArray)
      }
-   }
+    }
   }
 
   useEffect(() => {
@@ -33,8 +57,9 @@ if (existingFriendsArray.length > 0) {
           const friendsArray = allProfiles.filter((profile) => {
      return existingFriendsArray.includes(profile.userId)
           })
-         console.log(friendsArray)
     setExistingFriends(friendsArray)
+} else {
+    setExistingFriends([])
        }
   }, [existingFriendsArray])
 
@@ -48,40 +73,6 @@ if (existingFriendsArray.length > 0) {
       mounted = false;
     }
   }, [user])
-
-    useEffect(() => {
-      let mounted = true;
-      if (user && mounted) {
-        const nonFriendsArray = nonFriends()
-        setAddFriendsList(nonFriendsArray)
-    }
-       return () => {
-      mounted = false;
-    }
-    },[allProfiles, existingFriendsArray, existingFriends])
-
-  const nonFriends =  () => {
-    if (user) {
-      if (existingFriendsArray && existingFriendsArray.length > 0) {
-        const profiles = allProfiles.filter((profile) => {
-     return !existingFriendsArray.includes(profile.userId) && profile.userId !== user.uid
-    }).map((profile) => {
-      return <FriendProfileItem key={allProfiles.indexOf(profile)} profile={profile} list="add" setExistingFriendsArray={ setExistingFriendsArray}/>
-    })
-    return profiles
-      } else {
-        const profiles = allProfiles.map((profile) => {
-      return <FriendProfileItem key={allProfiles.indexOf(profile)}  profile={profile} list="add" setExistingFriendsArray={ setExistingFriendsArray}/>
-        })
-        return profiles
-      }
-    } else {
-      return [<p>Oops, somethign went wrong</p>]
-    }
-  }
-
-
-
 
   return ( user ?
     <div className='pages-Div'>
@@ -99,10 +90,13 @@ if (existingFriendsArray.length > 0) {
       <div className="list_title">
         <h2>Add new friends</h2>
       </div>
-      <div>
-        <Search placeholder="input search text" allowClear /*onSearch={onSearch}*/ style={{ width: 200 }} />
-      {addFriendsList}
-      </div>
+      <div style={{width:"90%", display:"flex", justifyContent:"flex-end"}}>
+        <Input placeholder="Search..." allowClear onChange={setSearchValue} style={{ width: "35vw",  marginBottom: "1em" }} />
+        </div>
+        {filteredList.map((profile) => {
+      return <FriendProfileItem key={allProfiles.indexOf(profile)} profile={profile} list="add" setExistingFriendsArray={setExistingFriendsArray} />
+    })}
+
     </div>
   : <p>not ready</p>
   )
