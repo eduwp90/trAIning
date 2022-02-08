@@ -45,7 +45,7 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({ workout }) => {
             {workout.calories} Kcals
           </h5>
         )}
-        <Button type="text" className="startworkoutButton" onClick={startWorkout}>
+        <Button type="text" id="startworkoutButton" onClick={startWorkout}>
           Start workout
         </Button>
 

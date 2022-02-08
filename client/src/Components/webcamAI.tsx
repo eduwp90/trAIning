@@ -29,7 +29,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
 
   let cycleRep = false;
 
-  const shouldCountandRender = function (start: boolean, rest: boolean, finish: boolean): boolean {
+  const shouldCountAndRender = function (start: boolean, rest: boolean, finish: boolean): boolean {
     return start && !rest && !finish ? true : false;
   };
 
@@ -61,18 +61,17 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
   }
 
   const [size, setSize] = useState<number>(getWidth());
-  window.onresize = (): void => {
-    const width = getWidth();
-    setSize(width);
-  };
+  useEffect(() => {
+    window.onresize = (): void => {
+      const width = getWidth();
+      setSize(width);
+    };
+  });
 
   async function loadModel() {
-    console.log("loading model ", URL);
     const modelURL = URL + "model.json";
     const metadataURL = URL + "metadata.json";
-
     model = await tmPose.load(modelURL, metadataURL);
-
     return model;
   }
 
@@ -110,14 +109,10 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
   }
 
   async function loop(): Promise<void> {
-    // console.log("eval,in");
     if (!isMounted || stop) {
-      // console.log("eval,out");
       setInitialized(false);
       return;
     }
-
-    // console.log("Running pose calculations...");
     await predict();
     window.requestAnimationFrame(loop);
   }
@@ -127,7 +122,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
     if (webcamRef.current !== null && webcamRef.current.getCanvas() !== null) {
       const { pose, posenetOutput } = await model.estimatePose(webcamRef.current.getCanvas());
       const prediction = await model.predict(posenetOutput);
-      if (shouldCountandRender(localStarted.current, localResting.current, localFinished.current)) {
+      if (shouldCountAndRender(localStarted.current, localResting.current, localFinished.current)) {
         if (!cycleRep && prediction[1].probability.toFixed(2) > 0.92) {
           cycleRep = true;
           incrementRepCount();
@@ -144,8 +139,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
     if (webcamRef.current !== null) {
       if (webcamRef.current.getCanvas()) {
         ctx.drawImage(webcamRef.current.getCanvas()!, 0, 0);
-        // draw the keypoints and skeleton
-        if (pose && shouldCountandRender(localStarted.current, localResting.current, localFinished.current)) {
+        if (pose && shouldCountAndRender(localStarted.current, localResting.current, localFinished.current)) {
           const minPartConfidence = 0.5;
           tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
           tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
@@ -163,11 +157,9 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
   }, []);
 
   useEffect(() => {
-    // console.log("use effect ", isResting, isFinished);
     localResting.current = isResting;
     localFinished.current = isFinished;
     setStatus(updateStatus());
-    // console.log("use effect localrest ", localResting.current, localFinished.current);
   }, [isResting, isFinished, localStarted]);
 
   useEffect(() => {

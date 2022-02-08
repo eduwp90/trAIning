@@ -6,11 +6,11 @@ import { List } from "antd";
 
 // const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const unique = (value: Dayjs, index: number, self: Dayjs[]) => {
-  if (index < self.length - 1) {
-    return !value.isSame(self[index + 1], "day");
-  } else {
-    return true;
+  let isUnique: boolean = true;
+  if (self[index + 1]) {
+    isUnique = !value.isSame(self[index + 1], "day");
   }
+  return isUnique;
 };
 
 type CalendarCompProps = {
