@@ -1,5 +1,6 @@
 import { DocumentData, Timestamp } from "firebase/firestore/lite";
 import { User } from "firebase/auth";
+import { message } from "antd";
 
 export interface ISet {
   exer: string;
@@ -68,3 +69,10 @@ export type tRepCounts = {
   "jumping-jacks": number;
   "side-squats": number;
 };
+
+export interface IChallenge {
+  from: string;
+  message: string;
+  receiving_userid: string;
+  workout_id: ISet[];
+}
