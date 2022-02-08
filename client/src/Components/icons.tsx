@@ -8,25 +8,17 @@ import SquatSVG from "../Assets/squatSVG";
 export const iconSelector = (exerciseType: string): (() => JSX.Element) => {
   let icon: () => JSX.Element;
   if (exerciseType === "push-ups") {
-    icon = () => (
-     <PushupSVG/>
-    );
+    icon = () => <PushupSVG />;
   } else if (exerciseType === "squats") {
-    icon = () => (
-      <SquatSVG/>
-    );
+    icon = () => <SquatSVG />;
   } else if (exerciseType === "lunges") {
-    icon = () => (
-      <LungesSVG/>
-    );
+    icon = () => <LungesSVG />;
   } else if (exerciseType === "jumping-jacks") {
-    icon = () => (
-      <JumpinjackSVG/>
-    );
+    icon = () => <JumpinjackSVG />;
   } else if (exerciseType === "side-squats") {
-    icon = () => (
-      <SidesquatSVG/>
-    );
+    icon = () => <SidesquatSVG />;
+  } else if (exerciseType === "Total Days Active") {
+    icon = () => <JumpinjackSVG />;
   }
   const IconComponent = () => <Icon component={icon} />;
   return IconComponent;

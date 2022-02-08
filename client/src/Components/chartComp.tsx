@@ -30,7 +30,7 @@ const ChartComp: React.FC<tchartCompProps> = ({ userActivities }) => {
       }
     },
     colorField: "type",
-    color: ["#2A9D8F", "#F4A261", "#264653", "#E76F51", "#54585c"]
+    color: ["#2A9D8F", "#F4A261", "#264653", "#E76F51", "#E9C46A"]
   };
 
   return (
