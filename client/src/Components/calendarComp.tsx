@@ -17,9 +17,7 @@ type CalendarCompProps = {
   daysActive: Dayjs[];
 };
 const CalendarComp: React.FC<CalendarCompProps> = ({ daysActive }) => {
-  console.log(daysActive);
   const uniqueDays = daysActive.filter(unique);
-  console.log(uniqueDays);
   function onChange(day: Dayjs) {}
 
   function onFullRender(date: Dayjs) {
