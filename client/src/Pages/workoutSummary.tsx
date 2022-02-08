@@ -9,6 +9,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
 import { WorkoutContext } from "../Context/workoutProvider";
 import { useNavigate } from "react-router-dom";
+import { calculateWorkoutCalories, calculateWorkoutTime } from "../helpers";
 const { Option } = Select;
 
 const WorkoutSummary: React.FC = () => {
@@ -25,7 +26,9 @@ const WorkoutSummary: React.FC = () => {
     const sets: ISet[] = workoutArray;
     if (user) {
       if (workout.length > 0) {
-        addWorkout(user.uid, sets, name)
+        let duration = calculateWorkoutTime(workout);
+        let calories = calculateWorkoutCalories(workout, /*profile*/ duration);
+        addWorkout(user.uid, sets, name, calories, duration)
           .then(() => {
             clearWorkout();
           })

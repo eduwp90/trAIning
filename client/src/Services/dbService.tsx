@@ -18,12 +18,20 @@ import {
 import { ISet, IWorkout, IWorkoutResponse, IDatesResponse, tActivities } from "../interfaces";
 import dayjs, { Dayjs } from "dayjs";
 
-export async function addWorkout(user: string, workout: ISet[], name: string): Promise<void> {
+export async function addWorkout(
+  user: string,
+  workout: ISet[],
+  name: string,
+  calories: number,
+  duration: number
+): Promise<void> {
   try {
     const docRef: DocumentReference<DocumentData> = await addDoc(collection(db, "workoutsDb"), {
       user: user,
       workout: workout,
-      name: name
+      name: name,
+      calories: calories,
+      duration: duration
     });
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
