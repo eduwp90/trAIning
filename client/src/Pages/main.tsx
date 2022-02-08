@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Layout, Menu, Image } from "antd";
 import "./pages.less";
 import { Link, Outlet } from "react-router-dom";
@@ -10,12 +10,20 @@ const { Header, Content } = Layout;
 
 const Main: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
+  const [userProfile, setUserProfile] = useState(null);
+  const [friendsProfiles, setFriendsProfiles] = useState(null);
 
   const logout = (): void => {
     AuthService.logoutUser();
   };
 
-  console.log("user ", user);
+  useEffect(() => {
+    async function fetchProfile() {}
+    if (user) {
+      console.log("hello");
+    }
+  }, [user]);
+
   return (
     <Layout className="layout">
       <Header className="navbar">
