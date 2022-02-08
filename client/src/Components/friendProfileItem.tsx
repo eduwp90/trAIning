@@ -15,7 +15,7 @@ type FriendProfileItemProps = {
 const FriendProfileItem: React.FC<FriendProfileItemProps> = ({profile, list, setExistingFriendsArray}) => {
   const [user] = useAuthState(AuthService.auth);
 
-  const addToFriendList = (id: string) => {
+  const addToFriendList = (id: string): void => {
     if (user){
       addFriend(user.uid, id)
         .then(res => {
@@ -30,8 +30,8 @@ const FriendProfileItem: React.FC<FriendProfileItemProps> = ({profile, list, set
     }
   }
 
-  const removeFromFriendList = (id: string) => {
-if (user){
+  const removeFromFriendList = (id: string): void => {
+    if (user){
       removeFriend(user.uid, id)
         .then(res => {
           setExistingFriendsArray(prev => {
@@ -44,21 +44,13 @@ if (user){
       })
     }
   }
-  return (<div className='friend-item'>
+  return (
+    <div className='friend-item'>
     <div className="avatar-div">
-   <Avatar
-                    src={
-                      profile.photoURL && (
-                        <Image
-                          src={profile.photoURL}
-                          style={{
-                            width: 32
-                          }}
-                          preview={false}
-                        />
-                      )
-                    }>
-                    {!profile.photoURL && `${profile.name.charAt(0).toUpperCase()}`}
+      <Avatar
+        src={profile.photoURL !== "" && (<Image src={profile.photoURL} style={{ width: 32 }} preview={false} />)}
+      >
+        {!profile.photoURL && `${profile.name.charAt(0).toUpperCase()}`}
         </Avatar>
     </div>
     <div className='name-div'>
@@ -66,8 +58,8 @@ if (user){
     </div>
     <div className='friend-btns'>
       {list === "friends"
-        ? <MinusCircleOutlined style={{fontSize:"x-large", color: "lightgrey"}} onClick={()=> {removeFromFriendList(profile.userId)}}/>
-        : <PlusCircleOutlined style={{fontSize:"x-large", color: "lightgrey"}} onClick={()=> {addToFriendList(profile.userId)}}/>
+        ? <MinusCircleOutlined style={{fontSize:"x-large", color: "#2A9D8F"}} onClick={()=> {removeFromFriendList(profile.userId)}}/>
+        : <PlusCircleOutlined style={{fontSize:"x-large", color: "#2A9D8F"}} onClick={()=> {addToFriendList(profile.userId)}}/>
       }
     </div>
 
