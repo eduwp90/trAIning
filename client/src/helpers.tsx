@@ -5,7 +5,7 @@ export function calculateBMI(height: number, weight: number) {
 //function to calculate calories burn
 // weight x MET x 0.0175 x Mins
 export function calculateTotalCalories(weight: number, exer: string, mins: number) {
-  let MET: number = 0;
+  let MET: number;
   switch (exer) {
     case "squats":
       MET = 5.5;
@@ -22,6 +22,8 @@ export function calculateTotalCalories(weight: number, exer: string, mins: numbe
     case "side-squats":
       MET = 6;
       break;
+    default:
+      MET = 0;
   }
   return weight * MET * 0.0175 * mins; //total calories of an exercise
 }
