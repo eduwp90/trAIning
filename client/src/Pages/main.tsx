@@ -17,7 +17,7 @@ const Main: React.FC = () => {
 
   console.log("user ", user);
   return (
-    <Layout className="layout">
+    <Layout className="layout" style={{ height: "100%" }}>
       <Header className="navbar">
         <div className="nav_container">
           <div className="nav-logo">LOGO</div>
