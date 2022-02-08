@@ -1,10 +1,12 @@
 import React from "react";
 import { /*DatePicker, TimePicker,*/ Calendar } from "../Calendar";
 import dayjs, { Dayjs } from "dayjs";
+import StatisticListItem from "./statisticListItem";
+import { List } from "antd";
 
 // const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const unique = (value: Dayjs, index: number, self: Dayjs[]) => {
-  if (index >= 1) {
+  if (index < self.length - 1) {
     return !value.isSame(self[index + 1], "day");
   } else {
     return true;
@@ -35,16 +37,19 @@ const CalendarComp: React.FC<CalendarCompProps> = ({ daysActive }) => {
     return <div>{date.date()}</div>;
   }
 
+  const item = { title: "Total Days Active", count: uniqueDays.length };
   return (
-    <div className="calendar-Div">
-      <h2 className="calendar-title">
-        Total Days Active:<span className="calendar-count">{uniqueDays.length}</span>
-      </h2>
-      <Calendar fullscreen={false} dateFullCellRender={onFullRender} defaultValue={dayjs()} onChange={onChange} />
-      {/* <div>
-        <DatePicker onChange={onChange} size="large" />
-        <TimePicker defaultValue={dayjs("12:08:23", "HH:mm:ss")} size="large" />
-      </div> */}
+    <div className="stats-list">
+      <List itemLayout="horizontal" split={false} size={"small"}>
+        <StatisticListItem item={item} />
+      </List>
+      <div className="calendar-Div">
+        <Calendar fullscreen={false} dateFullCellRender={onFullRender} defaultValue={dayjs()} onChange={onChange} />
+        {/* <div>
+          <DatePicker onChange={onChange} size="large" />
+          <TimePicker defaultValue={dayjs("12:08:23", "HH:mm:ss")} size="large" />
+        </div> */}
+      </div>
     </div>
   );
 };
