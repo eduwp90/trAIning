@@ -1,4 +1,4 @@
-import { Button, Empty, Skeleton, Spin } from "antd";
+import { Button } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserChallenges, getUserWorkouts } from "../Services/dbService";
@@ -72,7 +72,6 @@ console.log(challengeWorkouts)
         }}>
         Create a new workout
       </Button>
-      <Button></Button>
     </div>
   );
 };

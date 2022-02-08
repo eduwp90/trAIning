@@ -30,9 +30,23 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({ workout }) => {
       <div className="workout_headline"></div>
       <div className="workout_info">
         <h4 className="workout_info_name">{workout.name}</h4>
-        {workout.time && <h5 className="workout_info_time">Duration: {workout.time} min</h5>}
-        {workout.calories && <h5 className="workout_info_calories">Est. calories: {workout.calories} Kcals</h5>}
-        <Button type="text" className="startworkoutButton" onClick={startWorkout}>
+        {workout.time && (
+          <h5 className="workout_info_time">
+            <img src="https://img.icons8.com/ios-glyphs/30/000000/timer.png" style={{ height: "15px" }} alt="" />{" "}
+            {workout.time} min
+          </h5>
+        )}
+        {workout.calories && (
+          <h5 className="workout_info_calories">
+            <img
+              src="https://img.icons8.com/ios-glyphs/30/000000/fire-element--v1.png"
+              style={{ height: "16px" }}
+              alt=""
+            />{" "}
+            {workout.calories} Kcals
+          </h5>
+        )}
+        <Button type="text" id="startworkoutButton" onClick={startWorkout}>
           Start workout
         </Button>
 

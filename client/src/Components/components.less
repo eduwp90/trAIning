@@ -2,7 +2,7 @@
 
 .set-Div {
   width: 100%;
-  padding: 5vw 5vw 0 5vw;
+  padding: 2rem 2rem 1.2rem 2rem;
   margin-bottom: 2vh;
   position: relative;
   background: white;
@@ -33,6 +33,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
+  margin-bottom: 0.5px;
 }
 
 .webcam-component {
@@ -70,6 +71,10 @@
   display: none;
 }
 
+.instructions {
+  margin-bottom: 10px;
+}
+
 //WorkoutItem
 
 .workout_container {
@@ -87,32 +92,36 @@
   border-radius: @borderRadius;
   box-shadow: @boxShadow;
   position: relative;
+  z-index: 4;
 }
 
 .workout_info {
   margin: 1rem;
 }
 
-.startworkoutButton {
-  font-size: smaller !important;
-  padding: 0 !important;
-  position: absolute !important;
-  bottom: 1em !important;
-  right: 1em !important;
+#startworkoutButton {
+  font-size: smaller;
+  padding: 0;
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
 }
 
 //WorkoutList
 
 .workout_scroll {
   display: flex;
-  margin-left: 5vw;
+  z-index: 3;
 }
 
 .workout_list {
   display: flex;
   overflow-x: scroll;
-  width: 100vw;
+  width: 100%;
   min-height: 180px;
+  margin-left: -1rem;
+  margin-right: -2rem;
+  padding-left: 1rem;
   // scrollbar-width: 0px;
 }
 
@@ -121,6 +130,9 @@
 }
 
 @media only screen and (max-width: 500px) {
+  .workout_list {
+    width: 100vw;
+  }
   .workout_list::-webkit-scrollbar {
     display: none;
   }
@@ -151,7 +163,6 @@
 .stats-list {
   margin-top: 20px;
   max-width: 400px;
-  width: 80vw;
 }
 .stats-item {
   margin-top: 10px;
@@ -169,9 +180,8 @@
 }
 
 .chart {
-  margin-top: 20px;
+  margin-top: 30px;
   max-width: 400px;
-  width: 80vw;
   box-shadow: @boxShadow;
   padding: 20px;
   background: white;
@@ -184,8 +194,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
   flex-direction: column;
+}
+.loading-notice {
+  margin-top: 10px;
 }
 
 //friend item comp
@@ -198,8 +211,8 @@
   max-height: 10rem;
   min-height: 3rem;
   margin-top: 0.5rem;
-  width: 90vw;
-  max-width: 35rem;
+  width: 100%;
+
   min-width: 20rem;
   background: white;
   border-radius: @borderRadius;
@@ -208,21 +221,23 @@
 }
 
 .avatar-div {
-  width: 20vw;
+  width: 20%;
+  max-width: 85px;
   display: flex;
   justify-content: center;
 }
 
 .name-div {
   height: 100%;
-  width: 60vw;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 .friend-btns {
-  width: 20vw;
+  width: 20%;
+  max-width: 85px;
   display: flex;
   justify-content: center;
 }
