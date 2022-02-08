@@ -1,30 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { IChallengeWorout, IWorkout } from '../interfaces';
-import { getWorkout } from '../Services/dbService';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import {  IChallenge, ISet, IWorkout } from '../interfaces';
+import AuthService from '../Services/authService';
+import { getChallengesByUserId } from '../Services/challengesService';
+
 import WorkoutItem from './workoutItem';
 
 type ChallengesProps = {
-  challenges: IChallengeWorout[];
+  challenges: IChallenge[];
   isLoading: boolean
 }
 const Challenges: React.FC<ChallengesProps> = ({ challenges, isLoading }) => {
-  const [workouts, setWorkout] = useState<IWorkout[]>([]);
 
-
-  useEffect(() => {
-    challenges.map((challenge) => {
-      return getWorkout(challenge.id)
-        .then(response => {
-          if (response) {
-          setWorkout(prev =>[...prev, ...response])
-        }
-      })
-    })
-  }, [challenges])
   return (
     <div className="workout_list">
-      <div className="workout_scroll">{workouts.map((workout: IWorkout, index) => {
-    return <WorkoutItem workout={workout} key={index}/>;
+      <div className="workout_scroll">{challenges.map((challenge: IChallenge, index) => {
+    return <WorkoutItem workout={challenge} key={index}/>;
  })}</div>
   </div>);
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import WorkoutItem from "./workoutItem";
-import { IChallengeWorout, IWorkout } from "../interfaces";
+import { IWorkout } from "../interfaces";
 import "./components.less";
 import LoadingContent from "./loadingContent";
 import EmptyContent from "./emptyContent";

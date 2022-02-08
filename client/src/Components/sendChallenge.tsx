@@ -1,41 +1,45 @@
 import { Button, Form, Input, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { IWorkout } from '../interfaces';
+import { IUserProfile, IWorkout } from '../interfaces';
 import AuthService from '../Services/authService';
+import { saveChallenge } from '../Services/challengesService';
 import { getUserWorkouts } from '../Services/dbService';
+import { getFriendsProfilesByIds, getUserFriends } from '../Services/friendsService';
 
 
 const { Option } = Select;
 
 const SendChallenge: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
-  const [friendsList, setfriendsList] = useState([]);
+  const [friendsList, setfriendsList] = useState<IUserProfile[]>([]);
   const [userWorkouts, setUserWorkouts] = useState<IWorkout[]>([]);
 
-  const onFinish = ({ challengee, workout, message }) => {
+  const onFinish = ({ challengee, workout, message }: {challengee:string; workout:string; message:string;}) => {
     const workoutSets = userWorkouts.filter((set) => set.id === workout)
-    const challenge = {
-      receiving_userid: challengee,
-      message: message,
-      workout: workoutSets[0].workout
-    }
-    console.log(challenge)
+
+    saveChallenge(challengee, message, , workoutSets[0].workout)
 }
 
   useEffect(() => {
     if (user) {
-      // getUserFriends(user.uid)
-      //   .then(res => {
-
-      // })
+       getUserFriends(user.uid)
+        .then(res => {
+          getFriendsProfilesByIds(res)
+            .then(res => {
+              if (res) {
+                setfriendsList(prev => [...prev, ...res])
+              }
+            })
+      })
       getUserWorkouts(user.uid)
         .then(response => {
           if (response) {
             setUserWorkouts(response)
           }
 
-      })
+        })
+      getUserProfile()
     }
 
   }, [user])
@@ -62,12 +66,9 @@ const SendChallenge: React.FC = () => {
      return childA.toLowerCase().localeCompare(childB.toLowerCase())}
     }
   >
-    <Option value="1">Not Identified</Option>
-    <Option value="2">Closed</Option>
-    <Option value="3">Communicated</Option>
-    <Option value="4">Identified</Option>
-    <Option value="5">Resolved</Option>
-    <Option value="6">Cancelled</Option>
+              {friendsList.map((friend) => {
+                return <Option key={friend.id} value={`${friend.name} ${friend.surname}`}>{friend.name+' '+friend.surname}</Option>
+              })}
   </Select>
       </Form.Item>
       <Form.Item label="To complete my workout:" name="workout">
@@ -86,7 +87,7 @@ const SendChallenge: React.FC = () => {
      return childA.toLowerCase().localeCompare(childB.toLowerCase())}
     }
   >
-          {userWorkouts.map((workout) => {
+          {userWorkouts.map((workout, index) => {
             return <Option key={workout.id} value={workout.id}>{workout.name}</Option>
           })}
   </Select>
