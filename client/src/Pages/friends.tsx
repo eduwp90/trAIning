@@ -53,7 +53,7 @@ const Friends: React.FC = () => {
 
   async function setfriendsIDArray(): Promise<void> {
     if (user) {
-      const friendsIDArray: string[] = await getUserFriends(user.uid);
+      const friendsIDArray: string[] | null = await getUserFriends(user.uid);
       if (friendsIDArray) {
         setExistingFriendsArray(friendsIDArray);
       }
