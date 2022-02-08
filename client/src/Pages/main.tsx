@@ -19,7 +19,7 @@ const Main: React.FC = () => {
   return (
     <Layout className="layout">
       <Header className="navbar">
-        <div className="nav-logo">LOGO</div>
+        <div className="nav-logo"></div>
         <div className="nav-content">
           <Menu mode="horizontal" defaultSelectedKeys={[]} style={{ flexGrow: "1" }}>
             <Menu.Item key={0}>
