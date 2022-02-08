@@ -1,26 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Avatar, Layout, Menu, Image } from "antd";
 import "./pages.less";
 import { Link, Outlet } from "react-router-dom";
 import { BarChartOutlined, HomeOutlined, LogoutOutlined, TeamOutlined } from "@ant-design/icons";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
+import { getUserProfile } from "../Services/dbService";
+import { getFriendsProfilesByIds } from "../Services/friendsService";
+import { WorkoutContext } from "../Context/workoutProvider";
 
 const { Header, Content } = Layout;
 
 const Main: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
-  const [userProfile, setUserProfile] = useState(null);
-  const [friendsProfiles, setFriendsProfiles] = useState(null);
+  const { userProfile, storeUserProfile, storeFriendsProfiles } = useContext(WorkoutContext);
 
   const logout = (): void => {
     AuthService.logoutUser();
   };
 
   useEffect(() => {
-    async function fetchProfile() {}
-    if (user) {
-      console.log("hello");
+    async function fetchProfile(id: string) {
+      const res = await getUserProfile(id);
+
+      if (res) {
+        storeUserProfile(res);
+        const profiles = await getFriendsProfilesByIds(res.friendsId);
+        profiles && storeFriendsProfiles(profiles);
+      }
+    }
+
+    if (user && !userProfile) {
+      fetchProfile(user.uid);
     }
   }, [user]);
 
