@@ -87,6 +87,7 @@
   border-radius: @borderRadius;
   box-shadow: @boxShadow;
   position: relative;
+  z-index: 4;
 }
 
 .workout_info {
@@ -105,14 +106,17 @@
 
 .workout_scroll {
   display: flex;
-  margin-left: 5vw;
+  z-index: 3;
 }
 
 .workout_list {
   display: flex;
   overflow-x: scroll;
-  width: 100vw;
+  width: 100%;
   min-height: 180px;
+  margin-left: -1rem;
+  margin-right: -2rem;
+  padding-left: 1rem;
   // scrollbar-width: 0px;
 }
 
@@ -121,6 +125,9 @@
 }
 
 @media only screen and (max-width: 500px) {
+  .workout_list {
+    width: 100vw;
+  }
   .workout_list::-webkit-scrollbar {
     display: none;
   }
@@ -183,6 +190,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
   flex-direction: column;
 }

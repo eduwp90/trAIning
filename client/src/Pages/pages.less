@@ -5,7 +5,23 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
+  width: 100%;
+  justify-content: start;
+}
+.ant-layout-content {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.content {
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+  background-color: transparent;
 }
 
 /* main page */
@@ -254,9 +270,8 @@
 /* Home Page */
 
 .list_title {
-  margin-top: 1.5rem;
   display: flex;
-  width: 90vw;
+  width: 100%;
 }
 h2 {
   margin-left: 4px;
@@ -270,6 +285,8 @@ h2 {
   position: fixed;
   bottom: 2rem;
   box-shadow: @boxShadow;
+  left: 50%;
+  transform: translateX(-50%);
 }
 #round_button .buttonDiv {
   display: flex;

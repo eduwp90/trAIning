@@ -57,7 +57,6 @@ const Home: React.FC = () => {
         }}>
         Create a new workout
       </Button>
-      <Button></Button>
     </div>
   );
 };
