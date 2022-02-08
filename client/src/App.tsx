@@ -13,6 +13,7 @@ import WorkoutProvider from "./Context/workoutProvider";
 import Analytics from "./Pages/analytics";
 import Workout from "./Pages/workout";
 import SendChallenge from "./Components/sendChallenge";
+import Friends from "./Pages/friends";
 
 const App: React.FC = () => {
   const [user, loading] = useAuthState(AuthService.auth);
@@ -38,6 +39,8 @@ const App: React.FC = () => {
           <Route path="analytics" element={<Analytics />} />
           <Route path="workout" element={<Workout />} />
           <Route path="send" element={<SendChallenge />} />
+          <Route path="friends" element={<Friends />} />
+
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
