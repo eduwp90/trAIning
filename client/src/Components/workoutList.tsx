@@ -13,7 +13,7 @@ type WorkoutListProps = {
 
 const WorkoutList: React.FC<WorkoutListProps> = ({ workouts, isLoading }) => {
   const workoutItems = workouts.map((workout: IWorkout) => {
-    return <WorkoutItem workout={workout} key={workout.id}></WorkoutItem>;
+    return <WorkoutItem workout={workout} key={workout.id} ></WorkoutItem>;
   });
 
   return (

@@ -1,15 +1,16 @@
 import { Button } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUserChallenges, getUserWorkouts } from "../Services/dbService";
+import { getUserWorkouts } from "../Services/dbService";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
-import { IChallengeWorout, IWorkout, IWorkoutContext } from "../interfaces";
+import {  IChallenge, IWorkout, IWorkoutContext } from "../interfaces";
 import WorkoutList from "../Components/workoutList";
 import { WorkoutContext } from "../Context/workoutProvider";
 import SendChallenge from "../Components/sendChallenge";
 import Workout from "./workout";
 import Challenges from "../Components/challenges";
+import { getChallengesByUserId } from "../Services/challengesService";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Home: React.FC = () => {
   const [userWorkouts, setUserWorkouts] = useState<IWorkout[]>([]);
   const [publicWorkouts, setPublicWorkouts] = useState<IWorkout[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [challengeWorkouts, setchallengeWorkouts] = useState<IChallengeWorout[]>([]);
+  const [challengeWorkouts, setchallengeWorkouts] = useState<IChallenge[]>([]);
   const { clearWorkout, clearExistingWorkout } = useContext<IWorkoutContext>(WorkoutContext);
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const Home: React.FC = () => {
       if (user && mounted) {
         userData = await getUserWorkouts(user!.uid);
         publicData = await getUserWorkouts("public");
-        challenges = await getUserChallenges(user.uid)
+        challenges = await getChallengesByUserId(user.uid)
       }
       if (userData && publicData && challenges && mounted) {
         setUserWorkouts([...userWorkouts, ...userData]);

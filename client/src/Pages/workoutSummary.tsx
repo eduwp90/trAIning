@@ -183,7 +183,6 @@ const WorkoutSummary: React.FC = () => {
           </Button>
         </div>
       </Form>
-      ;
     </div>
   );
 };

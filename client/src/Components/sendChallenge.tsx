@@ -1,10 +1,10 @@
 import { Button, Form, Input, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { IUserProfile, IWorkout } from '../interfaces';
+import { IDatesResponse, IUserProfile, IWorkout } from '../interfaces';
 import AuthService from '../Services/authService';
 import { saveChallenge } from '../Services/challengesService';
-import { getUserWorkouts } from '../Services/dbService';
+import { getUserProfile, getUserWorkouts } from '../Services/dbService';
 import { getFriendsProfilesByIds, getUserFriends } from '../Services/friendsService';
 
 
@@ -12,13 +12,16 @@ const { Option } = Select;
 
 const SendChallenge: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
+  const [currentUser, setcurrentUser] = useState<IDatesResponse| null>(null);
   const [friendsList, setfriendsList] = useState<IUserProfile[]>([]);
   const [userWorkouts, setUserWorkouts] = useState<IWorkout[]>([]);
 
   const onFinish = ({ challengee, workout, message }: {challengee:string; workout:string; message:string;}) => {
     const workoutSets = userWorkouts.filter((set) => set.id === workout)
-
-    saveChallenge(challengee, message, , workoutSets[0].workout)
+    const name = currentUser && currentUser.name + ' ' + currentUser.surname
+    if (name) {
+        saveChallenge(challengee, message, name, workoutSets[0].workout)
+    }
 }
 
   useEffect(() => {
@@ -39,7 +42,8 @@ const SendChallenge: React.FC = () => {
           }
 
         })
-      getUserProfile()
+      getUserProfile(user.uid)
+      .then(res=> res && setcurrentUser(res))
     }
 
   }, [user])
@@ -67,7 +71,7 @@ const SendChallenge: React.FC = () => {
     }
   >
               {friendsList.map((friend) => {
-                return <Option key={friend.id} value={`${friend.name} ${friend.surname}`}>{friend.name+' '+friend.surname}</Option>
+                return <Option key={friend.id} value={friend.userId}>{friend.name+' '+friend.surname}</Option>
               })}
   </Select>
       </Form.Item>

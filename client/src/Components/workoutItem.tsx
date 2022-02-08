@@ -1,18 +1,20 @@
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { WorkoutContext } from "../Context/workoutProvider";
-import { IChallenge, IWorkout, IWorkoutContext } from "../interfaces";
+import {  IWorkout, IWorkoutContext } from "../interfaces";
 import "./components.less";
 
 type WorkoutItemProps = {
-  workout: IWorkout | IChallenge;
+  workout: IWorkout
+
 };
 
 const WorkoutItem: React.FC<WorkoutItemProps> = ({ workout }) => {
   const { storeExistingWorkout } = useContext<IWorkoutContext>(WorkoutContext);
   const navigate = useNavigate();
+
 
   const startWorkout = (): void => {
 
@@ -24,6 +26,7 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({ workout }) => {
     storeExistingWorkout(workout);
     navigate("/summary");
   };
+
 
   return (
     <div className="workout_container">
