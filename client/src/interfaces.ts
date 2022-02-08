@@ -38,11 +38,13 @@ export interface IDatesResponse extends DocumentData {
   weight: number;
   name: string;
   surname: string;
-  pushups: number;
-  squats: number;
-  lunges: number;
-  jumpingjacks: number;
-  sidesquats: number;
+  activities: tActivities[];
+}
+
+export interface tActivities {
+  count: number;
+  date: Timestamp;
+  type: string;
 }
 
 export interface IUserProfile extends IDatesResponse {
