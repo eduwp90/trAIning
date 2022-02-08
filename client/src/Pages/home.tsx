@@ -7,6 +7,7 @@ import AuthService from "../Services/authService";
 import { IWorkout, IWorkoutContext } from "../interfaces";
 import WorkoutList from "../Components/workoutList";
 import { WorkoutContext } from "../Context/workoutProvider";
+import SendChallenge from "../Components/sendChallenge";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const Home: React.FC = () => {
   }, [user]);
 
   return (
-    <div className="pages-Div">
+    <div className="pages-Div" style={{paddingBottom:"5em"}}>
       <div className="list_title">
         <h2>Your workouts</h2>
       </div>
@@ -49,6 +50,14 @@ const Home: React.FC = () => {
         <h2>Here are some recomendations</h2>
       </div>
       <WorkoutList workouts={publicWorkouts} isLoading={isLoading}></WorkoutList>
+      <div className="list_title">
+        <h2>Your challenges</h2>
+      </div>
+      <WorkoutList workouts={publicWorkouts} isLoading={isLoading}></WorkoutList>
+      <div className="list_title">
+        <h2 style={{marginBottom:"1em"}}>Send a challenge</h2>
+      </div>
+      <SendChallenge />
       <Button
         id="new_workout_btn"
         size="large"
