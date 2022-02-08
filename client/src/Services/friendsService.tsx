@@ -87,3 +87,14 @@ export async function removeFriend(userId: string, friendId: string): Promise<bo
     return false;
   }
 }
+
+export async function getFriendsProfilesByIds(ids: string[]): Promise<IUserProfile[] | null> {
+  try {
+    const results = await getAllProfiles();
+
+    return results && results.filter((profile) => ids.includes(profile.userId));
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
