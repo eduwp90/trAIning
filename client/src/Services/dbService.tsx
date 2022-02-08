@@ -23,7 +23,7 @@ export async function addWorkout(
   workout: ISet[],
   name: string,
   calories: number,
-  duration: number
+  time: number
 ): Promise<void> {
   try {
     const docRef: DocumentReference<DocumentData> = await addDoc(collection(db, "workoutsDb"), {
@@ -31,7 +31,7 @@ export async function addWorkout(
       workout: workout,
       name: name,
       calories: calories,
-      duration: duration
+      time: time
     });
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
@@ -39,12 +39,20 @@ export async function addWorkout(
   }
 }
 
-export async function updateWorkout(id: string, workout: ISet[], name: string): Promise<void> {
+export async function updateWorkout(
+  id: string,
+  workout: ISet[],
+  name: string,
+  time: number,
+  calories: number
+): Promise<void> {
   try {
     const docRef: DocumentReference<DocumentData> = doc(db, "workoutsDb", id);
     await updateDoc(docRef, {
       name: name,
-      workout: workout
+      workout: workout,
+      time: time,
+      calories: calories
     });
     console.log("Document updated with ID: ", docRef.id);
   } catch (e) {

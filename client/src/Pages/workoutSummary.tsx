@@ -10,24 +10,29 @@ import AuthService from "../Services/authService";
 import { WorkoutContext } from "../Context/workoutProvider";
 import { useNavigate } from "react-router-dom";
 import { calculateWorkoutCalories, calculateWorkoutTime } from "../helpers";
+import { time } from "console";
 const { Option } = Select;
 
 const WorkoutSummary: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
   const [setsDisabled, setSetsDisabled] = useState<boolean>(true);
   const [sets, setSets] = useState<JSX.Element[]>([]);
-  const { workout, clearWorkout, existingWorkout, clearExistingWorkout } = useContext<IWorkoutContext>(WorkoutContext);
+  const { workout, clearWorkout, existingWorkout, clearExistingWorkout, userProfile } =
+    useContext<IWorkoutContext>(WorkoutContext);
   const navigate = useNavigate();
   const workoutFromContext = workout.length > 0 ? workout : existingWorkout && existingWorkout.workout;
 
   const onFinish = (e: React.FormEvent<HTMLInputElement>): void => {
+    console.log(e);
     const workoutArray = Object.values(e);
     const name: string = workoutArray.pop();
     const sets: ISet[] = workoutArray;
     if (user) {
       if (workout.length > 0) {
         let duration = calculateWorkoutTime(workout);
-        let calories = calculateWorkoutCalories(workout, /*profile*/ duration);
+        let calories = calculateWorkoutCalories(workout, userProfile!, duration);
+        console.log(duration);
+        console.log(calories);
         addWorkout(user.uid, sets, name, calories, duration)
           .then(() => {
             clearWorkout();
@@ -39,10 +44,12 @@ const WorkoutSummary: React.FC = () => {
             console.log(e);
           });
       } else if (existingWorkout) {
+        let duration = calculateWorkoutTime(sets);
+        let calories = calculateWorkoutCalories(sets, userProfile!, duration);
         console.log(existingWorkout);
         console.log(name);
         console.log(sets);
-        updateWorkout(existingWorkout.id, sets, name)
+        updateWorkout(existingWorkout.id, sets, name, calories, duration)
           .then(() => {
             clearExistingWorkout();
           })
@@ -60,7 +67,7 @@ const WorkoutSummary: React.FC = () => {
     workoutFromContext &&
     workoutFromContext.map((set) => {
       const id: number = workoutFromContext.indexOf(set);
-      console.log(id);
+      // console.log(id);
       return (
         <div key={id} id={`${id}`} className="set-Div">
           <div className="set-Div_inputs">

@@ -1,5 +1,5 @@
 import WorkoutProvider from "./Context/workoutProvider";
-import { ISet, IUserProfile, IWorkout } from "./interfaces";
+import { IDatesResponse, ISet, IUserProfile, IWorkout } from "./interfaces";
 import Workout from "./Pages/workout";
 
 export function calculateBMI(height: number, weight: number) {
@@ -32,12 +32,12 @@ export function calculateSetCalories(weight: number, exer: string, mins: number)
   return weight * MET * 0.0175 * mins; //total calories of an exercise
 }
 
-export function calculateWorkoutCalories(workout: ISet[], profile: IUserProfile, duration: number) {
+export function calculateWorkoutCalories(workout: ISet[], profile: IDatesResponse, duration: number) {
   let res: number = 0;
   for (let i = 0; i < workout.length; i++) {
     res += calculateSetCalories(profile.weight, workout[i].exer, duration);
   }
-  return res;
+  return Math.round(res);
 }
 
 export function calculateRepCalories(weight: number, exer: string, mins: number) {
@@ -54,5 +54,6 @@ export function calculateWorkoutTime(workout: ISet[]) {
   for (let i = 0; i < workout.length; i++) {
     res += calculateSetTime(workout[i]);
   }
+  if (res < 60) res = 60;
   return Math.round(res / 60);
 }
