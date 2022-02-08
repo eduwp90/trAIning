@@ -41,7 +41,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0% 3%;
+  padding: 0 2vw;
   background-color: white;
   box-shadow: @boxShadow;
   width: 100vw;
@@ -50,14 +50,25 @@
 
 .nav-logo {
   display: flex;
-  width: 158px; //15%
-  height: 50px; //31
-  background-image: url("../Assets/trainingLogo3D.png");
+  width: 75px;
+  height: 50px;
+  background-image: url("../Assets/trainingLogoGreenCircleWhite.png");
   background-position: center;
   background-repeat: none;
   background-size: cover;
-  transform: translateY(-4px);
-  margin: 2vw;
+}
+
+@media only screen and (max-width: 500px) {
+  .nav-logo {
+    display: flex;
+    width: 48px;
+    height: 45px;
+    background-image: url("../Assets/mobileLogo.png");
+    background-position: center;
+    background-repeat: none;
+    background-size: cover;
+    transform: translateY(1px);
+  }
 }
 
 .nav-content {
