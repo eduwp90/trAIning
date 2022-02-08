@@ -24,6 +24,9 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
   const [stop, setStop] = useState<boolean>(false);
   const [initialized, setInitialized] = useState<boolean>(false);
 
+  const webcamRef = useRef<Webcam>(null);
+  const webcamDiv = useRef<HTMLDivElement>(null);
+
   let cycleRep = false;
 
   const shouldCountandRender = function (start: boolean, rest: boolean, finish: boolean): boolean {
@@ -49,12 +52,19 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
     }
   };
 
-  const [size, setSize] = useState<number>(window.innerWidth * 0.9);
-  window.onresize = (): void => {
-    setSize(window.innerWidth * 0.9);
-  };
+  function getWidth() {
+    let width: number = webcamDiv.current?.clientWidth || 0;
+    if (width > 1168) {
+      width = 1168;
+    }
+    return width;
+  }
 
-  const webcamRef = useRef<Webcam>(null);
+  const [size, setSize] = useState<number>(getWidth());
+  window.onresize = (): void => {
+    const width = getWidth();
+    setSize(width);
+  };
 
   async function loadModel() {
     console.log("loading model ", URL);
@@ -171,9 +181,13 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [URL]);
 
+  useEffect(() => {
+    setSize(getWidth());
+  }, [webcamDiv]);
+
   return (
     <>
-      <div className="webcam-stack-container">
+      <div className="webcam-stack-container" ref={webcamDiv}>
         <WebcamOverlay startExercise={startExercise} status={status} />
         {webcamRef && (
           <Webcam
