@@ -1,48 +1,84 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Avatar, Layout, Menu, Image } from "antd";
 import "./pages.less";
-import { Link, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation, useResolvedPath } from "react-router-dom";
 import { BarChartOutlined, HomeOutlined, LogoutOutlined, TeamOutlined } from "@ant-design/icons";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
+import { getUserProfile } from "../Services/dbService";
+import { getFriendsProfilesByIds } from "../Services/friendsService";
+import { WorkoutContext } from "../Context/workoutProvider";
 
 const { Header, Content } = Layout;
 
 const Main: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
+  const { userProfile, storeUserProfile, storeFriendsProfiles } = useContext(WorkoutContext);
+  const location = useLocation();
 
   const logout = (): void => {
     AuthService.logoutUser();
   };
 
-  console.log("user ", user);
+  const setSelectedMenuItem = (pathname: string) => {
+    switch (pathname) {
+      case "/":
+        return ["home"];
+      case "/analytics":
+        return ["analytics"];
+      case "/friends":
+        return ["friends"];
+
+      default:
+        return [];
+    }
+  };
+
+  useEffect(() => {
+    async function fetchProfile(id: string) {
+      const res = await getUserProfile(id);
+
+      if (res) {
+        storeUserProfile(res);
+        const profiles = await getFriendsProfilesByIds(res.friendsId);
+        profiles && storeFriendsProfiles(profiles);
+      }
+    }
+
+    if (user && !userProfile) {
+      fetchProfile(user.uid);
+    }
+  }, [user]);
+
   return (
     <Layout className="layout">
       <Header className="navbar">
         <div className="nav_container">
-          <div className="nav-logo"></div>
-          <div className="nav-content">
-            <Menu mode="horizontal" defaultSelectedKeys={[]} style={{ flexGrow: "1" }}>
-              <Menu.Item key={0}>
-                <Link to="/">
-                  <HomeOutlined />
-                  <span className="nav-content-item">Home</span>
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="analytics">
-                <Link to="analytics">
-                  <BarChartOutlined />
-                  <span className="nav-content-item">Analytics</span>
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="friends">
-                <Link to="friends">
-                  <TeamOutlined />
-                  <span className="nav-content-item">Friends</span>
-                </Link>
-              </Menu.Item>
-            </Menu>
+          <div className="nav-logo">
+            <img className="nav-logo-image" alt="training.ai" />
           </div>
+
+          <Menu className="nav-content" mode="horizontal" defaultSelectedKeys={setSelectedMenuItem(location.pathname)}>
+            <Menu.Item key="home">
+              <NavLink to="/">
+                <HomeOutlined />
+                <span className="nav-content-item">Home</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key="analytics">
+              <NavLink to="analytics">
+                <BarChartOutlined />
+                <span className="nav-content-item">Analytics</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key="friends">
+              <NavLink to="friends">
+                <TeamOutlined />
+                <span className="nav-content-item">Friends</span>
+              </NavLink>
+            </Menu.Item>
+          </Menu>
+
           <div className="nav-user">
             {user && (
               <Menu mode="horizontal" className="user-menu">

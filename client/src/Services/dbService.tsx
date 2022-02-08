@@ -164,3 +164,28 @@ export async function addNewProfile(
     console.log(e);
   }
 }
+
+export async function getUserProfile(user: string): Promise<IDatesResponse | undefined> {
+  const userRef: DocumentReference<DocumentData> = doc(db, "profiles", user);
+  const userProfile: DocumentData = await getDoc(userRef);
+  let profileObj: IDatesResponse;
+  try {
+    if (userProfile.exists()) {
+      const info: IDatesResponse = userProfile.data();
+      profileObj = {
+        weight: info.weight,
+        height: info.height,
+        bmi: info.bmi,
+        friendsId: info.friendsId,
+        name: info.name,
+        surname: info.surname,
+        photoURL: info.photoURL,
+        activities: info.activities,
+        dates: info.dates
+      };
+      return profileObj;
+    }
+  } catch (error) {
+    console.log("error fetching user activites", error);
+  }
+}

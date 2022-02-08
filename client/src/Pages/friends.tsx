@@ -1,11 +1,12 @@
 import { Input } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import FriendProfileItem from "../Components/friendProfileItem";
 import LoadingContent from "../Components/loadingContent";
 import { IUserProfile } from "../interfaces";
 import AuthService from "../Services/authService";
-import { getAllProfiles, getUserFriends } from "../Services/friendsService";
+import { getAllProfiles, getFriendsProfilesByIds, getUserFriends } from "../Services/friendsService";
+import { WorkoutContext } from "../Context/workoutProvider";
 
 const Friends: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
@@ -14,6 +15,7 @@ const Friends: React.FC = () => {
   const [allProfiles, setAllProfiles] = useState<IUserProfile[]>([]);
   const [searchInput, setSearchInput] = useState<string>("");
   const [filteredProfiles, setfilteredProfiles] = useState<IUserProfile[]>([]);
+  const { storeFriendsProfiles } = useContext(WorkoutContext);
 
   //functions for search
   const setSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,6 +72,16 @@ const Friends: React.FC = () => {
     } else {
       setExistingFriends([]);
     }
+    return () => {
+      async function updateFriendsProfiles() {
+        console.log("yooo", existingFriendsArray);
+        if (existingFriendsArray) {
+          const profiles = await getFriendsProfilesByIds(existingFriendsArray);
+          profiles && storeFriendsProfiles(profiles);
+        }
+      }
+      updateFriendsProfiles();
+    };
   }, [existingFriendsArray]);
 
   useEffect(() => {
