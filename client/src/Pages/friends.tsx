@@ -87,7 +87,8 @@ const Friends: React.FC = () => {
       <div className="list_title">
         <h2>Your friends</h2>
       </div>
-      <div style={{ minHeight: "180px" }}>
+      <div
+        style={{ minHeight: "180px", width: "100%", display: "flex", flexDirection: "column", marginBottom: "1rem" }}>
         {!existingFriendsArray || !existingFriends ? <LoadingContent /> : null}
         {existingFriends && existingFriends.length > 0
           ? existingFriends.map((profile) => {
