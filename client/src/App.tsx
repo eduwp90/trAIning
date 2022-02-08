@@ -12,6 +12,7 @@ import WorkoutSummary from "./Pages/workoutSummary";
 import WorkoutProvider from "./Context/workoutProvider";
 import Analytics from "./Pages/analytics";
 import Workout from "./Pages/workout";
+import SendChallenge from "./Components/sendChallenge";
 
 const App: React.FC = () => {
   const [user, loading] = useAuthState(AuthService.auth);
@@ -36,6 +37,7 @@ const App: React.FC = () => {
           <Route path="summary" element={<WorkoutSummary />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="workout" element={<Workout />} />
+          <Route path="send" element={<SendChallenge />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
