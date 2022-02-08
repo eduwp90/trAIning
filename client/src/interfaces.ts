@@ -23,6 +23,10 @@ export interface IWorkoutContext {
   workout: ISet[];
   storeWorkout: (sets: ISet[]) => void;
   clearWorkout: () => void;
+  userProfile: IDatesResponse | null;
+  storeUserProfile: (profile: IDatesResponse) => void;
+  friendsProfiles: IUserProfile[] | null;
+  storeFriendsProfiles: (profiles: IUserProfile[]) => void;
 }
 
 export interface IWorkoutResponse extends IWorkout, DocumentData {
