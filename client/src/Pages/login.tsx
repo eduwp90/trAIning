@@ -60,8 +60,10 @@ const Login: React.FC = () => {
   return (
     <div className="background-div">
       <div className="login-container">
-        <div className="login-logo">LOGO</div>
-        <h1>Log in</h1>
+        <div className="login-logo">
+          <div className="logo"></div>
+        </div>
+        {/* <h1>Log in</h1> */}
         <Button className="google-signin-btn" type="default" icon={<GoogleOutlined />} onClick={googleBtn}>
           Continue with Google
         </Button>

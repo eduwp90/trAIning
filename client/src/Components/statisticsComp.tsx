@@ -14,7 +14,7 @@ type tchartCompProps = {
 const StatisticsComp: React.FC<tchartCompProps> = ({ userActivities }) => {
   const uniqueList: string[] = [];
   let activityList: tactivities[] = [];
-  for (let i = 0; i < userActivities.length; i++) {
+  for (let i = 0, length = userActivities.length; i < length; i++) {
     if (!uniqueList.includes(userActivities[i].type)) {
       uniqueList.push(userActivities[i].type);
       activityList.push({

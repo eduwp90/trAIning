@@ -25,8 +25,7 @@ const WebcamOverlay: React.FC<OverlayProps> = ({ startExercise, status }) => {
         return (
           <>
             <h3>Make sure your entire body is visible</h3>
-            <span>Click start when ready</span>
-            <p> </p>
+            <span className="instructions">Click start when ready</span>
             {starting ? (
               <Countdown title="Starting in:" value={Date.now() + 3500} />
             ) : (

@@ -7,18 +7,25 @@ import SquatSVG from "../Assets/squatSVG";
 
 export const iconSelector = (exerciseType: string): (() => JSX.Element) => {
   let icon: () => JSX.Element;
-  if (exerciseType === "push-ups") {
-    icon = () => <PushupSVG />;
-  } else if (exerciseType === "squats") {
-    icon = () => <SquatSVG />;
-  } else if (exerciseType === "lunges") {
-    icon = () => <LungesSVG />;
-  } else if (exerciseType === "jumping-jacks") {
-    icon = () => <JumpinjackSVG />;
-  } else if (exerciseType === "side-squats") {
-    icon = () => <SidesquatSVG />;
-  } else if (exerciseType === "Total Days Active") {
-    icon = () => <JumpinjackSVG />;
+  switch (exerciseType) {
+    case "push-ups":
+      icon = () => <PushupSVG />;
+      break;
+    case "squats":
+      icon = () => <SquatSVG />;
+      break;
+    case "lunges":
+      icon = () => <LungesSVG />;
+      break;
+    case "jumping-jacks":
+      icon = () => <JumpinjackSVG />;
+      break;
+    case "side-squats":
+      icon = () => <SidesquatSVG />;
+      break;
+    case "Total Days Active":
+      icon = () => <JumpinjackSVG />;
+      break;
   }
   const IconComponent = () => <Icon component={icon} />;
   return IconComponent;
