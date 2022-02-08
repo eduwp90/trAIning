@@ -68,3 +68,15 @@ export type tRepCounts = {
   "jumping-jacks": number;
   "side-squats": number;
 };
+
+export interface IChallengeWorout{
+  id: string;
+  receiving_userid: string;
+  from_userid: string;
+  message: string;
+  workout_id: string;
+}
+
+export interface IChallengeResponse extends  IChallengeWorout, DocumentData{
+
+}

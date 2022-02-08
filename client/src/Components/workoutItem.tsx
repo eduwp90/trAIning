@@ -3,11 +3,11 @@ import { Button } from "antd";
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { WorkoutContext } from "../Context/workoutProvider";
-import { IWorkout, IWorkoutContext } from "../interfaces";
+import { IChallengeWorout, IWorkout, IWorkoutContext } from "../interfaces";
 import "./components.less";
 
 type WorkoutItemProps = {
-  workout: IWorkout;
+  workout: IWorkout ;
 };
 
 const WorkoutItem: React.FC<WorkoutItemProps> = ({ workout }) => {
@@ -15,6 +15,7 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({ workout }) => {
   const navigate = useNavigate();
 
   const startWorkout = (): void => {
+
     storeExistingWorkout(workout);
     navigate("/workout");
   };

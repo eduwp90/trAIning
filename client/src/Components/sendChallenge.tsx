@@ -13,8 +13,14 @@ const SendChallenge: React.FC = () => {
   const [friendsList, setfriendsList] = useState([]);
   const [userWorkouts, setUserWorkouts] = useState<IWorkout[]>([]);
 
-  const onFinish = (e: React.FormEvent<HTMLInputElement>) => {
-  console.log(e)
+  const onFinish = ({ challengee, workout, message }) => {
+    const workoutSets = userWorkouts.filter((set) => set.id === workout)
+    const challenge = {
+      receiving_userid: challengee,
+      message: message,
+      workout: workoutSets[0].workout
+    }
+    console.log(challenge)
 }
 
   useEffect(() => {
@@ -39,7 +45,7 @@ const SendChallenge: React.FC = () => {
     <div className='set-Div'>
     <Form onFinish={onFinish}>
       <div className='set-Div_inputs'>
-      <Form.Item label="I want to challenge:" name="challengee-id">
+      <Form.Item label="I want to challenge:" name="challengee">
         <Select
 
     showSearch

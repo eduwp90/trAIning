@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 import { ISet, IWorkout, IWorkoutContext } from "../interfaces";
 import { useStateWithLocalStorageForArray } from "../Services/customHookService";
+
 const contextDefaultValues: IWorkoutContext = {
   existingWorkout: null,
   storeExistingWorkout: () => {},
