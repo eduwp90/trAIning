@@ -41,7 +41,7 @@ export async function getAllProfiles(): Promise<IUserProfile[] | null> {
   }
 }
 
-export async function getUserFriends(userId: string): Promise<string[] | null> {
+export async function getUserFriends(userId: string): Promise<string[]> {
   const docRef: DocumentReference<DocumentData> = doc(db, "profiles", userId);
   try {
     const docSnap = await getDoc(docRef);
@@ -50,11 +50,11 @@ export async function getUserFriends(userId: string): Promise<string[] | null> {
       return docSnap.data().friendsId;
     } else {
       console.log("No user found with that Id!");
-      return null;
+      return [];
     }
   } catch (error) {
     console.log(error);
-    return null;
+    return [];
   }
 }
 

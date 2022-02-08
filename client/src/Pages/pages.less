@@ -44,15 +44,20 @@
   padding: 0% 3%;
   background-color: white;
   box-shadow: @boxShadow;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 .nav-logo {
   display: flex;
-  width: 15%;
-  height: 31px;
-  background: @softGreyBackground;
-  justify-content: center;
-  align-items: center;
+  width: 158px; //15%
+  height: 50px; //31
+  background-image: url("../Assets/trainingLogo3D.png");
+  background-position: center;
+  background-repeat: none;
+  background-size: cover;
+  transform: translateY(-4px);
+  margin: 2vw;
 }
 
 .nav-content {
@@ -308,4 +313,23 @@ h2 {
 .analytic-Div {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.analytic-data-Div {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+.analytic-calendar-Div {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+.chart {
+  width: 80vw;
 }

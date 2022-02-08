@@ -2,7 +2,7 @@ import React from "react";
 import { Avatar, Layout, Menu, Image } from "antd";
 import "./pages.less";
 import { Link, Outlet } from "react-router-dom";
-import { LogoutOutlined } from "@ant-design/icons";
+import { BarChartOutlined, HomeOutlined, LogoutOutlined, TeamOutlined } from "@ant-design/icons";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
 
@@ -17,17 +17,29 @@ const Main: React.FC = () => {
 
   console.log("user ", user);
   return (
-    <Layout className="layout" style={{ height: "100%" }}>
+    <Layout className="layout">
       <Header className="navbar">
         <div className="nav_container">
-          <div className="nav-logo">LOGO</div>
+          <div className="nav-logo"></div>
           <div className="nav-content">
             <Menu mode="horizontal" defaultSelectedKeys={[]} style={{ flexGrow: "1" }}>
               <Menu.Item key={0}>
-                <Link to="/">Home</Link>
+                <Link to="/">
+                  <HomeOutlined />
+                  <span className="nav-content-item">Home</span>
+                </Link>
               </Menu.Item>
               <Menu.Item key="analytics">
-                <Link to="/analytics">Analytics</Link>
+                <Link to="analytics">
+                  <BarChartOutlined />
+                  <span className="nav-content-item">Analytics</span>
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="friends">
+                <Link to="friends">
+                  <TeamOutlined />
+                  <span className="nav-content-item">Friends</span>
+                </Link>
               </Menu.Item>
             </Menu>
           </div>
