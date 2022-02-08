@@ -122,7 +122,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
           cycleRep = true;
           incrementRepCount();
         }
-        if (cycleRep && prediction[1].probability.toFixed(2) < 0.8) {
+        if (cycleRep && prediction[1].probability.toFixed(2) < 0.3) {
           cycleRep = false;
         }
       }
