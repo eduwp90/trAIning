@@ -5,14 +5,42 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
+  width: 100%;
+  justify-content: start;
+}
+.ant-layout-content {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+}
+
+.content {
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+  background-color: transparent;
+  height: 100%;
 }
 
 /* main page */
+.nav_container {
+  display: flex;
+  max-width: 1200px;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0% 3%;
   background-color: white;
   box-shadow: @boxShadow;
@@ -133,40 +161,42 @@
 
 #workoutForm {
   margin: 0.8rem 0;
-  width: 90vw;
+  width: 100%;
 }
 
 .workoutForm_button {
-  margin: 3vw 2vw 3vw 1vw;
+  margin: 0.5rem 1rem 1rem 0rem;
   box-shadow: @boxShadow;
 }
 
 /* steps-page */
 
 .workout-Div {
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   justify-content: start;
   align-items: center;
-  height: 100vh;
-  overflow: hidden;
+  height: 100%;
 }
 
 .workoutContent-Div {
   margin-top: 0.5rem;
-  height: 100vh;
-  width: 90vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .steps-content {
-  height: 67.5vw;
-  text-align: center;
+  // text-align: center;
+  display: flex;
+  width: 100%;
   background-color: #fafafa;
-  border: 1px dashed #e9e9e9;
+  // border: 1px dashed #e9e9e9;
   border-radius: @borderRadius;
+  justify-content: center;
+  align-items: center;
 }
 
 .steps-action {
@@ -191,9 +221,9 @@
 }
 
 .steps-Div {
-  width: 100vw;
+  width: 100%;
   height: 8vh;
-  padding: 0 5vw;
+  padding: 0 0.5rem;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -253,14 +283,13 @@
 
 #summaryForm {
   margin: 0.8rem 0;
-  width: 90vw;
+  width: 100%;
 }
 /* Home Page */
 
 .list_title {
-  margin-top: 1.5rem;
   display: flex;
-  width: 90vw;
+  width: 100%;
 }
 h2 {
   margin-left: 4px;
@@ -274,6 +303,8 @@ h2 {
   position: fixed;
   bottom: 2rem;
   box-shadow: @boxShadow;
+  left: 50%;
+  transform: translateX(-50%);
 }
 #round_button .buttonDiv {
   display: flex;
@@ -290,4 +321,23 @@ h2 {
 .analytic-Div {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.analytic-data-Div {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+.analytic-calendar-Div {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+.chart {
+  width: 80vw;
 }
