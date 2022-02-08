@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Avatar, Layout, Menu, Image } from "antd";
 import "./pages.less";
 import { Link, Outlet } from "react-router-dom";
-import { BarChartOutlined, HomeOutlined, LogoutOutlined, TeamOutlined } from "@ant-design/icons";
+import { BarChartOutlined, HomeOutlined, LogoutOutlined, SmileOutlined, TeamOutlined } from "@ant-design/icons";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
 
@@ -66,6 +66,12 @@ const Main: React.FC = () => {
                   }>
                   <Menu.Item key="logout" onClick={logout}>
                     <LogoutOutlined /> Logout
+                  </Menu.Item>
+                  <Menu.Item key="profile">
+                    <Link to="profile">
+                      <SmileOutlined />
+                      <span className="nav-content-item">Profile</span>
+                    </Link>
                   </Menu.Item>
                 </Menu.SubMenu>
               </Menu>

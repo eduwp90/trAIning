@@ -36,9 +36,6 @@ const WorkoutSummary: React.FC = () => {
             console.log(e);
           });
       } else if (existingWorkout) {
-        console.log(existingWorkout);
-        console.log(name);
-        console.log(sets);
         updateWorkout(existingWorkout.id, sets, name)
           .then(() => {
             clearExistingWorkout();
