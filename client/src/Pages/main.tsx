@@ -28,6 +28,9 @@ const Main: React.FC = () => {
             <Menu.Item key="analytics">
               <Link to="/analytics">Analytics</Link>
             </Menu.Item>
+            <Menu.Item key="friends">
+              <Link to="/friends">Friends</Link>
+            </Menu.Item>
           </Menu>
         </div>
         <div className="nav-user">
