@@ -4,6 +4,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { WorkoutContext } from "../Context/workoutProvider";
 import { IChallenge, IWorkoutContext } from "../interfaces";
+import { challengeComplete } from "../Services/challengesService";
 import "./components.less";
 
 type WorkoutItemProps = {
@@ -14,8 +15,9 @@ const ChallengeItem: React.FC<WorkoutItemProps> = ({ challenge }) => {
   const { storeWorkout } = useContext<IWorkoutContext>(WorkoutContext);
   const navigate = useNavigate();
 
-  const startWorkout = (): void => {
+  const startWorkout = async(): Promise<void> => {
     storeWorkout(challenge.workout);
+    await challengeComplete(challenge.id)
     navigate("/workout");
   };
 

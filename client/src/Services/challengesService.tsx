@@ -1,5 +1,5 @@
 import db from "../Config/firestore";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import { IChallenge, ISet } from "../interfaces";
 
 export async function getChallengesByUserId(userId: string): Promise<IChallenge[] | null> {
@@ -59,5 +59,14 @@ export async function saveChallenge(
   } catch (error) {
     console.log(error);
     return false;
+  }
+}
+
+export async function challengeComplete(id:string): Promise<boolean> {
+  try{
+    await deleteDoc(doc(db, "challenges", id));
+    return true
+  }catch{
+    return false
   }
 }

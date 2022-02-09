@@ -1,7 +1,9 @@
+import { MessageOutlined } from '@ant-design/icons';
 import { Avatar, Button, Form, InputNumber, Radio, Select , Image} from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate, useParams } from 'react-router-dom';
+import { iconSelector } from '../Components/icons';
 import { IChallenge} from '../interfaces';
 import AuthService from '../Services/authService';
 import { getChallengeId } from '../Services/challengesService';
@@ -35,15 +37,22 @@ function ChallengeSummary() {
   return ( challenge ?
     <div className='page-Div'>
       <div className='challengeSummary'>
- <h2>You received this challenge from {challenge.from}</h2>
 
-    <div className="avatar-div">
-      <Avatar
-        src={challenge.from_photo !== "" && (<Image src={challenge.from_photo} style={{ width: 32 }} preview={false} />)}
-      >
-        {!challenge.from_photo && `${challenge.from.charAt(0).toUpperCase()}`}
-        </Avatar>
-    </div>
+        <h2>Challenge from {challenge.from}</h2>
+        <div className="message">
+          <MessageOutlined style={{ fontSize: "x-large" }} />
+        <p className='message_text'>{challenge.message}</p>
+        </div>
+        <h3>The workout is:</h3>
+        {challenge.workout.map((set) => {
+           let Icon = iconSelector(set.exer);
+          return <div className="challenge_sets">
+            <div className='icon_container'><Avatar icon={<Icon/>} /></div>
+            <p>{set.reps} repetition{set.reps >1 && 's'} of {set.exer} {set.rest >0 ? `with a ${set.rest} minute rest`: 'with no rest'}</p>
+          </div>
+        })
+
+        }
     {/*<div className='name-div'>
       <p style={{margin: '0', fontSize:"medium"}}></p>
     </div>
