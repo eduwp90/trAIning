@@ -10,7 +10,6 @@ import AuthService from "../Services/authService";
 import { WorkoutContext } from "../Context/workoutProvider";
 import { useNavigate } from "react-router-dom";
 import { calculateWorkoutCalories, calculateWorkoutTime } from "../helpers";
-import { time } from "console";
 const { Option } = Select;
 
 const WorkoutSummary: React.FC = () => {
@@ -46,9 +45,6 @@ const WorkoutSummary: React.FC = () => {
       } else if (existingWorkout) {
         let duration = calculateWorkoutTime(sets);
         let calories = calculateWorkoutCalories(sets, userProfile!, duration);
-        // console.log(existingWorkout);
-        // console.log(name);
-        // console.log(sets);
 
         updateWorkout(existingWorkout.id, sets, name, calories, duration)
           .then(() => {
