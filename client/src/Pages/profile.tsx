@@ -1,16 +1,17 @@
 import { EditOutlined, FileDoneOutlined } from "@ant-design/icons";
 import { Avatar, Card, Image, InputNumber, Form, message } from "antd";
 import Meta from "antd/lib/card/Meta";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { WorkoutContext } from "../Context/workoutProvider";
 import { calculateBMI } from "../helpers";
-import { IDatesResponse } from "../interfaces";
+import { IWorkoutContext } from "../interfaces";
 import AuthService from "../Services/authService";
-import { getUserProfile, updateUserProfile } from "../Services/dbService";
+import { updateUserProfile } from "../Services/dbService";
 
 const Profile: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
-  const [profile, setProfile] = useState<IDatesResponse>();
+  const { userProfile, setUserProfile } = useContext<IWorkoutContext>(WorkoutContext);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const [weight, setWeight] = useState<number | undefined>();
   const [height, setHeight] = useState<number | undefined>();
@@ -18,14 +19,12 @@ const Profile: React.FC = () => {
   const [bmi, setBmi] = useState<number | undefined>();
 
   function handleEdit() {
-    if (profile) {
+    if (userProfile) {
       setIsDisabled(false);
     }
-    console.log(profile);
   }
 
   useEffect(() => {
-    console.log("mounting");
     setMounted(true);
     return () => {
       setMounted(false);
@@ -33,15 +32,8 @@ const Profile: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log("using effect");
-    let userProfile: IDatesResponse | undefined;
     const getUserInfo = async () => {
-      if (user && mounted) {
-        userProfile = await getUserProfile(user.uid);
-      }
-      console.log(userProfile);
       if (userProfile && mounted) {
-        setProfile(userProfile);
         setWeight(userProfile.weight);
         setHeight(userProfile.height);
         setBmi(userProfile.bmi);
@@ -56,7 +48,7 @@ const Profile: React.FC = () => {
       setBmi(newBmi);
       if (weight && height) {
         const newProfile = await updateUserProfile(user.uid, height, weight, newBmi);
-        setProfile(newProfile);
+        setUserProfile(newProfile);
         setIsDisabled(true);
         message.success("Saved!");
       }
@@ -72,7 +64,7 @@ const Profile: React.FC = () => {
   return (
     <div className="pages-Div">
       <div className="ant-layout-content">
-        {profile && (
+        {userProfile && (
           <div>
             <div className="profile-card">
               <Card
@@ -90,21 +82,19 @@ const Profile: React.FC = () => {
                 <Meta
                   avatar={
                     <Avatar
-                      size={100}
-                      shape={"square"}
+                      size={80}
                       src={
-                        profile.photoURL !== "" && (
-                          <Image src={profile.photoURL} style={{ width: 100 }} preview={false} />
+                        userProfile.photoURL !== "" && (
+                          <Image src={userProfile.photoURL} style={{ width: 80 }} preview={false} />
                         )
                       }>
-                      {!profile.photoURL && `${profile.name.charAt(0).toUpperCase()}`}
+                      {!userProfile.photoURL && `${userProfile.name.charAt(0).toUpperCase()}`}
                     </Avatar>
                   }
-                  title={profile.name + " " + profile.surname}
+                  title={userProfile.name + " " + userProfile.surname}
                   description={
                     <div>
                       <p>bmi: {bmi?.toFixed(1)}</p>
-                      <p>activity-count: {profile.activities.length}</p>
                     </div>
                   }
                 />
