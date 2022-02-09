@@ -45,7 +45,7 @@ const WebcamLiveStats: React.FC<WebcamLiveStatsProps> = ({ isFinished, exer, rep
       clearInterval(intervalId);
       setIsMounted(false);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const WebcamLiveStats: React.FC<WebcamLiveStatsProps> = ({ isFinished, exer, rep
 
   return (
     <div className="live-stats-container">
-      <Row gutter={50}>
+      <Row gutter={65}>
         <Col span={40}>
           <Statistic
             title="Time elapsed"

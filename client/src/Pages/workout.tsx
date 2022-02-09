@@ -28,7 +28,6 @@ const Workout: React.FC = () => {
   const [sets, setSets] = useState<ISet[]>([]);
   const [URL, setURL] = useState("");
 
-
   useEffect(() => {
     if (workout.length > 0) {
       setSets(workout);
@@ -135,27 +134,32 @@ const Workout: React.FC = () => {
           <WebcamAI incrementRepCount={incrementRepCount} URL={URL} isResting={rest} isFinished={isFinished.current} />
         </div>
         <div className="set-info">
-          {!isResting.current || !rest ? (
-            <div>
-              <p className="set-info-current">Current set:</p>
-              <p className="set-info-current">
-                Completed ({repCount}/{sets[current].reps}) reps of {sets[current].exer}
-              </p>
-            </div>
-          ) : (
-            <div>
-              <p>Take a moment to grab a glass of water.</p>
+          <div className="webcam-progressbar">
+            {!isResting.current || !rest ? (
+              <div>
+                <p className="set-info-current">Current set:</p>
+                <p className="set-info-current">
+                  Completed ({repCount}/{sets[current].reps}) reps of {sets[current].exer}
+                </p>
+              </div>
+            ) : (
+              <div>
+                <p>Take a moment to grab a glass of water.</p>
 
-              <Countdown title={"Your workout will continue in:"} value={Date.now() + 60000 * sets[current - 1].rest} />
-            </div>
-          )}
-          {!rest && repCount < sets[current].reps && <ProgressBar progress={(repCount / sets[current].reps) * 100} />}
-          {sets.length > 1 && current !== sets.length - 1 ? (
-            <p>
-              {" "}
-              Up next: {sets[current + 1].reps} reps of {sets[current + 1].exer}
-            </p>
-          ) : null}
+                <Countdown
+                  title={"Your workout will continue in:"}
+                  value={Date.now() + 60000 * sets[current - 1].rest}
+                />
+              </div>
+            )}
+            {!rest && repCount < sets[current].reps && <ProgressBar progress={(repCount / sets[current].reps) * 100} />}
+            {sets.length > 1 && current !== sets.length - 1 ? (
+              <p>
+                {" "}
+                Up next: {sets[current + 1].reps} reps of {sets[current + 1].exer}
+              </p>
+            ) : null}
+          </div>
           <WebcamLiveStats isFinished={isFinished.current} exer={sets[current].exer} repCount={repCount} />
         </div>
 
