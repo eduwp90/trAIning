@@ -10,6 +10,7 @@ import { WorkoutContext } from "../Context/workoutProvider";
 import SendChallenge from "../Components/sendChallenge";
 import Challenges from "../Components/challenges";
 import { getChallengesByUserId } from "../Services/challengesService";
+import SendChallengeModal from "../Components/sendChallengeModal";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -19,6 +20,11 @@ const Home: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [challengeWorkouts, setchallengeWorkouts] = useState<IChallenge[]>([]);
   const { clearWorkout, clearExistingWorkout } = useContext<IWorkoutContext>(WorkoutContext);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -58,12 +64,11 @@ console.log(challengeWorkouts)
       <WorkoutList workouts={publicWorkouts} isLoading={isLoading}></WorkoutList>
       <div className="list_title">
         <h2>Your challenges</h2>
+          <Button type="primary" onClick={showModal}>
+        Send a challenge
+      </Button>
       </div>
       <Challenges challenges={challengeWorkouts} isLoading={isLoading}/>
-      <div className="list_title">
-        <h2 style={{marginBottom:"1em"}}>Send a challenge</h2>
-      </div>
-      <SendChallenge />
       <Button
         id="new_workout_btn"
         size="large"
@@ -72,6 +77,8 @@ console.log(challengeWorkouts)
         }}>
         Create a new workout
       </Button>
+      <SendChallengeModal isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible}/>
+
     </div>
   );
 };
