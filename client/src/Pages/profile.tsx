@@ -1,5 +1,5 @@
 import { EditOutlined, FileDoneOutlined } from "@ant-design/icons";
-import { Avatar, Card, Image, InputNumber, Form, Button } from "antd";
+import { Avatar, Card, Image, InputNumber, Form, message } from "antd";
 import Meta from "antd/lib/card/Meta";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -57,6 +57,8 @@ const Profile: React.FC = () => {
       if (weight && height) {
         const newProfile = await updateUserProfile(user.uid, height, weight, newBmi);
         setProfile(newProfile);
+        setIsDisabled(true);
+        message.success("Saved!");
       }
     }
   };
@@ -78,6 +80,10 @@ const Profile: React.FC = () => {
                 <div onClick={handleEdit}>
                   <span>edit </span>
                   <EditOutlined key="edit" />
+                </div>,
+                <div onClick={onFinish}>
+                  <span>submit </span>
+                  <FileDoneOutlined key="sumbit" />
                 </div>
               ]}>
               <Meta
@@ -92,10 +98,9 @@ const Profile: React.FC = () => {
                 title={profile.name + " " + profile.surname}
                 description={"bmi: " + bmi?.toFixed(1)}
               />
-              <Form className="BMI-form" onFinish={onFinish}>
-                <Form.Item name={"weight"} label="weight" initialValue={weight}>
+              <Form className="BMI-form">
+                <Form.Item label="weight" initialValue={weight}>
                   <InputNumber
-                    name="weight"
                     size="large"
                     placeholder={weight?.toString() || "Weight"}
                     style={{ width: 120 }}
@@ -104,7 +109,7 @@ const Profile: React.FC = () => {
                   />
                   <span> kg</span>
                 </Form.Item>
-                <Form.Item name={"height"} label="height" initialValue={height}>
+                <Form.Item label="height" initialValue={height}>
                   <InputNumber
                     size="large"
                     placeholder={height?.toString() || "Height"}
@@ -114,10 +119,6 @@ const Profile: React.FC = () => {
                   />
                   <span> cm</span>
                 </Form.Item>
-                <Button htmlType="submit">
-                  <span>submit </span>
-                  <FileDoneOutlined key="sumbit" />
-                </Button>
               </Form>
             </Card>
           </div>
