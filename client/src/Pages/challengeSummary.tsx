@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { IChallenge} from '../interfaces';
 import AuthService from '../Services/authService';
 import { getChallengeId } from '../Services/challengesService';
+import "./pages.less"
 
 type Params = {
 id: string
@@ -33,8 +34,9 @@ function ChallengeSummary() {
 
   return ( challenge ?
     <div className='page-Div'>
-      <h2>You received this challenge from: </h2>
-      <div className='friend-item'>
+      <div className='challengeSummary'>
+ <h2>You received this challenge from {challenge.from}</h2>
+
     <div className="avatar-div">
       <Avatar
         src={challenge.from_photo !== "" && (<Image src={challenge.from_photo} style={{ width: 32 }} preview={false} />)}
@@ -42,8 +44,8 @@ function ChallengeSummary() {
         {!challenge.from_photo && `${challenge.from.charAt(0).toUpperCase()}`}
         </Avatar>
     </div>
-    <div className='name-div'>
-      <p style={{margin: '0', fontSize:"medium"}}>{challenge.from}</p>
+    {/*<div className='name-div'>
+      <p style={{margin: '0', fontSize:"medium"}}></p>
     </div>
     {/* <div className='friend-btns'>
       {list === "friends"
@@ -52,7 +54,7 @@ function ChallengeSummary() {
       }
     </div> */}
 
-      </div>
+      {/* </div>
       <h2>And they had this to say about it: </h2>
       <div className='friend-item'>
         <div className='name-div'>
@@ -97,7 +99,9 @@ function ChallengeSummary() {
           </div>
           </div>
       })}
-      </Form>
+      </Form> */}
+      </div>
+
       <Button onClick={returnHome}>Return to home</Button>
     </div>
     : null);
