@@ -36,3 +36,34 @@ export const iconSelector = (exerciseType: string): (() => JSX.Element) => {
   const IconComponent = () => <Icon component={icon} />;
   return IconComponent;
 };
+
+export function iconColorSelector(item: string) {
+  let color: string = "black";
+  switch (item) {
+    case "push-ups":
+      color = "#264653";
+      break;
+    case "squats":
+      color = "#264653";
+      break;
+    case "lunges":
+      color = "#264653";
+      break;
+    case "jumping-jacks":
+      color = "#264653";
+      break;
+    case "side-squats":
+      color = "#264653";
+      break;
+    case "Total Days Active":
+      color = "#2A9D8F";
+      break;
+    case "Total Minutes Active":
+      color = "#E9C46A";
+      break;
+    case "Total Calories Burned":
+      color = "#E76F51";
+      break;
+  }
+  return color;
+}
