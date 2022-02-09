@@ -50,6 +50,7 @@ const CalendarComp: React.FC<CalendarCompProps> = ({ daysActive }) => {
     activeTime = { title: "Total Minutes Active", count: minutes };
     caloriesBurned = { title: "Total Calories Burned", count: userProfile.total_calories };
   }
+  console.log(userProfile);
 
   return (
     <div className="stats-list">
