@@ -20,7 +20,7 @@ const ChallengeItem: React.FC<WorkoutItemProps> = ({ challenge }) => {
 
   const startWorkout = async(): Promise<void> => {
     storeWorkout(challenge.workout);
-    await challengeComplete(challenge.id)
+    //await challengeComplete(challenge.id)
     navigate("/workout");
   };
 
@@ -30,7 +30,8 @@ const ChallengeItem: React.FC<WorkoutItemProps> = ({ challenge }) => {
 
   const handleClick = (e: any) => {
     e.stopPropagation();
-    e.target.id === "start" ? startWorkout() : challengeDetails();
+    console.log( e.target.id)
+    e.target.id.includes("start")  ? startWorkout() : challengeDetails();
   };
 
   const time = calculateWorkoutTime(challenge.workout);
@@ -81,7 +82,7 @@ const ChallengeItem: React.FC<WorkoutItemProps> = ({ challenge }) => {
             />
           </h5>
         </div>
-        <Button name="start" type="text" id="startworkoutButton" onClick={handleClick}>
+        <Button type="text" id="startworkoutButton" onClick={handleClick}>
           Start{"  "}
           {<img id="start" className="play_btn" alt="" src="https://img.icons8.com/plumpy/24/000000/play--v1.png" />}
         </Button>

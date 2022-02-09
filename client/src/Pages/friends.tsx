@@ -114,7 +114,7 @@ const Friends: React.FC = () => {
               );
             })
           : null}
-        {existingFriendsArray && existingFriendsArray.length === 0 ? <p>No friends yet</p> : null}
+        {existingFriendsArray && existingFriendsArray.length === 0 ? <div className="no_friends"><p>No friends yet</p></div> : null}
       </div>
 
       <div className="list_title">
