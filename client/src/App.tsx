@@ -13,6 +13,7 @@ import WorkoutProvider from "./Context/workoutProvider";
 import Analytics from "./Pages/analytics";
 import Workout from "./Pages/workout";
 import Friends from "./Pages/friends";
+import Profile from "./Pages/profile";
 
 const App: React.FC = () => {
   const [user, loading] = useAuthState(AuthService.auth);
@@ -38,7 +39,7 @@ const App: React.FC = () => {
           <Route path="analytics" element={<Analytics />} />
           <Route path="workout" element={<Workout />} />
           <Route path="friends" element={<Friends />} />
-
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

@@ -173,6 +173,26 @@ export async function addNewProfile(
   }
 }
 
+export async function updateUserProfile(user: string,
+  height: number,
+  weight: number,
+  bmi: number
+): Promise<IDatesResponse | undefined> {
+  const userRef: DocumentReference<DocumentData> = doc(db, "profiles", user);
+  try {
+    await updateDoc(userRef, {
+      height: height,
+      weight: weight,
+      bmi: bmi
+    });
+    const update = await getUserProfile(user);  
+    return update
+  } catch (e) {
+    console.log("Error adding document: ", e);
+  }
+  
+}
+
 export async function getUserProfile(user: string): Promise<IDatesResponse | undefined> {
   const userRef: DocumentReference<DocumentData> = doc(db, "profiles", user);
   const userProfile: DocumentData = await getDoc(userRef);
