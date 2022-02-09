@@ -11,6 +11,7 @@ import sound from "../Services/soundService";
 import ProgressBar from "../Components/progressBar";
 import Countdown from "antd/lib/statistic/Countdown";
 import { useStateWithLocalStorage } from "../Services/customHookService";
+import WebcamLiveStats from "../Components/webcamLiveStats";
 
 const { Step } = Steps;
 
@@ -26,6 +27,7 @@ const Workout: React.FC = () => {
   const currentStepRef = createRef<HTMLDivElement>();
   const [sets, setSets] = useState<ISet[]>([]);
   const [URL, setURL] = useState("");
+
 
   useEffect(() => {
     if (workout.length > 0) {
@@ -154,6 +156,7 @@ const Workout: React.FC = () => {
               Up next: {sets[current + 1].reps} reps of {sets[current + 1].exer}
             </p>
           ) : null}
+          <WebcamLiveStats isFinished={isFinished.current} exer={sets[current].exer} repCount={repCount} />
         </div>
 
         <div className="steps-action">

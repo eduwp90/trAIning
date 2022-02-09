@@ -118,7 +118,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
   }
 
   async function predict(): Promise<void> {
-    console.log("eval, ", webcamRef.current !== null && webcamRef.current.getCanvas() !== null);
+    // console.log("eval, ", webcamRef.current !== null && webcamRef.current.getCanvas() !== null);
     if (webcamRef.current !== null && webcamRef.current.getCanvas() !== null) {
       const { pose, posenetOutput } = await model.estimatePose(webcamRef.current.getCanvas());
       const prediction = await model.predict(posenetOutput);
