@@ -90,18 +90,23 @@ const Profile: React.FC = () => {
                 <Meta
                   avatar={
                     <Avatar
-                      size={55}
+                      size={100}
                       shape={"square"}
                       src={
                         profile.photoURL !== "" && (
-                          <Image src={profile.photoURL} style={{ width: 32 }} preview={false} />
+                          <Image src={profile.photoURL} style={{ width: 100 }} preview={false} />
                         )
                       }>
                       {!profile.photoURL && `${profile.name.charAt(0).toUpperCase()}`}
                     </Avatar>
                   }
                   title={profile.name + " " + profile.surname}
-                  description={"bmi: " + bmi?.toFixed(1)}
+                  description={
+                    <div>
+                      <p>bmi: {bmi?.toFixed(1)}</p>
+                      <p>activity-count: {profile.activities.length}</p>
+                    </div>
+                  }
                 />
                 <Form className="BMI-form">
                   <Form.Item label="weight" initialValue={weight}>
