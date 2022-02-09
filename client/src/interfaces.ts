@@ -24,6 +24,7 @@ export interface IWorkoutContext {
   storeWorkout: (sets: ISet[]) => void;
   clearWorkout: () => void;
   userProfile: IDatesResponse | null;
+  setUserProfile: Function;
   storeUserProfile: (profile: IDatesResponse) => void;
   friendsProfiles: IUserProfile[] | null;
   storeFriendsProfiles: (profiles: IUserProfile[]) => void;
@@ -43,6 +44,8 @@ export interface IDatesResponse extends DocumentData {
   name: string;
   surname: string;
   activities: tActivities[];
+  total_calories: number;
+  total_time: number;
 }
 
 export interface tActivities {

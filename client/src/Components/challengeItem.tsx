@@ -7,6 +7,7 @@ import { WorkoutContext } from "../Context/workoutProvider";
 import { calculateWorkoutCalories, calculateWorkoutDifficulty, calculateWorkoutTime } from "../helpers";
 import { IChallenge, IWorkoutContext } from "../interfaces";
 import { ClockCircleOutlined, FireOutlined, FireTwoTone, HeartFilled, InfoCircleOutlined } from "@ant-design/icons";
+import { challengeComplete } from "../Services/challengesService";
 import "./components.less";
 
 type WorkoutItemProps = {
@@ -17,8 +18,9 @@ const ChallengeItem: React.FC<WorkoutItemProps> = ({ challenge }) => {
   const { storeWorkout, userProfile } = useContext<IWorkoutContext>(WorkoutContext);
   const navigate = useNavigate();
 
-  const startWorkout = (): void => {
+  const startWorkout = async(): Promise<void> => {
     storeWorkout(challenge.workout);
+    await challengeComplete(challenge.id)
     navigate("/workout");
   };
 

@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { /*DatePicker, TimePicker,*/ Calendar } from "../Calendar";
 import dayjs, { Dayjs } from "dayjs";
 import StatisticListItem from "./statisticListItem";
 import { List } from "antd";
+import { IWorkoutContext } from "../interfaces";
+import { WorkoutContext } from "../Context/workoutProvider";
 
 // const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const unique = (value: Dayjs, index: number, self: Dayjs[]) => {
@@ -17,6 +19,9 @@ type CalendarCompProps = {
   daysActive: Dayjs[];
 };
 const CalendarComp: React.FC<CalendarCompProps> = ({ daysActive }) => {
+  const { userProfile } = useContext<IWorkoutContext>(WorkoutContext);
+  // userProfile?.total_time
+  // userProfile?.total_calories
   const uniqueDays = daysActive.filter(unique);
   function onChange(day: Dayjs) {}
 
@@ -37,11 +42,21 @@ const CalendarComp: React.FC<CalendarCompProps> = ({ daysActive }) => {
     return <div>{date.date()}</div>;
   }
 
-  const item = { title: "Total Days Active", count: uniqueDays.length };
+  const activeDays = { title: "Total Days Active", count: uniqueDays.length };
+  let activeTime;
+  let caloriesBurned;
+  if (userProfile) {
+    let minutes = userProfile?.total_time / 60;
+    activeTime = { title: "Total Minutes Active", count: minutes };
+    caloriesBurned = { title: "Total Calories Burned", count: userProfile.total_calories };
+  }
+
   return (
     <div className="stats-list">
       <List itemLayout="horizontal" split={false} size={"small"}>
-        <StatisticListItem item={item} />
+        <StatisticListItem item={activeDays} />
+        {activeTime && <StatisticListItem item={activeTime} />}
+        {caloriesBurned && <StatisticListItem item={caloriesBurned} />}
       </List>
       <div className="calendar-Div">
         <Calendar fullscreen={false} dateFullCellRender={onFullRender} defaultValue={dayjs()} onChange={onChange} />

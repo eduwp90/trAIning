@@ -40,13 +40,13 @@ const Analytics: React.FC = () => {
           {userActivities.length ? (
             <div>
               <ChartComp userActivities={userActivities} />
-              <div className="analytic-calendar-Div">
-                <CalendarComp daysActive={daysActive} />
-              </div>
             </div>
           ) : (
             ""
           )}
+        </div>
+        <div className="analytic-calendar-Div">
+          <CalendarComp daysActive={daysActive} />
         </div>
       </div>
     </div>
