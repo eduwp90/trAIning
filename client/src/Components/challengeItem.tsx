@@ -1,4 +1,4 @@
-import { InfoCircleOutlined } from "@ant-design/icons";
+// import { InfoCircleOutlined } from "@ant-design/icons";
 import { Avatar, Image, Button } from "antd";
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,27 +24,38 @@ const ChallengeItem: React.FC<WorkoutItemProps> = ({ challenge }) => {
   };
 
   return (
-    <div className="workout_container">
-      <div className="workout_headline"></div>
-      <div className="workout_info">
-        <h4 className="workout_info_name">Received from:</h4>
-        <h4 className="workout_info_name">{challenge.from}</h4>
-        <div className="avatar-div">
-      <Avatar
-        src={challenge.from_photo !== "" && (<Image src={challenge.from_photo} style={{ width: 32 }} preview={false} />)}
-      >
-        {!challenge.from_photo && `${challenge.from.charAt(0).toUpperCase()}`}
-        </Avatar>
-    </div>
-        <h5>{challenge.message}</h5>
+    <div className="challenge_container" onClick={challengeDetails}>
+      <div className="challenge_headline">
+        <div className="challenge_avatar">
+          <Avatar
+            size={80}
+            src={
+              challenge.from_photo !== "" && <Image src={challenge.from_photo} style={{ width: 32 }} preview={false} />
+            }>
+            {!challenge.from_photo && `${challenge.from.charAt(0).toUpperCase()}`}
+          </Avatar>
+        </div>
+        <div className="challenge_name">
+          {challenge.from}
+          <div className="challenge_message">⏤ {challenge.message}</div>
+        </div>
+      </div>
+      <div className="challenge_info">
+        <div>{challenge.workout[0]}</div>
         <Button type="text" id="startworkoutButton" onClick={startWorkout}>
-          Start challenge
+          {
+            <img
+              className="play_btn"
+              alt=""
+              src="https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-play-call-to-action-bearicons-glyph-bearicons.png"
+            />
+          }
         </Button>
 
-        <InfoCircleOutlined
+        {/* <InfoCircleOutlined
           onClick={challengeDetails}
           style={{ position: "absolute", top: "0.5em", right: "0.5em", fontSize: "x-large" }}
-        />
+        /> */}
       </div>
     </div>
   );

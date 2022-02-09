@@ -93,10 +93,7 @@
   box-shadow: @boxShadow;
   position: relative;
   z-index: 4;
-}
-
-.workout_info {
-  margin: 1rem;
+  padding: 1rem;
 }
 
 #startworkoutButton {
@@ -105,6 +102,11 @@
   position: absolute;
   bottom: 1em;
   right: 1em;
+}
+
+.play_btn {
+  max-width: 2rem;
+  filter: invert(30%);
 }
 
 //WorkoutList
@@ -255,4 +257,52 @@
 .sendChallenge_inputs {
   display: flex;
   flex-direction: column;
+}
+
+// challengeItem
+
+.challenge_container {
+  height: 20vh;
+  max-height: 17rem;
+  min-height: 16rem;
+  width: 60vw;
+  max-width: 22rem;
+  min-width: 19rem;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  margin-right: 1rem;
+  margin-left: 2px;
+  padding: 1rem;
+  background: rgb(164, 224, 210);
+  border-radius: @borderRadius;
+  box-shadow: @boxShadow;
+  position: relative;
+  z-index: 4;
+}
+
+.challenge_headline {
+  display: flex;
+  flex-direction: row;
+  min-height: 100px;
+}
+
+.challenge_avatar_img {
+}
+
+.challenge_name {
+  padding: 0.4rem 1rem 0.4rem 1rem;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  font-size: 25px;
+  font-weight: bolder;
+  color: white;
+}
+
+.challenge_message {
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  font-style: italic;
+  color: #2a9d8f;
+  // background-image: url("https://cutewallpaper.org/24/imessage-bubble-png/creating-an-ios-chat-bubble-with-tails-in-swift-%E2%80%94-the-easy-way-by-rob-kerr-mobile-software-development-medium.png");
 }
