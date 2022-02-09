@@ -70,60 +70,66 @@ const Profile: React.FC = () => {
   }
 
   return (
-    <div className="ant-layout-content">
-      {profile && (
-        <div>
-          <div className="profile-card">
-            <Card
-              style={{ width: 300 }}
-              actions={[
-                <div onClick={handleEdit}>
-                  <span>edit </span>
-                  <EditOutlined key="edit" />
-                </div>,
-                <div onClick={onFinish}>
-                  <span>submit </span>
-                  <FileDoneOutlined key="sumbit" />
-                </div>
-              ]}>
-              <Meta
-                avatar={
-                  <Avatar
-                    src={
-                      profile.photoURL !== "" && <Image src={profile.photoURL} style={{ width: 32 }} preview={false} />
-                    }>
-                    {!profile.photoURL && `${profile.name.charAt(0).toUpperCase()}`}
-                  </Avatar>
-                }
-                title={profile.name + " " + profile.surname}
-                description={"bmi: " + bmi?.toFixed(1)}
-              />
-              <Form className="BMI-form">
-                <Form.Item label="weight" initialValue={weight}>
-                  <InputNumber
-                    size="large"
-                    placeholder={weight?.toString() || "Weight"}
-                    style={{ width: 120 }}
-                    disabled={isDisabled}
-                    onChange={onWeightChange}
-                  />
-                  <span> kg</span>
-                </Form.Item>
-                <Form.Item label="height" initialValue={height}>
-                  <InputNumber
-                    size="large"
-                    placeholder={height?.toString() || "Height"}
-                    style={{ width: 120 }}
-                    disabled={isDisabled}
-                    onChange={onHeightChange}
-                  />
-                  <span> cm</span>
-                </Form.Item>
-              </Form>
-            </Card>
+    <div className="pages-Div">
+      <div className="ant-layout-content">
+        {profile && (
+          <div>
+            <div className="profile-card">
+              <Card
+                style={{ width: 300 }}
+                actions={[
+                  <div onClick={handleEdit}>
+                    <span>edit </span>
+                    <EditOutlined key="edit" />
+                  </div>,
+                  <div onClick={onFinish}>
+                    <span>submit </span>
+                    <FileDoneOutlined key="sumbit" />
+                  </div>
+                ]}>
+                <Meta
+                  avatar={
+                    <Avatar
+                      size={55}
+                      shape={"square"}
+                      src={
+                        profile.photoURL !== "" && (
+                          <Image src={profile.photoURL} style={{ width: 32 }} preview={false} />
+                        )
+                      }>
+                      {!profile.photoURL && `${profile.name.charAt(0).toUpperCase()}`}
+                    </Avatar>
+                  }
+                  title={profile.name + " " + profile.surname}
+                  description={"bmi: " + bmi?.toFixed(1)}
+                />
+                <Form className="BMI-form">
+                  <Form.Item label="weight" initialValue={weight}>
+                    <InputNumber
+                      size="large"
+                      placeholder={weight?.toString() || "Weight"}
+                      style={{ width: 120 }}
+                      disabled={isDisabled}
+                      onChange={onWeightChange}
+                    />
+                    <span> kg</span>
+                  </Form.Item>
+                  <Form.Item label="height" initialValue={height}>
+                    <InputNumber
+                      size="large"
+                      placeholder={height?.toString() || "Height"}
+                      style={{ width: 120 }}
+                      disabled={isDisabled}
+                      onChange={onHeightChange}
+                    />
+                    <span> cm</span>
+                  </Form.Item>
+                </Form>
+              </Card>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

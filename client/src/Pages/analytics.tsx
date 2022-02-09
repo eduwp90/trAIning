@@ -35,14 +35,18 @@ const Analytics: React.FC = () => {
   return (
     <div className="pages-Div">
       <div className="analytic-Div">
-        {userActivities && (
-          <div className="analytic-data-Div">
-            <StatisticsComp userActivities={userActivities} />
-            <ChartComp userActivities={userActivities} />
-          </div>
-        )}
-        <div className="analytic-calendar-Div">
-          <CalendarComp daysActive={daysActive} />
+        <div className="analytic-data-Div">
+          <StatisticsComp userActivities={userActivities} />
+          {userActivities.length ? (
+            <div>
+              <ChartComp userActivities={userActivities} />
+              <div className="analytic-calendar-Div">
+                <CalendarComp daysActive={daysActive} />
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>
