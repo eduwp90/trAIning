@@ -77,8 +77,10 @@ export type tRepCounts = {
 };
 
 export interface IChallenge {
+  id: string;
   from: string;
+  from_photo: string;
   message: string;
   receiving_userid: string;
-  workout_id: ISet[];
+  workout: ISet[];
 }

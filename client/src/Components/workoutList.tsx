@@ -6,13 +6,14 @@ import LoadingContent from "./loadingContent";
 import EmptyContent from "./emptyContent";
 
 type WorkoutListProps = {
-  workouts: IWorkout[];
+  workouts: IWorkout[] ;
   isLoading: boolean;
+
 };
 
 const WorkoutList: React.FC<WorkoutListProps> = ({ workouts, isLoading }) => {
   const workoutItems = workouts.map((workout: IWorkout) => {
-    return <WorkoutItem workout={workout} key={workouts.indexOf(workout)}></WorkoutItem>;
+    return <WorkoutItem workout={workout} key={workout.id} ></WorkoutItem>;
   });
 
   return (

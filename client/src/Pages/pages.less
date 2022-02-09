@@ -329,6 +329,7 @@
 .list_title {
   display: flex;
   width: 100%;
+  font-size: 17px;
 }
 h2 {
   margin-left: 4px;
@@ -336,14 +337,12 @@ h2 {
 }
 
 #new_workout_btn {
-  background-color: #2a9d8f;
   font-weight: bold;
-  color: white;
-  position: fixed;
-  bottom: 2rem;
-  box-shadow: @boxShadow;
-  left: 50%;
-  transform: translateX(-50%);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.4rem;
 }
 #round_button .buttonDiv {
   display: flex;
@@ -353,6 +352,22 @@ h2 {
 .buttonDiv {
   display: flex;
   justify-content: space-between;
+}
+
+#send_btn {
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.challenge_title {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
 }
 
 // analytics page
@@ -398,4 +413,42 @@ h2 {
 
 .BMI-form {
   margin-top: 30px;
+}
+
+//challenge summary
+
+.challengeSummary {
+  width: 90vw;
+  padding: 2rem 2rem 1.2rem 2rem;
+  margin-bottom: 2vh;
+  position: relative;
+  background: white;
+  border-radius: @borderRadius;
+  box-shadow: @boxShadow;
+}
+
+.message {
+  display: flex;
+}
+
+.message_text {
+  margin-left: 2vw;
+  flex-wrap: wrap;
+}
+
+.challenge_sets {
+  display: flex;
+}
+
+.icon_container {
+  padding: 2px;
+  margin-right: 1vw;
+}
+
+.no_friends {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

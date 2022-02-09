@@ -13,6 +13,7 @@ import WorkoutProvider from "./Context/workoutProvider";
 import Analytics from "./Pages/analytics";
 import Workout from "./Pages/workout";
 import Friends from "./Pages/friends";
+import ChallengeSummary from "./Pages/challengeSummary";
 import Profile from "./Pages/profile";
 
 const App: React.FC = () => {
@@ -38,6 +39,7 @@ const App: React.FC = () => {
           <Route path="summary" element={<WorkoutSummary />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="workout" element={<Workout />} />
+          <Route path="challenge/:id" element={<ChallengeSummary />} />
           <Route path="friends" element={<Friends />} />
           <Route path="profile" element={<Profile />} />
         </Route>

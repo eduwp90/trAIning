@@ -17,7 +17,7 @@ const Register: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [user] = useAuthState(AuthService.auth);
-  const { state }: any = useLocation();
+  const { state }:any = useLocation();
 
   console.log("router state ", state);
 
