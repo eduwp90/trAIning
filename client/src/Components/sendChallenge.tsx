@@ -16,7 +16,8 @@ type SendChallengeProps = {
 
 const { Option } = Select;
 
-const SendChallenge: React.FC<SendChallengeProps> = ({onCancel}) => {
+const SendChallenge: React.FC<SendChallengeProps> = ({ onCancel }) => {
+  const [form] = Form.useForm();
   const [user] = useAuthState(AuthService.auth);
   const { userProfile } = useContext<IWorkoutContext>(WorkoutContext);
   const [friendsList, setfriendsList] = useState<IUserProfile[]>([]);
@@ -29,6 +30,7 @@ const SendChallenge: React.FC<SendChallengeProps> = ({onCancel}) => {
       const profilePhoto: string = userProfile && userProfile.photoURL
         saveChallenge(challengee, message, name, workoutSets[0].workout, profilePhoto)
     }
+    form.resetFields()
     onCancel()
 }
 
@@ -58,7 +60,7 @@ const SendChallenge: React.FC<SendChallengeProps> = ({onCancel}) => {
   return (
 
     <div className="sendChallenge-container">
-    <Form onFinish={onFinish}>
+    <Form onFinish={onFinish} form={form}>
       <div className='sendChallenge_inputs'>
       <Form.Item label="I want to challenge:" name="challengee">
         <Select
