@@ -1,4 +1,4 @@
-import { Button, Form, InputNumber, Radio, Select } from 'antd';
+import { Avatar, Button, Form, InputNumber, Radio, Select , Image} from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -33,10 +33,32 @@ function ChallengeSummary() {
 
   return ( challenge ?
     <div className='page-Div'>
-      <h2>You received with challenge from: </h2>
-      <h3>{challenge.from}</h3>
+      <h2>You received this challenge from: </h2>
+      <div className='friend-item'>
+    <div className="avatar-div">
+      <Avatar
+        src={challenge.from_photo !== "" && (<Image src={challenge.from_photo} style={{ width: 32 }} preview={false} />)}
+      >
+        {!challenge.from_photo && `${challenge.from.charAt(0).toUpperCase()}`}
+        </Avatar>
+    </div>
+    <div className='name-div'>
+      <p style={{margin: '0', fontSize:"medium"}}>{challenge.from}</p>
+    </div>
+    {/* <div className='friend-btns'>
+      {list === "friends"
+        ? <MinusCircleOutlined style={{fontSize:"x-large", color: "#2A9D8F"}} onClick={()=> {removeFromFriendList(profile.userId)}}/>
+        : <PlusCircleOutlined style={{fontSize:"x-large", color: "#2A9D8F"}} onClick={()=> {addToFriendList(profile.userId)}}/>
+      }
+    </div> */}
+
+      </div>
       <h2>And they had this to say about it: </h2>
-      <h3>{ challenge.message}</h3>
+      <div className='friend-item'>
+        <div className='name-div'>
+      <p style={{margin: '0', fontSize:"medium"}}>{challenge.message}</p>
+    </div>
+      </div>
       <h2>This challenge consists of:</h2>
 
     <Form labelCol={{ span: 4 }}

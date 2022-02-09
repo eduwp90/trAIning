@@ -49,10 +49,10 @@ const SendChallenge: React.FC = () => {
   }, [user])
 
 
-  return (<div className="challenge-Div">
-    <div className='set-Div'>
+  return (
+    <div className="sendChallenge-container">
     <Form onFinish={onFinish}>
-      <div className='set-Div_inputs'>
+      <div className='sendChallenge_inputs'>
       <Form.Item label="I want to challenge:" name="challengee">
         <Select
 
@@ -100,10 +100,9 @@ const SendChallenge: React.FC = () => {
         <Input placeholder='message...' maxLength={50}>
         </Input>
       </Form.Item>
-        <Button type='primary' htmlType='submit' style={{marginBottom:"1em"}}>Send Challenge</Button>
         </div>
+    <Button type='primary' htmlType='submit' style={{ width:"100%", marginBottom: "1em" }}>Send Challenge</Button>
     </Form>
-    </div>
   </div>);
 }
 
