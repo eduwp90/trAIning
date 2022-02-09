@@ -21,11 +21,9 @@ const Profile: React.FC = () => {
     if (profile) {
       setIsDisabled(false);
     }
-    console.log(profile);
   }
 
   useEffect(() => {
-    console.log("mounting");
     setMounted(true);
     return () => {
       setMounted(false);
@@ -33,13 +31,11 @@ const Profile: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log("using effect");
     let userProfile: IDatesResponse | undefined;
     const getUserInfo = async () => {
       if (user && mounted) {
         userProfile = await getUserProfile(user.uid);
       }
-      console.log(userProfile);
       if (userProfile && mounted) {
         setProfile(userProfile);
         setWeight(userProfile.weight);
@@ -90,11 +86,10 @@ const Profile: React.FC = () => {
                 <Meta
                   avatar={
                     <Avatar
-                      size={100}
-                      shape={"square"}
+                      size={80}
                       src={
                         profile.photoURL !== "" && (
-                          <Image src={profile.photoURL} style={{ width: 100 }} preview={false} />
+                          <Image src={profile.photoURL} style={{ width: 80 }} preview={false} />
                         )
                       }>
                       {!profile.photoURL && `${profile.name.charAt(0).toUpperCase()}`}
@@ -104,7 +99,6 @@ const Profile: React.FC = () => {
                   description={
                     <div>
                       <p>bmi: {bmi?.toFixed(1)}</p>
-                      <p>activity-count: {profile.activities.length}</p>
                     </div>
                   }
                 />
