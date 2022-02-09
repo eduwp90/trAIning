@@ -418,8 +418,9 @@ h2 {
 //challenge summary
 
 .challengeSummary {
-  width: 90vw;
-  padding: 2rem 2rem 1.2rem 2rem;
+  width: 100%;
+  padding: 1.5rem;
+  max-width: 800px;
   margin-bottom: 2vh;
   position: relative;
   background: white;
@@ -438,6 +439,12 @@ h2 {
 
 .challenge_sets {
   display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.challenge_sets p {
+  margin: 0;
 }
 
 .icon_container {
@@ -449,6 +456,7 @@ h2 {
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }

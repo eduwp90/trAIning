@@ -116,7 +116,7 @@ const Friends: React.FC = () => {
             })
           : null}
         {existingFriendsArray && existingFriendsArray.length === 0 ? (
-          <div className="center_div">
+          <div className="no_friends">
             <UserOutlined style={{ fontSize: "50px", color: "lightgray", marginBottom: "1rem" }} />
             <p>No friends yet</p>
           </div>
@@ -131,7 +131,7 @@ const Friends: React.FC = () => {
           placeholder="Search..."
           allowClear
           onChange={setSearchValue}
-          style={{ width: "90vw", marginBottom: "1em" }}
+          style={{ width: "100%", marginBottom: "1em" }}
         />
       </div>
       <div style={{ marginBottom: "1em", width: "100%" }}>

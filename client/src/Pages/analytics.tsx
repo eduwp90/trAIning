@@ -19,6 +19,7 @@ const Analytics: React.FC = () => {
   useEffect(() => {
     let mounted = true;
     const updateState = async () => {
+      setIsLoading(true);
       let activeDates;
       let activities;
       if (user && mounted) {
@@ -29,9 +30,9 @@ const Analytics: React.FC = () => {
         setDaysActive(activeDates);
         setUserActivities(activities);
       }
+      setIsLoading(false);
     };
     updateState();
-    setIsLoading(false);
     return () => {
       mounted = false;
     };
@@ -42,9 +43,9 @@ const Analytics: React.FC = () => {
         <div className="analytics-empty">
           <LoadingContent />
         </div>
-      ) : !userActivities.length ? (
+      ) : userActivities.length === 0 ? (
         <div className="ant-layout-content analytics-empty">
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={"You don't have any records yet"} />
         </div>
       ) : (
         <div className="analytic-Div">
