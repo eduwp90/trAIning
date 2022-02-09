@@ -18,12 +18,20 @@ import {
 import { ISet, IWorkout, IWorkoutResponse, IDatesResponse, tActivities } from "../interfaces";
 import dayjs, { Dayjs } from "dayjs";
 
-export async function addWorkout(user: string, workout: ISet[], name: string): Promise<void> {
+export async function addWorkout(
+  user: string,
+  workout: ISet[],
+  name: string,
+  calories: number,
+  time: number
+): Promise<void> {
   try {
     const docRef: DocumentReference<DocumentData> = await addDoc(collection(db, "workoutsDb"), {
       user: user,
       workout: workout,
-      name: name
+      name: name,
+      calories: calories,
+      time: time
     });
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
@@ -31,12 +39,20 @@ export async function addWorkout(user: string, workout: ISet[], name: string): P
   }
 }
 
-export async function updateWorkout(id: string, workout: ISet[], name: string): Promise<void> {
+export async function updateWorkout(
+  id: string,
+  workout: ISet[],
+  name: string,
+  calories: number,
+  time: number
+): Promise<void> {
   try {
     const docRef: DocumentReference<DocumentData> = doc(db, "workoutsDb", id);
     await updateDoc(docRef, {
       name: name,
-      workout: workout
+      workout: workout,
+      time: time,
+      calories: calories
     });
     console.log("Document updated with ID: ", docRef.id);
   } catch (e) {
@@ -155,6 +171,26 @@ export async function addNewProfile(
   } catch (e) {
     console.log(e);
   }
+}
+
+export async function updateUserProfile(user: string,
+  height: number,
+  weight: number,
+  bmi: number
+): Promise<IDatesResponse | undefined> {
+  const userRef: DocumentReference<DocumentData> = doc(db, "profiles", user);
+  try {
+    await updateDoc(userRef, {
+      height: height,
+      weight: weight,
+      bmi: bmi
+    });
+    const update = await getUserProfile(user);  
+    return update
+  } catch (e) {
+    console.log("Error adding document: ", e);
+  }
+  
 }
 
 export async function getUserProfile(user: string): Promise<IDatesResponse | undefined> {

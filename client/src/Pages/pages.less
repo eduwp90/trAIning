@@ -334,25 +334,41 @@ h2 {
 // analytics page
 
 .analytic-Div {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  gap: 1rem;
+  grid-auto-rows: auto;
+  grid-template-columns: repeat(auto-fill, minmax(410px, 1fr));
+
   width: 100%;
   justify-content: center;
-  align-items: center;
+  align-items: start;
 }
 
 .analytic-data-Div {
   display: flex;
   flex-direction: column;
   max-width: 400px;
+  justify-self: center;
 }
 
 .analytic-calendar-Div {
   display: flex;
   flex-direction: column;
   max-width: 400px;
+  justify-self: center;
 }
 
 .chart {
   width: 80vw;
+}
+
+// profile page
+
+.profile-card {
+  box-shadow: @boxShadow;
+  margin-top: 20px;
+}
+
+.BMI-form {
+  margin-top: 20px;
 }

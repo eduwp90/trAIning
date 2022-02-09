@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { Avatar, Layout, Menu, Image } from "antd";
 import "./pages.less";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { BarChartOutlined, HomeOutlined, LogoutOutlined, TeamOutlined } from "@ant-design/icons";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { BarChartOutlined, HomeOutlined, LogoutOutlined, SmileOutlined, TeamOutlined } from "@ant-design/icons";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
 import { getUserProfile } from "../Services/dbService";
@@ -102,6 +102,12 @@ const Main: React.FC = () => {
                   }>
                   <Menu.Item key="logout" onClick={logout}>
                     <LogoutOutlined /> Logout
+                  </Menu.Item>
+                  <Menu.Item key="profile">
+                    <Link to="profile">
+                      <SmileOutlined />
+                      <span className="nav-content-item">Profile</span>
+                    </Link>
                   </Menu.Item>
                 </Menu.SubMenu>
               </Menu>
