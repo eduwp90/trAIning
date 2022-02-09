@@ -47,7 +47,7 @@ const CalendarComp: React.FC<CalendarCompProps> = ({ daysActive }) => {
   let caloriesBurned;
   if (userProfile) {
     let minutes = userProfile?.total_time / 60;
-    activeTime = { title: "Total Minutes Active", count: minutes };
+    activeTime = { title: "Total Minutes Active", count: Math.round(minutes) };
     caloriesBurned = { title: "Total Calories Burned", count: userProfile.total_calories };
   }
   console.log(userProfile);
