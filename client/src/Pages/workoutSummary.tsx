@@ -31,8 +31,8 @@ const WorkoutSummary: React.FC = () => {
       if (workout.length > 0) {
         let duration = calculateWorkoutTime(workout);
         let calories = calculateWorkoutCalories(workout, userProfile!, duration);
-        console.log(duration);
-        console.log(calories);
+        // console.log(duration);
+        // console.log(calories);
         addWorkout(user.uid, sets, name, calories, duration)
           .then(() => {
             clearWorkout();
@@ -46,9 +46,10 @@ const WorkoutSummary: React.FC = () => {
       } else if (existingWorkout) {
         let duration = calculateWorkoutTime(sets);
         let calories = calculateWorkoutCalories(sets, userProfile!, duration);
-        console.log(existingWorkout);
-        console.log(name);
-        console.log(sets);
+        // console.log(existingWorkout);
+        // console.log(name);
+        // console.log(sets);
+
         updateWorkout(existingWorkout.id, sets, name, calories, duration)
           .then(() => {
             clearExistingWorkout();
@@ -101,7 +102,7 @@ const WorkoutSummary: React.FC = () => {
                 size="large"
                 placeholder="Reps"
                 min={1}
-                max={30}
+                max={60}
                 style={{ width: 120 }}
                 disabled={setsDisabled}
               />
@@ -116,7 +117,7 @@ const WorkoutSummary: React.FC = () => {
                 }
               ]}
               initialValue={set.rest}>
-              <Radio.Group size="large" disabled={setsDisabled}>
+              <Radio.Group size="large" disabled={setsDisabled} buttonStyle="solid">
                 <Radio.Button value={0}>0 min</Radio.Button>
                 <Radio.Button value={1}>1 min</Radio.Button>
                 <Radio.Button value={3}>3 min</Radio.Button>

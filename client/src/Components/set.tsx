@@ -39,7 +39,7 @@ const Set: React.FC<SetProps> = ({ id, removeSet }) => {
               required: true
             }
           ]}>
-          <InputNumber size="large" placeholder="Reps" min={1} max={30} style={{ width: 120 }} />
+          <InputNumber size="large" placeholder="Reps" min={1} max={60} style={{ width: 120 }} />
         </Form.Item>
 
         <Form.Item

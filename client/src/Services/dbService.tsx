@@ -43,8 +43,8 @@ export async function updateWorkout(
   id: string,
   workout: ISet[],
   name: string,
-  time: number,
-  calories: number
+  calories: number,
+  time: number
 ): Promise<void> {
   try {
     const docRef: DocumentReference<DocumentData> = doc(db, "workoutsDb", id);
