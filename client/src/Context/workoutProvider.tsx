@@ -9,6 +9,7 @@ const contextDefaultValues: IWorkoutContext = {
   storeWorkout: () => {},
   clearWorkout: () => {},
   userProfile: null,
+  setUserProfile: () => {},
   storeUserProfile: () => {},
   friendsProfiles: null,
   storeFriendsProfiles: () => {}
@@ -56,6 +57,7 @@ const WorkoutProvider: React.FC = ({ children }) => {
         storeWorkout,
         clearWorkout,
         userProfile,
+        setUserProfile,
         storeUserProfile,
         friendsProfiles,
         storeFriendsProfiles

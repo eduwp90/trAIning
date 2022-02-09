@@ -24,6 +24,7 @@ export interface IWorkoutContext {
   storeWorkout: (sets: ISet[]) => void;
   clearWorkout: () => void;
   userProfile: IDatesResponse | null;
+  setUserProfile: Function;
   storeUserProfile: (profile: IDatesResponse) => void;
   friendsProfiles: IUserProfile[] | null;
   storeFriendsProfiles: (profiles: IUserProfile[]) => void;

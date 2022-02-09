@@ -1,4 +1,4 @@
-import Icon from "@ant-design/icons";
+import Icon, { ClockCircleOutlined, FireOutlined, ScheduleOutlined } from "@ant-design/icons";
 import JumpinjackSVG from "../Assets/jumpinjackSVG";
 import LungesSVG from "../Assets/lungesSVG";
 import PushupSVG from "../Assets/pushupSVG";
@@ -24,7 +24,13 @@ export const iconSelector = (exerciseType: string): (() => JSX.Element) => {
       icon = () => <SidesquatSVG />;
       break;
     case "Total Days Active":
-      icon = () => <JumpinjackSVG />;
+      icon = () => <ScheduleOutlined />;
+      break;
+    case "Total Minutes Active":
+      icon = () => <ClockCircleOutlined />;
+      break;
+    case "Total Calories Burned":
+      icon = () => <FireOutlined />;
       break;
   }
   const IconComponent = () => <Icon component={icon} />;
