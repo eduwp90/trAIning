@@ -50,19 +50,22 @@ const Profile: React.FC = () => {
     getUserInfo();
   }, [user]);
 
-  const onFinish = async (e: React.FormEvent<HTMLInputElement>): Promise<void> => {
-    console.log(Object.values(e));
-    if (user && mounted) {
-      setWeight(Object.values(e)[0]);
-      setHeight(Object.values(e)[1]);
-      const newBmi: number = calculateBMI(Object.values(e)[1], Object.values(e)[0]);
+  const onFinish = async (): Promise<void> => {
+    if (user && mounted && height && weight) {
+      const newBmi: number = calculateBMI(height, weight);
       setBmi(newBmi);
       if (weight && height) {
-        const newProfile = await updateUserProfile(user.uid, weight, height, newBmi);
+        const newProfile = await updateUserProfile(user.uid, height, weight, newBmi);
         setProfile(newProfile);
       }
     }
   };
+  function onWeightChange(e: number) {
+    setWeight(e);
+  }
+  function onHeightChange(e: number) {
+    setHeight(e);
+  }
 
   return (
     <div className="ant-layout-content">
@@ -87,38 +90,27 @@ const Profile: React.FC = () => {
                   </Avatar>
                 }
                 title={profile.name + " " + profile.surname}
-                description={"bmi: " + bmi}
+                description={"bmi: " + bmi?.toFixed(1)}
               />
               <Form className="BMI-form" onFinish={onFinish}>
-                <Form.Item
-                  name={"weight"}
-                  label="weight"
-                  rules={[
-                    {
-                      required: true
-                    }
-                  ]}>
+                <Form.Item name={"weight"} label="weight" initialValue={weight}>
                   <InputNumber
+                    name="weight"
                     size="large"
                     placeholder={weight?.toString() || "Weight"}
                     style={{ width: 120 }}
                     disabled={isDisabled}
+                    onChange={onWeightChange}
                   />
                   <span> kg</span>
                 </Form.Item>
-                <Form.Item
-                  name={"height"}
-                  label="height"
-                  rules={[
-                    {
-                      required: true
-                    }
-                  ]}>
+                <Form.Item name={"height"} label="height" initialValue={height}>
                   <InputNumber
                     size="large"
                     placeholder={height?.toString() || "Height"}
                     style={{ width: 120 }}
                     disabled={isDisabled}
+                    onChange={onHeightChange}
                   />
                   <span> cm</span>
                 </Form.Item>
