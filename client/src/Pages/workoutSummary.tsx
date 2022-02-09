@@ -30,8 +30,6 @@ const WorkoutSummary: React.FC = () => {
       if (workout.length > 0) {
         let duration = calculateWorkoutTime(workout);
         let calories = calculateWorkoutCalories(workout, userProfile!, duration);
-        // console.log(duration);
-        // console.log(calories);
         addWorkout(user.uid, sets, name, calories, duration)
           .then(() => {
             clearWorkout();
