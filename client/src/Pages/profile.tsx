@@ -1,72 +1,67 @@
-import { EditOutlined, EllipsisOutlined, FileDoneOutlined, SettingOutlined } from "@ant-design/icons";
+import { EditOutlined, FileDoneOutlined } from "@ant-design/icons";
 import { Avatar, Card, Image, InputNumber, Form, Button } from "antd";
 import Meta from "antd/lib/card/Meta";
-// import Form from "antd/lib/form/Form";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import CommentComp from "../Components/comments";
+import { calculateBMI } from "../helpers";
 import { IDatesResponse } from "../interfaces";
 import AuthService from "../Services/authService";
-import { getUserProfile } from "../Services/dbService";
-
-// dates: Timestamp[];
-// friendsId: string[];
-// photoURL: string;
-// bmi: number;
-// height: number;
-// weight: number;
-// name: string;
-// surname: string;
-// activities: tActivities[];
+import { getUserProfile, updateUserProfile } from "../Services/dbService";
 
 const Profile: React.FC = () => {
-  // const [user] = useAuthState(AuthService.auth);
-  const [profile, setProfile] = useState<IDatesResponse>({
-    dates: [],
-    friendsId: [""],
-    photoURL: "",
-    bmi: 2,
-    height: 56,
-    weight: 56,
-    name: "Natasha",
-    surname: "Van Dam",
-    activities: []
-  });
+  const [user] = useAuthState(AuthService.auth);
+  const [profile, setProfile] = useState<IDatesResponse>();
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  const [weight, setWeight] = useState<number>(0);
-  const [height, setHeight] = useState<number>(0);
+  const [weight, setWeight] = useState<number | undefined>();
+  const [height, setHeight] = useState<number | undefined>();
+  const [mounted, setMounted] = useState<boolean>(true);
+  const [bmi, setBmi] = useState<number | undefined>();
 
   function handleEdit() {
-    setIsDisabled(false);
+    if (profile) {
+      setIsDisabled(false);
+    }
+    console.log(profile);
   }
 
-  // useEffect(() => {
-  //   let mounted = true;
-  //   let userProfile: IDatesResponse | undefined;
-  //   const getUserInfo = async () => {
-  //     if (user && mounted) {
-  //       userProfile = await getUserProfile(user.uid);
-  //     }
-  //     if (userProfile && mounted) {
-  //       setProfile(userProfile);
-  //       setWeight(userProfile.weight);
-  //       setHeight(userProfile.height);
-  //     }
-  //   };
-  //   getUserInfo();
-  //   return () => {
-  //     mounted = false;
-  //   };
-  // });
-  // setProfile();
+  useEffect(() => {
+    console.log("mounting");
+    setMounted(true);
+    return () => {
+      setMounted(false);
+    };
+  }, []);
 
-  const onFinish = (e: React.FormEvent<HTMLInputElement>): void => {
+  useEffect(() => {
+    console.log("using effect");
+    let userProfile: IDatesResponse | undefined;
+    const getUserInfo = async () => {
+      if (user && mounted) {
+        userProfile = await getUserProfile(user.uid);
+      }
+      console.log(userProfile);
+      if (userProfile && mounted) {
+        setProfile(userProfile);
+        setWeight(userProfile.weight);
+        setHeight(userProfile.height);
+        setBmi(userProfile.bmi);
+      }
+    };
+    getUserInfo();
+  }, [user]);
+
+  const onFinish = async (e: React.FormEvent<HTMLInputElement>): Promise<void> => {
     console.log(Object.values(e));
-    setWeight(Object.values(e)[0]);
-    setHeight(Object.values(e)[1]);
-    setProfile((prev) => {
-      return { ...prev, weight: weight, height: height };
-    });
+    if (user && mounted) {
+      setWeight(Object.values(e)[0]);
+      setHeight(Object.values(e)[1]);
+      const newBmi: number = calculateBMI(Object.values(e)[1], Object.values(e)[0]);
+      setBmi(newBmi);
+      if (weight && height) {
+        const newProfile = await updateUserProfile(user.uid, weight, height, newBmi);
+        setProfile(newProfile);
+      }
+    }
   };
 
   return (
@@ -77,14 +72,10 @@ const Profile: React.FC = () => {
             <Card
               style={{ width: 300 }}
               actions={[
-                <div>
+                <div onClick={handleEdit}>
                   <span>edit </span>
-                  <EditOutlined key="edit" onClick={handleEdit} />
-                </div>,
-                <Button htmlType="submit">
-                  <span>submit </span>
-                  <FileDoneOutlined key="sumbit" />
-                </Button>
+                  <EditOutlined key="edit" />
+                </div>
               ]}>
               <Meta
                 avatar={
@@ -96,7 +87,7 @@ const Profile: React.FC = () => {
                   </Avatar>
                 }
                 title={profile.name + " " + profile.surname}
-                description={"bmi: " + profile.bmi}
+                description={"bmi: " + bmi}
               />
               <Form className="BMI-form" onFinish={onFinish}>
                 <Form.Item
@@ -106,9 +97,14 @@ const Profile: React.FC = () => {
                     {
                       required: true
                     }
-                  ]}
-                  initialValue={weight}>
-                  <InputNumber size="large" placeholder="Weight" style={{ width: 120 }} disabled={isDisabled} />
+                  ]}>
+                  <InputNumber
+                    size="large"
+                    placeholder={weight?.toString() || "Weight"}
+                    style={{ width: 120 }}
+                    disabled={isDisabled}
+                  />
+                  <span> kg</span>
                 </Form.Item>
                 <Form.Item
                   name={"height"}
@@ -117,14 +113,22 @@ const Profile: React.FC = () => {
                     {
                       required: true
                     }
-                  ]}
-                  initialValue={height}>
-                  <InputNumber size="large" placeholder="Height" style={{ width: 120 }} disabled={isDisabled} />
+                  ]}>
+                  <InputNumber
+                    size="large"
+                    placeholder={height?.toString() || "Height"}
+                    style={{ width: 120 }}
+                    disabled={isDisabled}
+                  />
+                  <span> cm</span>
                 </Form.Item>
+                <Button htmlType="submit">
+                  <span>submit </span>
+                  <FileDoneOutlined key="sumbit" />
+                </Button>
               </Form>
             </Card>
           </div>
-          {/* <CommentComp /> */}
         </div>
       )}
     </div>
