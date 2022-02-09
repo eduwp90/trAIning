@@ -1,10 +1,14 @@
+import WorkoutProvider from "./Context/workoutProvider";
+import { IDatesResponse, ISet, IUserProfile, IWorkout } from "./interfaces";
+import Workout from "./Pages/workout";
+
 export function calculateBMI(height: number, weight: number) {
   return weight / ((height * height) / 10000);
 }
 
 //function to calculate calories burn
 // weight x MET x 0.0175 x Mins
-export function calculateTotalCalories(weight: number, exer: string, mins: number) {
+export function calculateSetCalories(weight: number, exer: string, mins: number) {
   let MET: number;
   switch (exer) {
     case "squats":
@@ -28,11 +32,28 @@ export function calculateTotalCalories(weight: number, exer: string, mins: numbe
   return weight * MET * 0.0175 * mins; //total calories of an exercise
 }
 
-export function calculateRepCalories(weight: number, exer: string, mins: number) {
-  return calculateTotalCalories(weight, exer, mins) / mins / 30; //calories burnt per repetition
+export function calculateWorkoutCalories(workout: ISet[], profile: IDatesResponse, duration: number) {
+  let res: number = 0;
+  for (let i = 0; i < workout.length; i++) {
+    res += calculateSetCalories(profile.weight, workout[i].exer, duration);
+  }
+  return Math.round(res);
 }
 
-export function calculateSetTime(reps: number, rest: number) {
-  const restSeconds = rest * 60;
-  return Math.round((reps * 2 + restSeconds) / 60);
+export function calculateRepCalories(weight: number, exer: string, mins: number) {
+  return calculateSetCalories(weight, exer, mins) / mins / 30; //calories burnt per repetition
+}
+
+export function calculateSetTime(workout: ISet) {
+  const restSeconds = workout.rest * 60;
+  return workout.reps * 2 + restSeconds;
+}
+
+export function calculateWorkoutTime(workout: ISet[]) {
+  let res: number = 0;
+  for (let i = 0; i < workout.length; i++) {
+    res += calculateSetTime(workout[i]);
+  }
+  if (res < 60) res = 60;
+  return Math.round(res / 60);
 }
