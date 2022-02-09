@@ -6,9 +6,10 @@ import "./components.less";
 type OverlayProps = {
   startExercise: Function;
   status: string;
+  size: number;
 };
 
-const WebcamOverlay: React.FC<OverlayProps> = ({ startExercise, status }) => {
+const WebcamOverlay: React.FC<OverlayProps> = ({ startExercise, status, size }) => {
   const [starting, setStarting] = useState<boolean>(false);
 
   const startingfunc = (): void => {
@@ -45,7 +46,17 @@ const WebcamOverlay: React.FC<OverlayProps> = ({ startExercise, status }) => {
     }
   };
 
-  return <div className={status === "RUNNING" ? "overlay-container-hide" : "overlay-container"}>{renderOverlay()}</div>;
+  return (
+    <div
+      className={status === "RUNNING" ? "overlay-container-hide" : "overlay-container"}
+      style={{
+        width: size,
+        height: size * 0.75,
+        justifySelf: "center"
+      }}>
+      {renderOverlay()}
+    </div>
+  );
 };
 
 export default WebcamOverlay;

@@ -43,6 +43,8 @@ export interface IDatesResponse extends DocumentData {
   name: string;
   surname: string;
   activities: tActivities[];
+  total_calories: number;
+  total_time: number;
 }
 
 export interface tActivities {

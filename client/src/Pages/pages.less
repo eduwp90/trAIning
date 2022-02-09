@@ -188,12 +188,20 @@
 
 .workout-Div {
   width: 100%;
+  max-width: 900px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   justify-content: start;
   align-items: center;
   height: 100%;
+  border-radius: @borderRadius;
+}
+
+@media only screen and (min-width: 768px) {
+  .workout-Div {
+    box-shadow: @boxShadow;
+  }
 }
 
 .workoutContent-Div {
@@ -207,7 +215,8 @@
   // text-align: center;
   display: flex;
   width: 100%;
-  background-color: #fafafa;
+  background-color: transparent;
+
   // border: 1px dashed #e9e9e9;
   border-radius: @borderRadius;
   justify-content: center;
@@ -220,13 +229,28 @@
 
 .set-info {
   margin-top: 16px;
-  padding: 5%;
-  text-align: center;
+  padding: 1rem;
+  display: grid;
+  grid-auto-rows: auto;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+  justify-content: center;
+  align-items: center;
+}
+@media only screen and (max-width: 768px) {
+  .set-info {
+    box-shadow: @boxShadow;
+  }
+}
+
+.webcam-progressbar {
+  width: 100%;
+  max-width: 420px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  border-radius: @borderRadius;
-  box-shadow: @boxShadow;
+  text-align: center;
+  justify-self: center;
+  align-self: center;
 }
 
 .ant-steps {
