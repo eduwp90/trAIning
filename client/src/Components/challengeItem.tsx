@@ -20,7 +20,7 @@ const ChallengeItem: React.FC<WorkoutItemProps> = ({ challenge }) => {
 
   const startWorkout = async(): Promise<void> => {
     storeWorkout(challenge.workout);
-    //await challengeComplete(challenge.id)
+    await challengeComplete(challenge.id)
     navigate("/workout");
   };
 
