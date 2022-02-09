@@ -13,7 +13,8 @@ import {
   arrayUnion,
   getDoc,
   Timestamp,
-  setDoc
+  setDoc,
+  increment
 } from "firebase/firestore";
 import { ISet, IWorkout, IWorkoutResponse, IDatesResponse, tActivities } from "../interfaces";
 import dayjs, { Dayjs } from "dayjs";
@@ -164,7 +165,9 @@ export async function addNewProfile(
       bmi: bmi,
       dates: [],
       friendsId: [],
-      activities: []
+      activities: [],
+      total_calories: 0,
+      total_time: 0
     });
 
     console.log("Saved profile");
@@ -173,7 +176,8 @@ export async function addNewProfile(
   }
 }
 
-export async function updateUserProfile(user: string,
+export async function updateUserProfile(
+  user: string,
   height: number,
   weight: number,
   bmi: number
@@ -185,12 +189,11 @@ export async function updateUserProfile(user: string,
       weight: weight,
       bmi: bmi
     });
-    const update = await getUserProfile(user);  
-    return update
+    const update = await getUserProfile(user);
+    return update;
   } catch (e) {
     console.log("Error adding document: ", e);
   }
-  
 }
 
 export async function getUserProfile(user: string): Promise<IDatesResponse | undefined> {
@@ -209,11 +212,25 @@ export async function getUserProfile(user: string): Promise<IDatesResponse | und
         surname: info.surname,
         photoURL: info.photoURL,
         activities: info.activities,
-        dates: info.dates
+        dates: info.dates,
+        total_calories: info.total_calories,
+        total_time: info.total_time
       };
       return profileObj;
     }
   } catch (error) {
     console.log("error fetching user activites", error);
+  }
+}
+
+export async function updateProfileTotals(calories: number, seconds: number, userId: string): Promise<void> {
+  const profileRef: DocumentReference<DocumentData> = doc(db, "profiles", userId);
+  try {
+    await updateDoc(profileRef, {
+      total_time: increment(seconds),
+      total_calories: increment(calories)
+    });
+  } catch (error) {
+    console.log(error);
   }
 }

@@ -100,14 +100,14 @@ const Main: React.FC = () => {
                       {!user.photoURL && `${user.email?.charAt(0).toUpperCase()}`}
                     </Avatar>
                   }>
-                  <Menu.Item key="logout" onClick={logout}>
-                    <LogoutOutlined /> Logout
-                  </Menu.Item>
                   <Menu.Item key="profile">
                     <Link to="profile">
                       <SmileOutlined />
                       <span className="nav-content-item">Profile</span>
                     </Link>
+                  </Menu.Item>
+                  <Menu.Item key="logout" onClick={logout} danger={true}>
+                    <LogoutOutlined /> Logout
                   </Menu.Item>
                 </Menu.SubMenu>
               </Menu>

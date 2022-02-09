@@ -54,10 +54,16 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
 
   function getWidth() {
     let width: number = webcamDiv.current?.clientWidth || 0;
-    if (width > 1168) {
-      width = 1168;
+    let maxWidth = getMaxWidth();
+    console.log(maxWidth);
+    if (width > maxWidth) {
+      width = maxWidth;
     }
     return width;
+  }
+
+  function getMaxWidth() {
+    return window.innerHeight * 0.6 * 1.3334;
   }
 
   const [size, setSize] = useState<number>(getWidth());
@@ -118,7 +124,7 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
   }
 
   async function predict(): Promise<void> {
-    console.log("eval, ", webcamRef.current !== null && webcamRef.current.getCanvas() !== null);
+    // console.log("eval, ", webcamRef.current !== null && webcamRef.current.getCanvas() !== null);
     if (webcamRef.current !== null && webcamRef.current.getCanvas() !== null) {
       const { pose, posenetOutput } = await model.estimatePose(webcamRef.current.getCanvas());
       const prediction = await model.predict(posenetOutput);
@@ -180,14 +186,15 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
   return (
     <>
       <div className="webcam-stack-container" ref={webcamDiv}>
-        <WebcamOverlay startExercise={startExercise} status={status} />
+        <WebcamOverlay startExercise={startExercise} status={status} size={size} />
         {webcamRef && (
           <Webcam
             className="webcam-component"
             ref={webcamRef}
             style={{
               width: size,
-              height: size * 0.75
+              height: size * 0.75,
+              justifySelf: "center"
             }}
             onUserMedia={init}
             onUserMediaError={() => console.log("camera error")}
@@ -200,7 +207,8 @@ const WebcamAI: React.FC<WebcamAIProps> = ({ incrementRepCount, URL, isResting, 
           id="canvas"
           style={{
             width: size,
-            height: size * 0.75
+            height: size * 0.75,
+            justifySelf: "center"
           }}></canvas>
       </div>
     </>
