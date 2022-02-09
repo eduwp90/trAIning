@@ -25,7 +25,7 @@ export async function getChallengesByUserId(userId: string): Promise<IChallenge[
     return null;
   }
 }
-export async function getChallengeId(user:string, id: string): Promise<IChallenge[] | null> {
+export async function getChallengeId(user: string, id: string): Promise<IChallenge[] | null> {
   try {
     const results = await getChallengesByUserId(user);
 
@@ -34,10 +34,7 @@ export async function getChallengeId(user:string, id: string): Promise<IChalleng
     console.log(error);
     return null;
   }
-
 }
-
-
 
 export async function saveChallenge(
   receiving_userid: string,

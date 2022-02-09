@@ -57,3 +57,22 @@ export function calculateWorkoutTime(workout: ISet[]) {
   if (res < 60) res = 60;
   return Math.round(res / 60);
 }
+
+export function calculateSetDifficulty(workout: ISet) {
+  let difficulty: number = 0;
+  if (workout.reps < 10) return (difficulty = 0.5);
+  if (workout.reps < 20) return (difficulty = 1);
+  if (workout.reps < 30) return (difficulty = 2);
+  if (workout.reps < 40) return (difficulty = 3);
+  if (workout.reps < 50) return (difficulty = 4);
+  if (workout.reps < 60) return (difficulty = 5);
+  return difficulty;
+}
+
+export function calculateWorkoutDifficulty(workout: ISet[]) {
+  let res: number = 0;
+  for (let i = 0; i < workout.length; i++) {
+    res += calculateSetDifficulty(workout[i]);
+  }
+  return Math.round((res / workout.length) * 10) / 10;
+}

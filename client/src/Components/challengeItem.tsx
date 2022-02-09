@@ -1,9 +1,12 @@
 // import { InfoCircleOutlined } from "@ant-design/icons";
-import { Avatar, Image, Button } from "antd";
+import { BsFillCircleFill } from "react-icons/bs";
+import { Avatar, Image, Button, Rate } from "antd";
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { WorkoutContext } from "../Context/workoutProvider";
+import { calculateWorkoutCalories, calculateWorkoutDifficulty, calculateWorkoutTime } from "../helpers";
 import { IChallenge, IWorkoutContext } from "../interfaces";
+import { ClockCircleOutlined, FireOutlined, FireTwoTone, HeartFilled, InfoCircleOutlined } from "@ant-design/icons";
 import "./components.less";
 
 type WorkoutItemProps = {
@@ -11,7 +14,7 @@ type WorkoutItemProps = {
 };
 
 const ChallengeItem: React.FC<WorkoutItemProps> = ({ challenge }) => {
-  const { storeWorkout } = useContext<IWorkoutContext>(WorkoutContext);
+  const { storeWorkout, userProfile } = useContext<IWorkoutContext>(WorkoutContext);
   const navigate = useNavigate();
 
   const startWorkout = (): void => {
@@ -23,15 +26,26 @@ const ChallengeItem: React.FC<WorkoutItemProps> = ({ challenge }) => {
     navigate(`/challenge/${challenge.id}`);
   };
 
+  const handleClick = (e: any) => {
+    e.stopPropagation();
+    e.target.id === "start" ? startWorkout() : challengeDetails();
+  };
+
+  const time = calculateWorkoutTime(challenge.workout);
+  const calories = calculateWorkoutCalories(challenge.workout, userProfile!, time);
+
+  function colorByDifficulty() {
+    const difficulty = calculateWorkoutDifficulty(challenge.workout);
+    if (difficulty < 2) return "#2A9D8F";
+    if (difficulty < 4) return "#E9C46A";
+    return "#E76F51";
+  }
+
   return (
-    <div className="challenge_container" onClick={challengeDetails}>
+    <div className="challenge_container" onClick={handleClick}>
       <div className="challenge_headline">
         <div className="challenge_avatar">
-          <Avatar
-            size={80}
-            src={
-              challenge.from_photo !== "" && <Image src={challenge.from_photo} style={{ width: 32 }} preview={false} />
-            }>
+          <Avatar size={80} src={challenge.from_photo !== "" && <Image src={challenge.from_photo} preview={false} />}>
             {!challenge.from_photo && `${challenge.from.charAt(0).toUpperCase()}`}
           </Avatar>
         </div>
@@ -41,17 +55,34 @@ const ChallengeItem: React.FC<WorkoutItemProps> = ({ challenge }) => {
         </div>
       </div>
       <div className="challenge_info">
-        <div>{challenge.workout[0]}</div>
-        <Button type="text" id="startworkoutButton" onClick={startWorkout}>
-          {
-            <img
-              className="play_btn"
-              alt=""
-              src="https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-play-call-to-action-bearicons-glyph-bearicons.png"
+        <div className="challenge_stats">
+          {time && (
+            <h5 className="challenge_info_time">
+              <ClockCircleOutlined style={{ color: "grey" }} /> {time} min
+            </h5>
+          )}
+          {calories && (
+            <h5 className="challenge_info_calories">
+              <FireOutlined style={{ color: "grey" }} /> {calories} Kcals
+            </h5>
+          )}
+        </div>
+        <div className="challenge_difficulty">
+          <h5>
+            Difficulty{"  "}
+            <Rate
+              disabled
+              defaultValue={calculateWorkoutDifficulty(challenge.workout)}
+              allowHalf={true}
+              character={<BsFillCircleFill />}
+              style={{ color: colorByDifficulty(), fontSize: 20, verticalAlign: "text-top" }}
             />
-          }
+          </h5>
+        </div>
+        <Button name="start" type="text" id="startworkoutButton" onClick={handleClick}>
+          Start{"  "}
+          {<img id="start" className="play_btn" alt="" src="https://img.icons8.com/plumpy/24/000000/play--v1.png" />}
         </Button>
-
         {/* <InfoCircleOutlined
           onClick={challengeDetails}
           style={{ position: "absolute", top: "0.5em", right: "0.5em", fontSize: "x-large" }}

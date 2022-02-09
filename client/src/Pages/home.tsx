@@ -4,13 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { getUserWorkouts } from "../Services/dbService";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";
-import {  IChallenge, IWorkout, IWorkoutContext } from "../interfaces";
+import { IChallenge, IWorkout, IWorkoutContext } from "../interfaces";
 import WorkoutList from "../Components/workoutList";
 import { WorkoutContext } from "../Context/workoutProvider";
 import SendChallenge from "../Components/sendChallenge";
 import Challenges from "../Components/challenges";
 import { getChallengesByUserId } from "../Services/challengesService";
 import SendChallengeModal from "../Components/sendChallengeModal";
+import "./pages.less";
+import { PlusOutlined, SendOutlined } from "@ant-design/icons";
+import { IoSend } from "react-icons/io5";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -37,12 +40,12 @@ const Home: React.FC = () => {
       if (user && mounted) {
         userData = await getUserWorkouts(user!.uid);
         publicData = await getUserWorkouts("public");
-        challenges = await getChallengesByUserId(user.uid)
+        challenges = await getChallengesByUserId(user.uid);
       }
       if (userData && publicData && challenges && mounted) {
         setUserWorkouts([...userWorkouts, ...userData]);
         setPublicWorkouts([...publicWorkouts, ...publicData]);
-        setchallengeWorkouts([...challengeWorkouts, ...challenges])
+        setchallengeWorkouts([...challengeWorkouts, ...challenges]);
         setIsLoading(false);
       }
     };
@@ -51,34 +54,36 @@ const Home: React.FC = () => {
       mounted = false;
     };
   }, [user]);
-console.log(challengeWorkouts)
+  console.log(challengeWorkouts);
   return (
-    <div className="pages-Div" style={{paddingBottom:"5em"}}>
-      <div className="list_title">
+    <div className="pages-Div" style={{ paddingBottom: "5em" }}>
+      <div className="list_title challenge_title">
+        <h2>Your challenges</h2>
+        <Button id="send_btn" type="primary" onClick={showModal}>
+          Send challenge
+          <IoSend style={{ marginLeft: "6px" }} />
+        </Button>
+      </div>
+      <Challenges challenges={challengeWorkouts} isLoading={isLoading} />
+      <div className="list_title challenge_title">
         <h2>Your workouts</h2>
+        <Button
+          id="new_workout_btn"
+          type="primary"
+          onClick={() => {
+            navigate("createworkout");
+          }}>
+          New workout
+          <PlusOutlined style={{ paddingTop: "0.2rem" }} />
+        </Button>
       </div>
       <WorkoutList workouts={userWorkouts} isLoading={isLoading}></WorkoutList>
       <div className="list_title">
         <h2>Here are some recomendations</h2>
       </div>
       <WorkoutList workouts={publicWorkouts} isLoading={isLoading}></WorkoutList>
-      <div className="list_title">
-        <h2>Your challenges</h2>
-          <Button type="primary" onClick={showModal}>
-        Send a challenge
-      </Button>
-      </div>
-      <Challenges challenges={challengeWorkouts} isLoading={isLoading}/>
-      <Button
-        id="new_workout_btn"
-        size="large"
-        onClick={() => {
-          navigate("createworkout");
-        }}>
-        Create a new workout
-      </Button>
-      <SendChallengeModal isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible}/>
 
+      <SendChallengeModal isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} />
     </div>
   );
 };

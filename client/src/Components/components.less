@@ -78,7 +78,7 @@
 //WorkoutItem
 
 .workout_container {
-  height: 20vh;
+  // height: 20vh;
   max-height: 10rem;
   min-height: 7rem;
   margin-top: 0.5rem;
@@ -96,17 +96,26 @@
   padding: 1rem;
 }
 
+.workout_info_difficulty {
+  display: flex;
+  flex-direction: column;
+}
+
+.workout_info_time,
+.workout_info_calories {
+  font-size: 12px;
+}
+
+.workout_info_name {
+  font-weight: 650;
+}
+
 #startworkoutButton {
   font-size: smaller;
   padding: 0;
   position: absolute;
   bottom: 1em;
   right: 1em;
-}
-
-.play_btn {
-  max-width: 2rem;
-  filter: invert(30%);
 }
 
 //WorkoutList
@@ -273,11 +282,10 @@
   margin-right: 1rem;
   margin-left: 2px;
   padding: 1rem;
-  background: rgb(164, 224, 210);
+  background: white;
   border-radius: @borderRadius;
   box-shadow: @boxShadow;
   position: relative;
-  z-index: 4;
 }
 
 .challenge_headline {
@@ -286,7 +294,11 @@
   min-height: 100px;
 }
 
-.challenge_avatar_img {
+.challenge_info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  max-width: 190px;
 }
 
 .challenge_name {
@@ -294,15 +306,50 @@
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: bolder;
-  color: white;
+  color: #2a9d8f;
 }
 
 .challenge_message {
-  font-size: 18px !important;
-  font-weight: 500 !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
   font-style: italic;
-  color: #2a9d8f;
-  // background-image: url("https://cutewallpaper.org/24/imessage-bubble-png/creating-an-ios-chat-bubble-with-tails-in-swift-%E2%80%94-the-easy-way-by-rob-kerr-mobile-software-development-medium.png");
+  color: #aaaaaa;
+}
+
+.ant-image-img {
+  width: 80px;
+}
+
+#startworkoutButton {
+  background-color: #2a9d8f;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  padding: 0.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: @boxShadow;
+}
+
+.play_btn {
+  max-width: 1.5rem;
+  filter: invert(100%);
+  margin-left: 0.2rem;
+}
+
+.challenge_difficulty h5 {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  margin-top: 0.7rem;
+  margin-left: 0.5rem;
+}
+
+.challenge_info_time,
+.challenge_info_calories {
+  margin-left: 0.5rem;
+  font-size: 15px;
 }
