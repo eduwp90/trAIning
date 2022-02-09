@@ -1,26 +1,28 @@
 import { Button, Form, Input, Select } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { IDatesResponse, IUserProfile, IWorkout } from '../interfaces';
+import { WorkoutContext } from '../Context/workoutProvider';
+import { IUserProfile, IWorkout, IWorkoutContext } from '../interfaces';
 import AuthService from '../Services/authService';
 import { saveChallenge } from '../Services/challengesService';
-import { getUserProfile, getUserWorkouts } from '../Services/dbService';
+import {  getUserWorkouts } from '../Services/dbService';
 import { getFriendsProfilesByIds, getUserFriends } from '../Services/friendsService';
 
-
+type onFinishProps = {challengee:string; workout:string; message:string;}
 const { Option } = Select;
 
 const SendChallenge: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
-  const [currentUser, setcurrentUser] = useState<IDatesResponse| null>(null);
+  const { userProfile } = useContext<IWorkoutContext>(WorkoutContext);
   const [friendsList, setfriendsList] = useState<IUserProfile[]>([]);
   const [userWorkouts, setUserWorkouts] = useState<IWorkout[]>([]);
 
-  const onFinish = ({ challengee, workout, message }: {challengee:string; workout:string; message:string;}) => {
+  const onFinish = ({ challengee, workout, message }: onFinishProps ) => {
     const workoutSets = userWorkouts.filter((set) => set.id === workout)
-    const name = currentUser && currentUser.name + ' ' + currentUser.surname
-    if (name) {
-        saveChallenge(challengee, message, name, workoutSets[0].workout)
+    if (userProfile) {
+      const name: string = userProfile && userProfile.name + ' ' + userProfile.surname
+      const profilePhoto: string = userProfile && userProfile.photoURL
+        saveChallenge(challengee, message, name, workoutSets[0].workout, profilePhoto)
     }
 }
 
@@ -42,8 +44,6 @@ const SendChallenge: React.FC = () => {
           }
 
         })
-      getUserProfile(user.uid)
-      .then(res=> res && setcurrentUser(res))
     }
 
   }, [user])

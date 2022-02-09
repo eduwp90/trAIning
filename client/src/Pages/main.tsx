@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Avatar, Layout, Menu, Image } from "antd";
 import "./pages.less";
-import { Link, NavLink, Outlet, useLocation, useResolvedPath } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { BarChartOutlined, HomeOutlined, LogoutOutlined, TeamOutlined } from "@ant-design/icons";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AuthService from "../Services/authService";

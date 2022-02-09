@@ -8,7 +8,6 @@ import {  IChallenge, IWorkout, IWorkoutContext } from "../interfaces";
 import WorkoutList from "../Components/workoutList";
 import { WorkoutContext } from "../Context/workoutProvider";
 import SendChallenge from "../Components/sendChallenge";
-import Workout from "./workout";
 import Challenges from "../Components/challenges";
 import { getChallengesByUserId } from "../Services/challengesService";
 

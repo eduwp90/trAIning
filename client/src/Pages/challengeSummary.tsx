@@ -1,21 +1,37 @@
 import { Button, Form, InputNumber, Radio, Select } from 'antd';
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate, useParams } from 'react-router-dom';
+import { IChallenge} from '../interfaces';
+import AuthService from '../Services/authService';
+import { getChallengeId } from '../Services/challengesService';
 
+type Params = {
+id: string
+}
 function ChallengeSummary() {
-  const navigate = useNavigate()
-  const challenge = {
-    from: "John Smith",
-    message: "Have fun with this one!",
-    workout: [{exer: "squats", reps: 5, rest: 0}, {exer: "push-ups", reps: 10, rest: 0}]
-  }
+  const navigate = useNavigate();
+  const [user] = useAuthState(AuthService.auth);
+  const { id } = useParams<Params>();
+  const [challenge, setChallenge] = useState<IChallenge| null>(null);
 
    function returnHome(): void {
-    //clearExistingWorkout();
     navigate("/");
    }
 
-  return (
+  useEffect(() => {
+    if (id &&user){
+      getChallengeId(user.uid, id)
+        .then(res => {
+          if (res) {
+            setChallenge(prev =>  res[0])
+          }
+        })
+    }
+
+  }, [])
+
+  return ( challenge ?
     <div className='page-Div'>
       <h2>You received with challenge from: </h2>
       <h3>{challenge.from}</h3>
@@ -61,7 +77,8 @@ function ChallengeSummary() {
       })}
       </Form>
       <Button onClick={returnHome}>Return to home</Button>
-    </div>);
+    </div>
+    : null);
 }
 
 export default ChallengeSummary;

@@ -12,7 +12,6 @@ import WorkoutSummary from "./Pages/workoutSummary";
 import WorkoutProvider from "./Context/workoutProvider";
 import Analytics from "./Pages/analytics";
 import Workout from "./Pages/workout";
-import SendChallenge from "./Components/sendChallenge";
 import Friends from "./Pages/friends";
 import ChallengeSummary from "./Pages/challengeSummary";
 
@@ -39,7 +38,7 @@ const App: React.FC = () => {
           <Route path="summary" element={<WorkoutSummary />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="workout" element={<Workout />} />
-          <Route path="challenge" element={<ChallengeSummary />} />
+          <Route path="challenge/:id" element={<ChallengeSummary />} />
           <Route path="friends" element={<Friends />} />
 
         </Route>

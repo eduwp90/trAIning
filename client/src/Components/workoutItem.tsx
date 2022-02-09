@@ -1,6 +1,6 @@
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext  } from "react";
 import { useNavigate } from "react-router-dom";
 import { WorkoutContext } from "../Context/workoutProvider";
 import {  IWorkout, IWorkoutContext } from "../interfaces";

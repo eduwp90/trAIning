@@ -11,10 +11,12 @@ export async function getChallengesByUserId(userId: string): Promise<IChallenge[
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map((doc) => {
       const res: IChallenge = {
+        id: doc.id,
         from: doc.data().from,
+        from_photo: doc.data().from_photo,
         message: doc.data().message,
         receiving_userid: doc.data().receiving_userid,
-        workout_id: doc.data().workout_id
+        workout: doc.data().workout
       };
       return res;
     });
@@ -23,19 +25,34 @@ export async function getChallengesByUserId(userId: string): Promise<IChallenge[
     return null;
   }
 }
+export async function getChallengeId(user:string, id: string): Promise<IChallenge[] | null> {
+  try {
+    const results = await getChallengesByUserId(user);
+
+    return results && results.filter((profile) => profile.id === id);
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+
+}
+
+
 
 export async function saveChallenge(
   receiving_userid: string,
   message: string,
   from: string,
-  workout: ISet[]
+  workout: ISet[],
+  from_photo: string
 ): Promise<boolean> {
   try {
     const docRef = await addDoc(collection(db, "challenges"), {
       from: from,
+      from_photo: from_photo,
       message: message,
       receiving_userid: receiving_userid,
-      workout_id: workout
+      workout: workout
     });
 
     return docRef ? true : false;
