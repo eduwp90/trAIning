@@ -6,6 +6,9 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { WorkoutContext } from "../Context/workoutProvider";
 import { calculateRepCalories } from "../helpers";
+import { updateProfileTotals } from "../Services/dbService";
+import AuthService from "../Services/authService";
+import { useAuthState } from "react-firebase-hooks/auth";
 dayjs.extend(relativeTime);
 
 interface WebcamLiveStatsProps {
@@ -21,6 +24,7 @@ const WebcamLiveStats: React.FC<WebcamLiveStatsProps> = ({ isFinished, exer, rep
   const { userProfile } = useContext(WorkoutContext);
   const [isMounted, setIsMounted] = useState<boolean>(true);
   const firstRun = useRef<boolean>();
+  const [user] = useAuthState(AuthService.auth);
 
   function startTimeCounter() {
     isMounted && setIntervalId(setInterval(updateEverySecond, 1000));
@@ -49,7 +53,10 @@ const WebcamLiveStats: React.FC<WebcamLiveStatsProps> = ({ isFinished, exer, rep
   }, []);
 
   useEffect(() => {
-    isFinished && clearInterval(intervalId);
+    if (isFinished) {
+      updateProfileTotals(calories, time, user!.uid);
+      clearInterval(intervalId);
+    }
   }, [isFinished, intervalId]);
 
   useEffect(() => {
