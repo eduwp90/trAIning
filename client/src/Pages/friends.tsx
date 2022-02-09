@@ -7,6 +7,7 @@ import { IUserProfile } from "../interfaces";
 import AuthService from "../Services/authService";
 import { getAllProfiles, getFriendsProfilesByIds, getUserFriends } from "../Services/friendsService";
 import { WorkoutContext } from "../Context/workoutProvider";
+import { UserOutlined } from "@ant-design/icons";
 
 const Friends: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
@@ -114,7 +115,12 @@ const Friends: React.FC = () => {
               );
             })
           : null}
-        {existingFriendsArray && existingFriendsArray.length === 0 ? <div className="no_friends"><p>No friends yet</p></div> : null}
+        {existingFriendsArray && existingFriendsArray.length === 0 ? (
+          <div className="center_div">
+            <UserOutlined style={{ fontSize: "50px", color: "lightgray", marginBottom: "1rem" }} />
+            <p>No friends yet</p>
+          </div>
+        ) : null}
       </div>
 
       <div className="list_title">

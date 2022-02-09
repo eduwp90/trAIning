@@ -13,9 +13,9 @@ const EmptyContent = () => {
           height: "75px",
           display: "flex",
           justifyContent: "center",
-          marginLeft: "12.5px"
+          marginLeft: "77.5px"
         }}
-        description={"No workouts yet!"}
+        description={"You haven't created any workouts yet"}
       />
     </div>
   );
