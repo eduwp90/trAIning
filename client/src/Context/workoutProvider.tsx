@@ -12,8 +12,10 @@ const contextDefaultValues: IWorkoutContext = {
   userProfile: null,
   setUserProfile: () => {},
   storeUserProfile: () => {},
+  clearProfile: () => {},
   friendsProfiles: null,
-  storeFriendsProfiles: () => {}
+  storeFriendsProfiles: () => {},
+  clearFriendsProfiles: () => {}
 };
 
 export const WorkoutContext = createContext<IWorkoutContext>(contextDefaultValues);
@@ -44,8 +46,18 @@ const WorkoutProvider: React.FC = ({ children }) => {
     setUserProfile(profile);
   };
 
+  const clearProfile = (): void => {
+    console.log("clearprofile");
+    setUserProfile(null);
+  };
+
   const storeFriendsProfiles = (profiles: IUserProfile[]): void => {
     setFriendsProfiles(profiles);
+  };
+
+  const clearFriendsProfiles = (): void => {
+    console.log("clearprofile");
+    setFriendsProfiles(null);
   };
 
   return (
@@ -61,7 +73,9 @@ const WorkoutProvider: React.FC = ({ children }) => {
         setUserProfile,
         storeUserProfile,
         friendsProfiles,
-        storeFriendsProfiles
+        clearProfile,
+        storeFriendsProfiles,
+        clearFriendsProfiles
       }}>
       {children}
     </WorkoutContext.Provider>

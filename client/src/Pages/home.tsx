@@ -14,6 +14,7 @@ import SendChallengeModal from "../Components/sendChallengeModal";
 import "./pages.less";
 import { PlusOutlined, SendOutlined } from "@ant-design/icons";
 import { IoSend } from "react-icons/io5";
+import LoadingContent from "../Components/loadingContent";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -56,35 +57,43 @@ const Home: React.FC = () => {
   }, [user]);
   console.log(challengeWorkouts);
   return (
-    <div className="pages-Div" style={{ paddingBottom: "5em" }}>
-      <div className="list_title challenge_title">
-        <h2>Your challenges</h2>
-        <Button id="send_btn" type="primary" onClick={showModal}>
-          Send challenge
-          <IoSend style={{ marginLeft: "6px" }} />
-        </Button>
-      </div>
-      <Challenges challenges={challengeWorkouts} isLoading={isLoading} />
-      <div className="list_title challenge_title">
-        <h2>Your workouts</h2>
-        <Button
-          id="new_workout_btn"
-          type="primary"
-          onClick={() => {
-            navigate("createworkout");
-          }}>
-          New workout
-          <PlusOutlined style={{ paddingTop: "0.2rem" }} />
-        </Button>
-      </div>
-      <WorkoutList workouts={userWorkouts} isLoading={isLoading}></WorkoutList>
-      <div className="list_title">
-        <h2>Here are some recomendations</h2>
-      </div>
-      <WorkoutList workouts={publicWorkouts} isLoading={isLoading}></WorkoutList>
+    <>
+      {isLoading ? (
+        <div className="center-screen_div">
+          <LoadingContent />
+        </div>
+      ) : (
+        <div className="pages-Div" style={{ paddingBottom: "5em" }}>
+          <div className="list_title challenge_title">
+            <h2>Your challenges</h2>
+            <Button id="send_btn" type="primary" onClick={showModal}>
+              Send challenge
+              <IoSend style={{ marginLeft: "6px" }} />
+            </Button>
+          </div>
+          <Challenges challenges={challengeWorkouts} isLoading={isLoading} />
+          <div className="list_title challenge_title">
+            <h2>Your workouts</h2>
+            <Button
+              id="new_workout_btn"
+              type="primary"
+              onClick={() => {
+                navigate("createworkout");
+              }}>
+              New workout
+              <PlusOutlined style={{ paddingTop: "0.2rem" }} />
+            </Button>
+          </div>
+          <WorkoutList workouts={userWorkouts} isLoading={isLoading}></WorkoutList>
+          <div className="list_title">
+            <h2>Here are some recomendations</h2>
+          </div>
+          <WorkoutList workouts={publicWorkouts} isLoading={isLoading}></WorkoutList>
 
-      <SendChallengeModal isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} />
-    </div>
+          <SendChallengeModal isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} />
+        </div>
+      )}
+    </>
   );
 };
 

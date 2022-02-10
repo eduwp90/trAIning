@@ -18,20 +18,16 @@ const ChallengeItem: React.FC<WorkoutItemProps> = ({ challenge }) => {
   const { storeWorkout, userProfile } = useContext<IWorkoutContext>(WorkoutContext);
   const navigate = useNavigate();
 
-  const startWorkout = async(): Promise<void> => {
+  const startWorkout = async (e: any): Promise<void> => {
+    e.stopPropagation();
     storeWorkout(challenge.workout);
-    await challengeComplete(challenge.id)
+    await challengeComplete(challenge.id);
     navigate("/workout");
   };
 
-  const challengeDetails = (): void => {
-    navigate(`/challenge/${challenge.id}`);
-  };
-
-  const handleClick = (e: any) => {
+  const challengeDetails = (e: any): void => {
     e.stopPropagation();
-    console.log( e.target.id)
-    e.target.id.includes("start")  ? startWorkout() : challengeDetails();
+    navigate(`/challenge/${challenge.id}`);
   };
 
   const time = calculateWorkoutTime(challenge.workout);
@@ -45,7 +41,7 @@ const ChallengeItem: React.FC<WorkoutItemProps> = ({ challenge }) => {
   }
 
   return (
-    <div className="challenge_container" onClick={handleClick}>
+    <div className="challenge_container" onClick={challengeDetails}>
       <div className="challenge_headline">
         <div className="challenge_avatar">
           <Avatar size={80} src={challenge.from_photo !== "" && <Image src={challenge.from_photo} preview={false} />}>
@@ -82,7 +78,7 @@ const ChallengeItem: React.FC<WorkoutItemProps> = ({ challenge }) => {
             />
           </h5>
         </div>
-        <Button type="text" id="startworkoutButton" onClick={handleClick}>
+        <Button type="text" id="startworkoutButton" onClick={startWorkout}>
           Start{"  "}
           {<img id="start" className="play_btn" alt="" src="https://img.icons8.com/plumpy/24/000000/play--v1.png" />}
         </Button>
