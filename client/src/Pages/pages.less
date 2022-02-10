@@ -1,0 +1,462 @@
+@import "../library";
+
+/* all pages */
+.pages-Div {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+  justify-content: start;
+}
+.ant-layout-content {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+}
+
+.content {
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+  background-color: transparent;
+  height: 100%;
+}
+
+/* main page */
+.nav_container {
+  display: flex;
+  max-width: 1200px;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2vw;
+  background-color: white;
+  box-shadow: @boxShadow;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.nav-logo {
+  display: flex;
+  width: 10%;
+  min-width: 35px;
+  max-width: 80px;
+  height: 100%;
+  justify-content: start;
+  align-items: center;
+}
+
+.nav-logo-image {
+  content: url("../Assets/trainingLogoGreenCircleWhite.png");
+  width: 70px;
+  height: 45px;
+}
+
+@media only screen and (max-width: 500px) {
+  .nav-logo-image {
+    width: 35px;
+    height: 33px;
+    content: url("../Assets/mobileLogo.png");
+  }
+}
+
+.nav-content {
+  display: flex;
+  // padding: 0 0.5rem;
+  flex-grow: 1;
+  width: 60%;
+
+  margin: 0%;
+}
+
+.nav-user {
+  display: flex;
+  width: 20%;
+  max-width: 75px;
+  height: 100%;
+  justify-content: end;
+  align-items: center;
+}
+
+.user-menu {
+  background: none;
+}
+
+.user-email {
+  font-weight: 600;
+  font-size: larger;
+}
+
+.body {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* login/register pages */
+
+.background-div {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  background-color: rgb(164, 224, 210);
+}
+
+.login-container,
+.register-container {
+  max-width: 360px;
+  min-width: 300px;
+  height: auto;
+  border-radius: @borderRadius;
+  background: #f9f9f9;
+  box-shadow: @boxShadow;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 1rem 1.5rem;
+}
+
+.login-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.logo {
+  background-image: url("../Assets/trainingLogoGreenCircle.png");
+  background-position: center;
+  background-repeat: none;
+  background-size: cover;
+  width: 150px;
+  height: 100px;
+  transform: translateX(12px);
+}
+
+.google-signin-btn {
+  width: 100%;
+}
+
+.ant-divider-horizontal.ant-divider-with-text::before,
+.ant-divider-horizontal.ant-divider-with-text::after {
+  transform: translateY(0%) !important;
+}
+
+.login-form-button,
+.register-form-button {
+  width: 100%;
+}
+
+.register-link {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-link a {
+  color: @heading-color;
+  font-weight: 500;
+  padding-left: 6px;
+}
+
+/* workout-form page */
+
+#workoutForm {
+  margin: 0.8rem 0;
+  width: 100%;
+}
+
+.workoutForm_button {
+  margin: 0.5rem 1rem 1rem 0rem;
+  box-shadow: @boxShadow;
+}
+
+/* steps-page */
+
+.workout-Div {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: start;
+  align-items: center;
+  height: 100%;
+  border-radius: @borderRadius;
+}
+
+@media only screen and (min-width: 768px) {
+  .workout-Div {
+    box-shadow: @boxShadow;
+  }
+}
+
+.workoutContent-Div {
+  margin-top: 0.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.steps-content {
+  // text-align: center;
+  display: flex;
+  width: 100%;
+  background-color: transparent;
+
+  // border: 1px dashed #e9e9e9;
+  border-radius: @borderRadius;
+  justify-content: center;
+  align-items: center;
+}
+
+.steps-action {
+  margin-top: 2vh;
+}
+
+.set-info {
+  margin-top: 16px;
+  padding: 1rem;
+  display: grid;
+  grid-auto-rows: auto;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+  justify-content: center;
+  align-items: center;
+}
+@media only screen and (max-width: 768px) {
+  .set-info {
+    box-shadow: @boxShadow;
+  }
+}
+
+.webcam-progressbar {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-self: center;
+  align-self: center;
+}
+
+.ant-steps {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.steps-Div {
+  width: 100%;
+  height: 8vh;
+  padding: 0 0.5rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ant-steps-item:not(.ant-last .ant-first) {
+  display: flex;
+  align-items: center;
+  min-width: 40.5vw;
+  max-width: 40.5vw;
+  height: 100%;
+}
+
+.ant-steps-label-horizontal {
+  width: auto;
+  overflow: hidden;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ant-first {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  height: 100%;
+  max-width: calc(~"40.5vw - 16px") !important;
+  min-width: calc(~"40.5vw - 16px") !important;
+}
+
+.ant-last {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  height: 100%;
+  max-width: 48px !important;
+  min-width: 48px !important;
+}
+
+.ant-only {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  max-width: 32px !important;
+  min-width: 32px !important;
+}
+
+#step-anchor {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+#summaryForm {
+  margin: 0.8rem 0;
+  width: 100%;
+}
+/* Home Page */
+
+.list_title {
+  display: flex;
+  width: 100%;
+  font-size: 17px;
+}
+h2 {
+  margin-left: 4px;
+  margin-bottom: 0px;
+}
+
+#new_workout_btn {
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+#round_button .buttonDiv {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonDiv {
+  display: flex;
+  justify-content: space-between;
+}
+
+#send_btn {
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.challenge_title {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// analytics page
+
+.analytic-Div {
+  display: grid;
+  gap: 1rem;
+  grid-auto-rows: auto;
+  grid-template-columns: repeat(auto-fill, minmax(410px, 1fr));
+
+  width: 100%;
+  justify-content: center;
+  align-items: start;
+}
+
+.analytic-data-Div {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  justify-self: center;
+}
+
+.analytic-calendar-Div {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  justify-self: center;
+}
+.analytics-empty {
+  margin-top: 25vh;
+}
+
+.chart {
+  width: 80vw;
+}
+
+// profile page
+
+.profile-card {
+  box-shadow: @boxShadow;
+  margin-top: 20px;
+}
+
+.BMI-form {
+  margin-top: 30px;
+}
+
+//challenge summary
+
+.challengeSummary {
+  width: 100%;
+  padding: 1.5rem;
+  max-width: 800px;
+  margin-bottom: 2vh;
+  position: relative;
+  background: white;
+  border-radius: @borderRadius;
+  box-shadow: @boxShadow;
+}
+
+.message {
+  display: flex;
+}
+
+.message_text {
+  margin-left: 2vw;
+  flex-wrap: wrap;
+}
+
+.challenge_sets {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.challenge_sets p {
+  margin: 0;
+}
+
+.icon_container {
+  padding: 2px;
+  margin-right: 1vw;
+}
+
+.no_friends {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
