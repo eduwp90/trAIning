@@ -6,11 +6,15 @@
   <img src="images/training-logo.png" width="400" />
 </p>
 
-//TODO DESCRIPTION
+This website was created during Codeworks bootcamp, in two weeks in order to practice and test coding skills. Using Tensorflow's Teachable Machine, trAIning uses AI and machine-learning to create a full-experience workout application. It is able to track user activity, count workout reps, display interactive analytics, and host social interaction between users.
+
+## Tech stack
+
+This application is in Typescript. It uses Firebase for the back-end. React, Less, Ant Design, Dayjs, React Webcam, Craco, TensorFlow, and TeachableMachine on the front-end. trAIning was deployed using AWS.
 
 # Team members
 
-//TODO
+[Jaime Rodriguez](https://github.com/jaimemastretta), [Natasha Vermeulen](https://github.com/natashajvandam), [Edu Minguez](https://github.com/eduwp90), and [Kristen Hickey](https://github.com/KristenHickey).
 
 # Screenshots
 
