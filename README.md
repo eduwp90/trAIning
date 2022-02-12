@@ -40,15 +40,16 @@ This application is in Typescript. It uses Firebase for the back-end and FireSto
 
 ### Set up the backend on Firebase
 
-- Create a [firebase project](https://firebase.google.com/)
+- Create a [firebase project](https://firebase.google.com/).
 - Add Authentication and enable login with email and password.
 - Create a database and choose a Cloud Firestore location. 
 - Start two collections: `profiles`, `workoutsDb`. 
 
 ### Start the Application
 
-- Clone this repository
-- Navigate to `./client` and run `npm i`
+- Clone this repository.
+- Navigate to `./client` and run `npm i`.
+- To find your custom values on Firestore, go to `Project Settings` on the `Project Overview` dropdown menu.
 - Create a `.env` in `./client` with the following structure and add your custom values:
 
 ```shell
@@ -59,7 +60,6 @@ REACT_APP_STORAGEBUCKET=
 REACT_APP_SENDERID=
 REACT_APP_APPID=
 ```
-(to find your custom values on Firestore, go to `Project Settings` on the `Project Overview` dropdown menu.
 
 - In `./client` start the website with `npm start`
 
