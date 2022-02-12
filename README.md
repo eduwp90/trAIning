@@ -59,6 +59,7 @@ REACT_APP_STORAGEBUCKET=
 REACT_APP_SENDERID=
 REACT_APP_APPID=
 ```
+(to find your custom values on Firestore, go to `Project Settings` on the `Project Overview` dropdown menu.
 
 - In `./client` start the website with `npm start`
 
