@@ -30,19 +30,26 @@ This application is in Typescript. It uses Firebase for the back-end. React, Les
 
 # Main Features
 
-- TODO.
+- Workout creation
+- Rep and Set counting
+- Save workouts
+- Add friends and send challenges
+- Interactive Analytics
 
 # Instructions
-
-//TODO
 
 - Clone this repository
 - Navigate to `./client` and run `npm i`
 - Navigate to `./server` and run `npm i`
-- Create a `.env` in `./client` with the following structure and add your custom values on APP ID, JS KEY and MONGODB STRING:
+- Create a `.env` in `./client` with the following structure and add your custom values:
 
 ```shell
-TODO
+REACT_APP_APIKEY=
+REACT_APP_AUTHDOMAIN=
+REACT_APP_PROJECTID=
+REACT_APP_STORAGEBUCKET=
+REACT_APP_SENDERID=
+REACT_APP_APPID=
 ```
 
 - Create a copy of the `.env` in `./client` and move it to `./server`
@@ -51,4 +58,4 @@ TODO
 
 ## Demo video:
 
-[Video](https://youtu.be/nAHyZd0Ej88) TODO
+[Video](https://www.youtube.com/watch?v=SXzcEs_ITdc)
