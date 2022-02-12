@@ -1,16 +1,16 @@
 # trAIning
 
-## Codeworks - Final project
-
 <p align="center">
   <img src="images/training-logo.png" width="400" />
 </p>
 
-This website was created during Codeworks bootcamp, in two weeks in order to practice and test coding skills. Using Tensorflow's Teachable Machine, trAIning uses AI and machine-learning to create a full-experience workout application. It is able to track user activity, count workout reps, display interactive analytics, and host social interaction between users.
+## Codeworks - Final project
+
+Using Tensorflow's Teachable Machine, trAIning uses AI and machine-learning to create a full-experience workout application. It is able to track user activity, count workout reps, display interactive analytics, and host social interaction between users.
 
 ## Tech stack
 
-This application is in Typescript. It uses Firebase for the back-end. React, Less, Ant Design, Dayjs, React Webcam, Craco, TensorFlow, and TeachableMachine on the front-end. trAIning was deployed using AWS.
+This application is in Typescript. It uses Firebase for the back-end and FireStore for the database. React, Less, Ant Design, Dayjs, React Webcam, Craco, TensorFlow, and TeachableMachine on the front-end. trAIning was deployed using AWS.
 
 # Team members
 
@@ -37,6 +37,15 @@ This application is in Typescript. It uses Firebase for the back-end. React, Les
 - Interactive Analytics
 
 # Instructions
+
+### Set up the backend on Firebase
+
+- Create a [firebase project](https://firebase.google.com/)
+- Add Authentication and enable login with email and password.
+- Create a database and choose a Cloud Firestore location. 
+- Start two collections: `profiles`, `workoutsDb`. 
+
+### Start the Application
 
 - Clone this repository
 - Navigate to `./client` and run `npm i`
