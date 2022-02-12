@@ -7,12 +7,11 @@ import AuthService from "../Services/authService";
 import { IChallenge, IWorkout, IWorkoutContext } from "../interfaces";
 import WorkoutList from "../Components/workoutList";
 import { WorkoutContext } from "../Context/workoutProvider";
-import SendChallenge from "../Components/sendChallenge";
 import Challenges from "../Components/challenges";
 import { getChallengesByUserId } from "../Services/challengesService";
 import SendChallengeModal from "../Components/sendChallengeModal";
 import "./pages.less";
-import { PlusOutlined, SendOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { IoSend } from "react-icons/io5";
 import LoadingContent from "../Components/loadingContent";
 
@@ -21,12 +20,12 @@ const Home: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
   const [userWorkouts, setUserWorkouts] = useState<IWorkout[]>([]);
   const [publicWorkouts, setPublicWorkouts] = useState<IWorkout[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [challengeWorkouts, setchallengeWorkouts] = useState<IChallenge[]>([]);
   const { clearWorkout, clearExistingWorkout } = useContext<IWorkoutContext>(WorkoutContext);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
-  const showModal = () => {
+  const showModal = (): void => {
     setIsModalVisible(true);
   };
 
@@ -55,7 +54,7 @@ const Home: React.FC = () => {
       mounted = false;
     };
   }, [user]);
-  console.log(challengeWorkouts);
+
   return (
     <>
       {isLoading ? (

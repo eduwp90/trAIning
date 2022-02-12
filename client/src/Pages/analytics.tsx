@@ -18,7 +18,7 @@ const Analytics: React.FC = () => {
 
   useEffect(() => {
     let mounted = true;
-    const updateState = async () => {
+    const updateState = async (): Promise<void> => {
       setIsLoading(true);
       let activeDates;
       let activities;

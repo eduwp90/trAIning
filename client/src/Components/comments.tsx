@@ -21,7 +21,6 @@ const CommentComp: React.FC = () => {
         <span className="comment-action">{likes}</span>
       </span>
     </Tooltip>
-    // <span key="comment-basic-reply-to">Reply to</span>
   ];
   return (
     <div className="profile-card">

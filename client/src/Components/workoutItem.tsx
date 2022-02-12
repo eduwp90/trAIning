@@ -18,7 +18,6 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({ workout }) => {
 
   const handleClick = (e: any) => {
     e.stopPropagation();
-    console.log(e.target.id);
     e.target.id.includes("start") ? startWorkout() : editWorkout();
   };
 
@@ -68,11 +67,6 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({ workout }) => {
         <Button type="text" id="startworkoutButton" onClick={handleClick}>
           {<img id="start" className="play_btn" alt="" src="https://img.icons8.com/plumpy/24/000000/play--v1.png" />}
         </Button>
-
-        {/* <InfoCircleOutlined
-          onClick={editWorkout}
-          style={{ position: "absolute", top: "0.5em", right: "0.5em", fontSize: "x-large" }}
-        /> */}
       </div>
     </div>
   );

@@ -11,13 +11,12 @@ import { addNewProfile } from "../Services/dbService";
 
 const Register: React.FC = () => {
   const [form] = Form.useForm();
-
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [user] = useAuthState(AuthService.auth);
-  const { state }:any = useLocation();
+  const { state }: any = useLocation();
 
   console.log("router state ", state);
 
@@ -56,7 +55,6 @@ const Register: React.FC = () => {
 
   useEffect(() => {
     if (user && !state) navigate("/");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (

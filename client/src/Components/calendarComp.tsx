@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
-import { /*DatePicker, TimePicker,*/ Calendar } from "../Calendar";
+import { Calendar } from "../Calendar";
 import dayjs, { Dayjs } from "dayjs";
 import StatisticListItem from "./statisticListItem";
 import { List } from "antd";
 import { IWorkoutContext } from "../interfaces";
 import { WorkoutContext } from "../Context/workoutProvider";
 
-// const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const unique = (value: Dayjs, index: number, self: Dayjs[]) => {
   let isUnique: boolean = true;
   if (self[index + 1]) {
@@ -20,8 +19,6 @@ type CalendarCompProps = {
 };
 const CalendarComp: React.FC<CalendarCompProps> = ({ daysActive }) => {
   const { userProfile } = useContext<IWorkoutContext>(WorkoutContext);
-  // userProfile?.total_time
-  // userProfile?.total_calories
   const uniqueDays = daysActive.filter(unique);
   function onChange(day: Dayjs) {}
 
@@ -61,10 +58,6 @@ const CalendarComp: React.FC<CalendarCompProps> = ({ daysActive }) => {
       </List>
       <div className="calendar-Div">
         <Calendar fullscreen={false} dateFullCellRender={onFullRender} defaultValue={dayjs()} onChange={onChange} />
-        {/* <div>
-          <DatePicker onChange={onChange} size="large" />
-          <TimePicker defaultValue={dayjs("12:08:23", "HH:mm:ss")} size="large" />
-        </div> */}
       </div>
     </div>
   );
