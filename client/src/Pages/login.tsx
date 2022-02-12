@@ -2,7 +2,7 @@ import { Form, Input, Button, Alert, Divider } from "antd";
 import { UserOutlined, LockOutlined, GoogleOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../Services/authService";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UserInfo } from "@firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./pages.less";
@@ -30,7 +30,7 @@ const Login: React.FC = () => {
     }
   };
 
-  const googleBtn = async () => {
+  const googleBtn = async (): Promise<void> => {
     setLoading(true);
     setError(false);
     const res: IGoogleUserResponse | undefined = await AuthService.signInWithGoogle();
@@ -54,7 +54,6 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (user) navigate("/");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -63,7 +62,6 @@ const Login: React.FC = () => {
         <div className="login-logo">
           <div className="logo"></div>
         </div>
-        {/* <h1>Log in</h1> */}
         <Button className="google-signin-btn" type="default" icon={<GoogleOutlined />} onClick={googleBtn}>
           Continue with Google
         </Button>

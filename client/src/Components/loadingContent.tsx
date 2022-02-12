@@ -2,7 +2,7 @@ import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import "./components.less";
 
-const LoadingContent = () => {
+const LoadingContent: React.FC = () => {
   const antIcon = <LoadingOutlined style={{ fontSize: 48, color: "#2A9D8F" }} spin />;
 
   return (

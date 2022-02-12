@@ -18,7 +18,7 @@ const Profile: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(true);
   const [bmi, setBmi] = useState<number | undefined>();
 
-  function handleEdit() {
+  function handleEdit(): void {
     if (userProfile) {
       setIsDisabled(false);
     }
@@ -32,7 +32,7 @@ const Profile: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const getUserInfo = async () => {
+    const getUserInfo = async (): Promise<void> => {
       if (userProfile && mounted) {
         setWeight(userProfile.weight);
         setHeight(userProfile.height);
@@ -54,10 +54,10 @@ const Profile: React.FC = () => {
       }
     }
   };
-  function onWeightChange(e: number) {
+  function onWeightChange(e: number): void {
     setWeight(e);
   }
-  function onHeightChange(e: number) {
+  function onHeightChange(e: number): void {
     setHeight(e);
   }
 
