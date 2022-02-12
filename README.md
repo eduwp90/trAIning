@@ -40,7 +40,6 @@ This application is in Typescript. It uses Firebase for the back-end. React, Les
 
 - Clone this repository
 - Navigate to `./client` and run `npm i`
-- Navigate to `./server` and run `npm i`
 - Create a `.env` in `./client` with the following structure and add your custom values:
 
 ```shell
@@ -52,8 +51,6 @@ REACT_APP_SENDERID=
 REACT_APP_APPID=
 ```
 
-- Create a copy of the `.env` in `./client` and move it to `./server`
-- In `./server` start the backend with `node index.js`
 - In `./client` start the website with `npm start`
 
 ## Demo video:
