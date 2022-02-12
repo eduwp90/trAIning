@@ -10,11 +10,17 @@ Using Tensorflow's Teachable Machine, trAIning uses AI and machine-learning to c
 
 ## Tech stack
 
-This application is in Typescript. It uses Firebase for the back-end and FireStore for the database. React, Less, Ant Design, Dayjs, React Webcam, Craco, TensorFlow, and TeachableMachine on the front-end. trAIning was deployed using AWS.
+This application is written in Typescript. It uses Firebase for the back-end and FireStore for the database. React, Less, Ant Design, Dayjs, React Webcam, Craco, TensorFlow, and TeachableMachine on the front-end. trAIning was deployed on AWS.
 
 # Team members
 
-[Jaime Rodriguez](https://github.com/jaimemastretta), [Natasha Vermeulen](https://github.com/natashajvandam), [Edu Minguez](https://github.com/eduwp90), and [Kristen Hickey](https://github.com/KristenHickey).
+- Natasha Vermeulen | [LinkedIn](https://www.linkedin.com/in/natasha-vermeulen/) | [Github](https://github.com/natashajvandam)
+
+- Jaime Diez Rodriguez | [LinkedIn](https://www.linkedin.com/in/jaimemastretta/) | [Github](https://github.com/jaimemastretta)
+
+- Kristen Hickey | [LinkedIn](https://www.linkedin.com/in/kristen-hickey/) | [Github](https://github.com/KristenHickey)
+
+- Edu Minguez | [LinkedIn](www.linkedin.com/in/eduminguez) | [Github](https://github.com/eduwp90)
 
 # Screenshots
 
@@ -23,9 +29,9 @@ This application is in Typescript. It uses Firebase for the back-end and FireSto
 </p>
 
 <p align="center">
-<a href="images/workout edu.gif"><img src="images/workout edu.gif" height="400"/></a>
-<a href="images/workout natasha.gif"><img src="images/workout natasha.gif" height="400"/></a>
-<a href="images/workout jaime.gif"><img src="images/workout jaime.gif" height="400"/></a>
+<a href="images/workout natasha.gif"><img src="images/workout natasha.gif" height="320"/></a>
+<a href="images/workout edu.gif"><img src="images/workout edu.gif" height="320"/></a>
+<a href="images/workout jaime.gif"><img src="images/workout jaime.gif" height="320"/></a>
 </p>
 
 # Main Features
@@ -42,8 +48,8 @@ This application is in Typescript. It uses Firebase for the back-end and FireSto
 
 - Create a [firebase project](https://firebase.google.com/).
 - Add Authentication and enable login with email and password.
-- Create a database and choose a Cloud Firestore location. 
-- Start two collections: `profiles`, `workoutsDb`. 
+- Create a database and choose a Cloud Firestore location.
+- Start two collections: `profiles`, `workoutsDb`.
 
 ### Start the Application
 
