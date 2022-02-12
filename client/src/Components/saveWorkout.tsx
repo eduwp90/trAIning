@@ -18,15 +18,15 @@ const SaveWorkout: React.FC<SaveWorkoutProps> = ({ isModalVisible, setIsModalVis
   const navigate = useNavigate();
   const [user] = useAuthState(AuthService.auth);
 
-  const handleOk = () => {
+  const handleOk = (): void => {
     navigate("/summary");
   };
 
-  const handleCancel = () => {
+  const handleCancel = (): void => {
     setIsModalVisible(false);
   };
 
-  const returnHome = () => {
+  const returnHome = (): void => {
     clearWorkout();
     clearExistingWorkout();
     navigate("/");

@@ -13,14 +13,10 @@ const { Header, Content } = Layout;
 
 const Main: React.FC = () => {
   const [user] = useAuthState(AuthService.auth);
-  const { userProfile, storeUserProfile, storeFriendsProfiles, clearProfile, clearFriendsProfiles } =
-    useContext(WorkoutContext);
+  const { storeUserProfile, storeFriendsProfiles } = useContext(WorkoutContext);
   const location = useLocation();
 
   const logout = (): void => {
-    // clearProfile();
-    // clearFriendsProfiles();
-
     AuthService.logoutUser();
   };
 

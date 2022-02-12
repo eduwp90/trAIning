@@ -62,7 +62,6 @@ const WorkoutSummary: React.FC = () => {
     workoutFromContext &&
     workoutFromContext.map((set) => {
       const id: number = workoutFromContext.indexOf(set);
-      // console.log(id);
       return (
         <div key={id} id={`${id}`} className="set-Div">
           <div className="set-Div_inputs">

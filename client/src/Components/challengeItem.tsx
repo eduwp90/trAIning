@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { WorkoutContext } from "../Context/workoutProvider";
 import { calculateWorkoutCalories, calculateWorkoutDifficulty, calculateWorkoutTime } from "../helpers";
 import { IChallenge, IWorkoutContext } from "../interfaces";
-import { ClockCircleOutlined, FireOutlined, FireTwoTone, HeartFilled, InfoCircleOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined, FireOutlined } from "@ant-design/icons";
 import { challengeComplete } from "../Services/challengesService";
 import "./components.less";
 
@@ -18,22 +18,22 @@ const ChallengeItem: React.FC<WorkoutItemProps> = ({ challenge }) => {
   const { storeWorkout, userProfile } = useContext<IWorkoutContext>(WorkoutContext);
   const navigate = useNavigate();
 
-  const startWorkout = async (e: any): Promise<void> => {
+  const startWorkout = async (e: React.MouseEvent<HTMLElement, MouseEvent>): Promise<void> => {
     e.stopPropagation();
     storeWorkout(challenge.workout);
     await challengeComplete(challenge.id);
     navigate("/workout");
   };
 
-  const challengeDetails = (e: any): void => {
+  const challengeDetails = (e: React.MouseEvent<HTMLElement, MouseEvent>): void => {
     e.stopPropagation();
     navigate(`/challenge/${challenge.id}`);
   };
 
-  const time = calculateWorkoutTime(challenge.workout);
-  const calories = calculateWorkoutCalories(challenge.workout, userProfile!, time);
+  const time: number = calculateWorkoutTime(challenge.workout);
+  const calories: number = calculateWorkoutCalories(challenge.workout, userProfile!, time);
 
-  function colorByDifficulty() {
+  function colorByDifficulty(): string {
     const difficulty = calculateWorkoutDifficulty(challenge.workout);
     if (difficulty < 2) return "#2A9D8F";
     if (difficulty < 4) return "#E9C46A";
@@ -82,10 +82,6 @@ const ChallengeItem: React.FC<WorkoutItemProps> = ({ challenge }) => {
           Start{"  "}
           {<img id="start" className="play_btn" alt="" src="https://img.icons8.com/plumpy/24/000000/play--v1.png" />}
         </Button>
-        {/* <InfoCircleOutlined
-          onClick={challengeDetails}
-          style={{ position: "absolute", top: "0.5em", right: "0.5em", fontSize: "x-large" }}
-        /> */}
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
-import { StopOutlined } from "@ant-design/icons";
 import React from "react";
 import { IChallenge } from "../interfaces";
 import ChallengeItem from "./challengeItem";
+import EmptyChallenges from "./emptyChallenges";
 
 type ChallengesProps = {
   challenges: IChallenge[];
@@ -19,15 +19,6 @@ const Challenges: React.FC<ChallengesProps> = ({ challenges, isLoading }) => {
           })}
         </div>
       )}
-    </div>
-  );
-};
-
-const EmptyChallenges: React.FC = () => {
-  return (
-    <div className="center_div">
-      <StopOutlined style={{ fontSize: "50px" , color: "lightgray", marginBottom: "1rem"}} />
-      You havent recieved any challenges yet
     </div>
   );
 };

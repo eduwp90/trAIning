@@ -26,7 +26,7 @@ const Workout: React.FC = () => {
   const isFinished = useRef(false);
   const currentStepRef = createRef<HTMLDivElement>();
   const [sets, setSets] = useState<ISet[]>([]);
-  const [URL, setURL] = useState("");
+  const [URL, setURL] = useState<string>("");
 
   useEffect(() => {
     if (workout.length > 0) {
@@ -66,7 +66,6 @@ const Workout: React.FC = () => {
 
   useEffect(() => {
     if (!isLoading) {
-      //URL.current = modelsByType[sets[current].exer]
       setURL(modelsByType[sets[current].exer]);
     }
   }, [current, sets]);
