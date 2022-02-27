@@ -4,8 +4,6 @@
   <img src="images/training-logo.png" width="400" />
 </p>
 
-## Codeworks - Final project
-
 Using Tensorflow's Teachable Machine, trAIning uses AI and machine-learning to create a full-experience workout application. It is able to track user activity, count workout reps, display interactive analytics, and host social interaction between users.
 
 ## Tech stack
